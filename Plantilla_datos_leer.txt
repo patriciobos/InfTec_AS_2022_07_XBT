@@ -1,0 +1,16 @@
+
+
+
+Importante es que el MiKTeX esté configurado para instalar paquetes on the fly.
+La hyphenación en español requiere (además de babel con la opción 'spanish') correr un comando extra:
+
+initexmf --dump  [en ventana de DOS]
+
+Luego hay que hacer un update dentro del Package Manager.
+
+Las citas bibliográficas se tocan desde el estilo.
+
+EN general uno rellena los archivos Cuerpo, etc. y no toca el plantilla.
+
+
+

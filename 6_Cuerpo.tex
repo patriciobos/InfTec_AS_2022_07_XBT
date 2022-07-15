@@ -1,0 +1,406 @@
+\section{INTRODUCCIÓN}
+
+Un batitermógrafo descartable, XBT por sus siglas en inglés (eXpendable BathyThermograph), es un instrumento utilizado por la Armada Argentina para medir el perfil de temperatura de parte de la columna de agua en navegación sin afectar las condiciones de operación del buque. El sistema que se utiliza actualmente en el Comando de la Flota de Mar (COFM) fue desarrollado en la década de los setentas por la firma Sippican Inc., hoy subsidiaria de Lockheed Martin. El sistema está formado por tres componentes:
+
+\begin{itemize}
+\item una cantidad de sondas batitermográficas descartables para medir temperatura;
+\item un lanzador de casco montado sobre la banda de la unidades de superficie para el despliegue de las sondas; y
+\item un graficador de aguja analógico que imprime los resultados para su registro y visualización en una tira de papel graduado.
+\end{itemize}
+
+En la figura \ref{sistemaXBT} se puede observar un diagrama esquemático con las tres unidades que componen el sistema.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.8\textwidth]{graficos/sistemaXBT.png}
+\caption{Diagrama esquemático con los componentes del sistema XBT}
+\label{sistemaXBT}
+\end{figure}
+
+Los XBTs se utilizan abordo de las unidades de superficie del COFM para determinar el perfil de la temperatura en función de la profundidad y consecuentemente, para poder calcular la profundidad de napa o inicio de la termoclina, la velocidad óptima SONAR y el perfil de velocidad del sonido, c(z), en la columna de agua, el Alcance Predicho SONAR (APS), las Pérdidas por Transmisión acústica (TL), entre otros parámetros de interés acústico.
+
+En particular, la velocidad del sonido se calcula a partir de datos de temperatura y salinidad medidos \textit{in-situ}, o en su defecto, a partir de estimaciones estadísticas existentes en bases de datos. Los perfiles de velocidad de sonido, c(z), constituyen un dato de entrada (\textit{input}) necesario en los sistemas automatizados (software propietario) de predicción de Alcance SONAR, provistos por el Dpto. Propagación Acústica de la DIIV para usuarios de tres Comandos de la ARA, a saber: el Comando de la Flota de Mar, el Comando de Aviación Naval y el Comando de la Fuerza de Submarinos.
+
+La predicción del APS es un tópico de carácter clasificado para todas las Armadas debido a su aplicación directa a la detección acústica en el mar para el ámbito de la guerra antisubmarina. El cálculo del APS para una dada posición geográfica, en cierta fecha, se lleva a cabo sobre la base de varios elementos: 
+\begin{enumerate}
+\item el perfil de velocidad de sonido, c(z), el cual a su vez exige el datos medido de temperatura en función de la profundidad, T(z);
+\item información asociada al equipamiento electroacústico del sistema fuente-receptor;
+\item condiciones meteorológicas;
+\item una compleja modelación física, que es responsabilidad de los investigadores del Departamento Propagación Acústica de la DIIV pero que es un componente encapsulado y ``transparente'' para el usuario operativo naval.
+\end{enumerate}
+
+\section{DESCRIPCIÓN FUNCIONAL DEL REGISTRADOR SIPPICAN MK 2A-1}
+
+El sistema XBT opera en cuatro modos de funcionamiento, RELOAD, CHECK/RUN, LAUNCH y MEASSURE.  Cuando se enciende el registrador se deben esperar 10 minutos para que el registrador entre en régimen.
+
+En el modo RELOAD, el sistema espera que se inserte una (nueva) sonda batitermográficas descartable en el lanzador.
+
+Cuando se cierra la compuerta del lanzador con una sonda batitermográfica dentro, el sistema pasa al modo CHECK/RUN.  En este modo, el registrador funciona durante unos segundos posiciona la pluma del impresor en la temperatura de calibración, 16,6 $^{\circ}$C. Inmediantamente después, el sistema pasa al modo LAUNCH y queda a la espera del lanzamiento de la sonda.
+
+Cuando la sonda batitermográficas descartable es lanzada y toma contacto con el agua de mar, el sistema pasa al modo MEASSURE, donde se registra la temperatura de la columna de agua durante un tiempo fijo. Pasado ese tiempo, el registrador se detiene y el sistema pasa al modo RELOAD.
+
+\subsection{Controles e indicadores}
+
+El registrador MK 2A-1 cuenta con dos indicadores lumínicos, RELOAD y LAUNCH y dos llaves, RECYCLE y 94$^{\circ}$ - 30$^{\circ}$, como se puede apreciar en la figura \ref{indicadoresXBT} y a los que se accede al abrir la tapa frontal.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.85\textwidth]{graficos/MK2A-1_indicadores.png}
+\caption{Vista frontal del registrador MK 2A-1 con la ubicación de los indicadores y controles.}
+\label{indicadoresXBT}
+\end{figure}
+
+\begin{itemize}
+\item RELOAD. Es un indicador lumínico de color rojo, ubicado abajo a la derecha y es visible a través del vidro de la puerta del registrador. Se enciende cuando el sistema está preparado para que se inserte una sonda XBT en el lanzador.
+\item LAUNCH. Es un indicador lumínico de color verde, ubicado abajo a la izquierda y también es visible a través del vidrio de la puerta del registrador. Se enciende cuando una sonda XBT ha sido insertada en el lanzador y está lista para ser lanzada.
+\item RECYCLE. Es una llave de dos posiciones con resorte ubicada en la parte inferior derecha del panel de pruebas (test panel) y solo es accesible con la puerta del registrador abierta. Se usa en conjunto con la sonda de prueba para verificar la calibración del registrador. Cuando se presiona momentáneamente hacia la derecha y se libera, se simula la carga de una sonda XBT en el lanzador y se cambia al registrador del modo RELOAD al modo CHECK/RUN.
+\item 94$^{\circ}$ - 30$^{\circ}$. Es una llave de tres posiciones con resorte ubicada en el panel de pruebas debajo de la llave RECYCLE. Se usa en conjunto con la sonda de prueba para verificar el funcionamiento del registrador entre el modo LAUNCH y el modo MEASURE, ya que permite simular el lanzamiento de una sonda al agua con temperatura de 30 $^{\circ}$F o 94 $^{\circ}$F, alternativamente.
+\end{itemize}
+
+\subsection{Operación y procedimiento de calibración}
+
+Las sondas batitermográficas tienen un termistor conectado a una bobina de cable. El cable se desenrrolla mientras la sonda cae verticalmente en el agua a una tasa de descenso conocida. Los cambios en la resistencia del termistor debido a cambios en la temperatura del agua se transmiten al registrador a bordo a través del cable de la bobina de la sonda y luego a través del cable que conecta el lanzador con el registrador.
+
+El registrador está diseñado para convertir el tiempo y la resistencia del termistor en profundidad y temperatura, respectivamente. Se traza un perfil continuo de temperatura-profundidad o T(z) mientras la sonda desciende.
+
+El registrador tiene un funcionamiento automático que se inicia colocando una probeta XBT (sonda y el cartucho que la contiene) en el lanzador. Cerrar la recámara del lanzador cierra el circuito entre la sonda y el registrador y dispara el modo CHECK/RUN en el registrador. La impresora del registrador opera durante unos segundos y traza una temperatura de calibración (62 $^{\circ}$F o 16,6 $^{\circ}$C). La impresora luego se detiene y pasa al modo LAUNCH a la espera que se lance la sonda.
+
+El registrador pasa al modo MEASURE cuando se lanza la sonda se cierra un circuito de disparo con el agua de mar. El registrador opera durante 88 segundos (con una sonda estándar de 1500 pies tipo T4) y produce el perfil T(z). Cuando la impresión se detiene, finaliza la medición y el registrador pasa al modo RELOAD, a la espera de que se inserte una nueva sonda en el lanzador.
+
+El manual de operación \citep{sippican} indica el procedimiento para realizar una medición de calibración en la sección 3.5.1 con los siguientes pasos:
+
+\begin{enumerate}
+
+\item Abrir la recámara del lanzador
+
+\item Insertar la sonda de prueba y cerrar la recámara y rotar la manija de la recámara firmemente a la posición indicada como \textit{detent stop}. El indicador de RELOAD en el registrador se debe apagar. El impresor del registrador debe operar por aproximadamente dos segundo y producir un trazo de 62 $^{\circ}$F en el papel sobre la línea indicada como de superficie. Cuando el impresor se detiene y el indicador de LAUNCH se enciende, el sistema está listo para simular un lanzamiento de una sonda XBT.
+
+\item Presionar y mantener la llave 94$^{\circ}$ - 30$^{\circ}$ ubicada en el test panel en 30$^{\circ}$. El indicador de LAUNCH de debe apagar y la pluma del impresor empezar a producir un trazo en 30 $^{\circ}$F $\pm$ 0,2 $^{\circ}$F en el papel carta del registrador.
+
+\item Después de algunos segundos, cambiar la llave 94$^{\circ}$ - 30$^{\circ}$ a 94$^{\circ}$. El trazo debería cambiar a 94 $^{\circ}$F $\pm$ 0,2 $^{\circ}$F. Al final de 88 segundos aproximadamente, el impresor se detiene y el indicador de RELOAD se enciende.
+
+\item Si se quiere volver a realizar la calibración se puede presionar la llave de RECYCLE hacia la derecha y soltarla. El indicador de RELOAD se apaga y la impresora vuelve a generar un trazo en 62 $^{\circ}$F durante dos segundos. Cuando el impresor se detiene y el indicador LAUNCH se enciende se puede volver a operar la llave 94$^{\circ}$ - 30$^{\circ}$ para simular un nuevo lanzamiento.
+
+\item El manual indica en la sección 5.2.2 el procedimiento para corregir desviaciones mayores a $\pm$ 0,2 $^{\circ}$F en los trazos de 30 $^{\circ}$F y/o 94 $^{\circ}$F. Al finalizar la verificación de calibración, se debe sacar la sonda de prueba y cerrar la recámara cuando el indicador de RELOAD esté encendido.
+
+\end{enumerate}
+
+
+\subsection{Puente de medición}
+
+Para la medición del valor de resistencia de la sonda XBT, se utiliza un puente de Wheatstone modificado con la adición de una fuente de tensión en una de las ramas.  En la figura \ref{fig:puente}, tomada del manual del fabricante \citep{sippican}, se puede observar un circuito esquemático simplificado del puente de medición.  En el apéndice \ref{ApendiceA} se incluye el circuito esquemático completo del puente de medición.  
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=\textwidth]{graficos/puente.png}
+\caption{Circuito simplificado del puente de medición de la sonda XBT. Imagen tomada de \citep{sippican}}
+\label{fig:puente}
+\end{figure}
+
+En el circuito de la figura \ref{fig:puente}, se utiliza un amplificador operacional para mantener la caída de tensión en cero entre los nodos X e Y y de esta manera igualar las caídas de tensión en R2 y R3 y por consiguiente, igualar las corrientes en ambas ramas superiores del puente.  Dado que el amplificador operacional posee alta impedancia de entrada, virtualmente no toma corriente en su entrada y las corrientes en las ramas inferiores resultan iguales a las corrientes en las ramas superiores.  De esta manera, las corrientes en ambas ramas inferiores resultan iguales entre sí.
+
+Cuando el sistema está en modo medición (MEASSURE MODE) y la sonda está descendiendo en el agua, el termistor se encuentra conectado a la rama inferior izquierda del puente a través de la resistencia del bobinado indicada en el circuito esquemático como \textit{LEAD RESISTANCE}.  El otro extremo del termistor se conecta a la masa del barco a través del camino conductor que forma el agua de mar entre el \textit{SEA ELECTRODE} de la sonda y el casco del barco. Las resistencias de los bobinados de ambas ramas se encuentras apareados en un valor aproximado de 5 $k\Omega$.
+
+Como puede verse en la figura \ref{fig:puente}, la resistencia total de la rama inferior izquierda excede a la resistencia total de la rama inferior derecha del circuito puente en una cantidad igual a la suma de $R9$, $R10$ y la resistencia del termistor, $R_{th}$.  Dado que las corrientes en ambas ramas son iguales y que las tensiones en los puntos X e Y son iguales, la suma de las caídas de tensión en $R9$, $R10$ y $R_{TH}$ se debe igualar a la tensión de la fuente $E_{ref}$, esto es:
+
+\begin{equation}
+ I = \frac{E_{ref}}{R9 + R10 + R_{TH}} = \frac{E_{ref}}{5607,4\; \Omega + R_{TH}}
+\end{equation}
+
+\noindent donde $I$ es la corriente de la rama izquierda del puente que resulta proporcional a la temperatura que registra el termistor.
+
+\subsection{Esquema de conexionadado}
+\label{subsec:conexionado}
+
+Un esquema de conexionado entre las tres unidades que forman el sistema de registro de trazos batitermográficos Sippican se muestra en la FIG. \ref{fig:esquema-sippican}. En la figura se puede apreciar que las unidades uno (registrador MK 2A-1), dos (lanzador) y tres (sondas XBT) se conectan a través de 4 señales: A, B, C y GND.  Cabe destacar que entre la sonda XBT y el lanzador, la señal de GND se cierra por un camino conductor a través del agua de mar, entre el \textit{sea electrode} y el casco del barco. Esto último es lo que permite identificar que la sonda ha ingresado al agua y dispara el comienzo de una medición de temperatura en la columna de agua.
+  
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.9\textwidth]{graficos/esquema-Sippican.pdf}
+\caption{Esquema de conexionado entre las tres unidades del sistema Sippican. Imagen adaptada de \citep{sippican}}
+\label{fig:esquema-sippican}
+\end{figure}
+
+En la FIG. \ref{fig:esquema-sippican} también puede apreciarse un modelo eléctrico de la sonda XBT compuesto por los terminales A, B, C y SEA ELECTRODE, el termistor y los dos resistores asociados a los devanados que permiten independizar el desplazamiento del buque del descenso de la sonda.
+
+La bornera 1A1A6TB2 se encuentra accesible a través de un panel desmontable sobre el lateral izquierdo del registrador, como puede apreciarse en la FIG. \ref{fig:panel-lateral}.  A esta bornera llevan las cuatro señales provenientes del lanzador, A, B, C y GND.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.4\textwidth]{graficos/panel-lateral.pdf}
+\caption{Ubicación del panel lateral de acceso a la bornera 1A1A6TB2 del registrador MK 2A-1}
+\label{fig:panel-lateral}
+\end{figure}
+
+\section{SONDA BATITERMOGRÁFICA DESCARTABLE}
+
+Los batitermógrafos descartables, referidos comúnmente como XBTs están compuestos por una sonda con forma balística, un cánister, una bobina de cable dentro del cánister, un pin de lanzamiento y una tapa de cierre protectora para su almacenamiento.  El pin de lanzamiento retiene la sonda dentro del cánister y cuando se saca, la sonda cae al agua por efecto de la gravedad. La sonda contiene un termistor, que es el elemento sensible a la temperatura y que se encuentra conectado a una bobina de cable dentro de la sonda.  El otro extremo del cable está enrollado a una segunda bobina dentro del cánister.  La técnica de doble bobina permite que el cable quede libre en el agua en el punto de entrada y no se vea afectado por el movimiento del barco ni el descenso de la sonda.
+
+En la figura \ref{fig:probe} se puede observar, a la izquierda, una vista de despiece con los componentes del batitermógrafo junto con una fotografía de un XBT real dentro de su cánister a la derecha.
+
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.6\textwidth]{graficos/ProbeXBT.pdf}
+\caption{\underline{Izquierda:} vista de los componentes de un XBT, figura tomada del manual \citep{sippican}. \underline{Derecha:} foto de un XBT real.}
+\label{fig:probe}
+\end{figure}
+
+Las sondas se clasifican por su máxima profundidad alcanzable y la máxima velocidad de operación del buque del cual son lanzadas:
+
+\begin{itemize}
+\item T-4: XBT 1500 pies, 30 nudos.
+\item T-5: XBT 6000 pies, 6 nudos.  Requiere un accesorio para el registrador, KOR-6.
+\item T-6: XBT 1500 pies, 13 nudos.
+\item T-7: XBT 2500 pies, 15 nudos. Requiere un accesorio para el registrador, KOR-6.
+\item T-10: XBT 660 pies, 10 nudos. Requiere un accesorio para el registrador, KOR-12.
+\item T-11: FSXBT 1560 pies, 6 nudos. Requiere un accesorio para el registrador, KOR-6.
+\end{itemize}
+
+%A su vez, las distintas sondas XBT pueden requerir distintos tipo de rollos de papel para el registrador.
+Las sondas T-4, T-6 y T-7 tienen la misma masa, las mismas características hidrodinámicas y la misma ecuación para el cálculo de la profundidad en función del tiempo. Las sondas T-5 y T-11 tienen diferente masa, características hidrodinámicas y ecuación de profundidad en función del tiempo.  En la tabla \ref{tabla:sondas} se reunen las ecuaciones empíricas de profundidad vs. tiempo en unidades métricas estándar junto con las profundidades máximas alcanzables y el tiempo que le insume a la sonda llegar a esa profundidad.
+
+\begin{table}[htpb]
+\centering
+\caption{Ecuaciones empíricas de profundidad vs tiempo de entrada para los distintos tipos de sondas.}
+\label{tabla:sondas}
+\begin{tabular}{c|c|c|c}
+Tipo & Prof H(m) vs tiempo t(s) & Máxima profundidad (m) & Tiempo para máx prof. (s) \\ \hline
+T-10		& $H = 6,301\cdot t - 0,00216\cdot t^2$ & 200	& 32,4 \\
+T-4, T-6	& $H = 6,472\cdot t - 0,00216\cdot t^2$ & 460	& 72,9 \\
+T-7			& $H = 6,472\cdot t - 0,00216\cdot t^2$ & 760	& 122,4 \\
+T-5			& $H = 6,828\cdot t - 0,00182\cdot t^2$ & 1830	& 290,6 \\
+T-11		& $H = 1,7779\cdot t - 0,000255\cdot t^2$ & 460	& 232,3 \\
+\end{tabular}
+\end{table}
+
+%\vspace{1cm}
+%
+%
+%\vspace{1cm}
+
+La sonda XBT posee un termistor tipo NTC (\textit{Negative Temperature Coefficient}). El valor de resistencia del termistor disminuye a medida que la temperatura asciende y se observa un comportamiento cuasi inversamente proporcional a la suma de $R_{TH}$ y 5607,4 $\Omega$. El fabricante indica la transferencia del termistor presente en las sondas XBT a través de un conjunto de pares temperatura-resistencia que se muestran en la tabla \ref{tabla:transferencia}.
+
+\begin{table}[htpb]
+\centering
+\caption{Transferencia del termistor presente en las sondas XBT. Pares temperatura vs. resistencia informados por el fabricante.}
+\label{tabla:transferencia}
+\begin{tabular}{c|c}
+Temperatura (ºC) & Resistencia del termistor ($\Omega$) \\ \hline
+-2,0             & 18094                                \\
+-1,11            & 17287                                \\
+0,0              & 16329                                \\
+5,0              & 12687                                \\
+10,0             & 9948                                 \\
+16,66            & 7274                                 \\
+20,0             & 6247                                 \\
+25,0             & 5000                                 \\
+30,0             & 4024                                 \\
+34,44            & 3350                                 \\
+35,55            & 3193                                
+\end{tabular}
+\end{table}
+
+A partir de la tabla \ref{tabla:transferencia} se grafica la transferencia del elemento sensor presente en las sondas XBT.  En la figura \ref{fig:transferenciaXBT} se muestra la curva de temperatura vs. resistencia del termistor. Los puntos de color rojo corresponden a lo informado por el fabricante.  La curva de color azul es una interpolación polinómica de grado 3 obtenida con el programa para realizar cálculos numéricos GNU Octave, cuya ecuación es:
+
+\begin{equation}
+p(t) = -0,18416 \cdot t^3 + 18,96982 \cdot t^2  - 812,63985 \cdot t  + 16356,21147
+\end{equation}
+
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.75\textwidth]{graficos/Temp_vs_Resistencia.pdf}
+\caption{Curva de temperatura vs resistencia del termistor presente en las sondas XBT. En rojo, la transferencia informada por el fabricante. En color azul, un ajuste polinómico de grado 3.}
+\label{fig:transferenciaXBT}
+\end{figure}
+
+Equivalente eléctrico de la sonda
+
+\section{DISEÑO CIRCUITAL}
+\label{sec:diseño}
+
+Se abordaron distintas alternativas para el diseño de la interfaz circuital o etapa de acondicionamiento de las señales de las sonda XBT. Una primera característica a definir fue si se iba a reemplazar el sistema de registro Sippican o no ya que el diseño eléctrico de la interfaz depende fuertemente de esta característica. La lectura del valor de temperatura del XBT depende de que se energice la sonda externamente, debido a las sonda XBT son pasivas. Si se opta por reemplazar al sistema de registro Sippican, la interfaz que se diseñe debe proveer un mecanísmo para excitar al termistor presente en la sonda.  Cabe aclarar que la excitación de la sonda es una función excluyente de uno u otro componente y que no puede ser realizada por ambos en simultáneo.
+
+La etapa de acondicionamiento o interfaz circuital actúa como enlace entre la sonda XBT y una etapa de digitalización que se implementa con un kit de desarrollo NUCLEO-STM32F429ZI, basado en un microcontrolador Cortex-M4 de STMicroelectronics.  Por este motivo, los niveles de tensión de salida de la interfaz se deben mantener en el rango 0-3,3 V para evitar posibles daños en las entradas de los conversores analógicos digitales del kit.  
+
+%\textcolor{magenta}{COMMENT DE CINQUINI: Para mí tendría que explicarse algo de la parte del digitalizador acá, que es esencialmente común a todos los diseños analógicos, así podemos referirnos a ella (existencia de entradas y/o salidas analógicas, tensiones de alimentación, puertos disponibles, etc) cuando estamos detallando cada solución circuital analógica individual.}
+
+Por un lado, se diseñó un circuito que funciona en conjunto con el registrador Sippican sin afectar su operación.  Esta interfaz permite hacer una lectura de tensión del circuito puente de la FIG. \ref{fig:puente} y utiliza un amplificador diferencial.%operacional en una topología circuital conocida como \textit{scaling-substractor}.  
+
+Por otra parte, se diseñó un circuito en base a dos fuentes de corriente que reemplaza al registrador Sippican. Esta interfaz permite hacer lecturas de tensión y, en forma indirecta, de corriente para poder calcular el valor de resistencia del termistor de la sonda XBT.  Asimismo, como esta interfaz reemplaza el sistema de registro Sippican, se contempla la captura de los distintos modos de funcionamiento  \textit{reload, launch, meassure} para no modificar los procedimiento de operación conocidos por los usuarios opertivos navales, para los que el cambio de un sistema a otro debería ser ``transparente''.
+
+Finalmente, se consideró un diseño disponible en la literatura \citep{STEGEN1975447}. Se trata de un circuito puente balanceado que utiliza un transistor de efecto de campo JFET para copiar el valor resistivo del termistor de la sonda.  Esta interfaz reemplaza el registrador Sippican.
+
+En las siguientes subsecciones se abordan los detalles de diseño y se realiza una comparativa de los tres enfoques considerados. 
+
+
+
+\subsection{Diseño con dos fuentes de corriente}
+\label{subsec:2fuentes}
+
+A partir de concepto general del diseño incorporado en el registrador Sippican y del diseño del puente balanceado, se desarrolló un circuito auxiliar que permite actuar directamente sobre la medición de temperatura del XBT. Se propuso obtener una tensión proporcional al valor resistencia del termistor, dentro del rango 0 V - 3,3 V.  Este rango de tensión es compatible con el rango de las entradas analógicas de la mayoría de los microcontroladores y conversores analógico-digitales. El circuito consiste en dos fuentes de corriente que operan de manera independiente y alimentan cada rama del circuito del XBT. La FIG. \ref{fig_principio_funcionamiento} muestra el principio de funcionamiento. 
+\begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=0.35\textwidth]{graficos/Principio_funcionamiento.pdf}
+	\caption{Principio de funcionamiento del diseño definitivo.}
+	\label{fig_principio_funcionamiento}
+\end{figure}
+
+Las fuentes $I_\text{g1}$ e $I_\text{g2}$ entregan corrientes idénticas de magnitud $I$. Si el XBT está en modo \textit{measure}, lo que implica que está desplegado, el nodo SE (en inglés, \textit{Sea Electrode}) está inmerso en agua de mar y, por lo tanto, está vinculado a la tierra de la embarcación a través de la resistencia del agua, $R_\text{SW}$. Las resistencias $R_\text{lead}$ representan los devanados del XBT y $R_\text{th}$ es la resistencia del termistor. La existencia de una tensión no nula entre los puntos A y B , o entre A y C, es consecuencia de la caída de potencial en $R_\text{th}$. Dado que $I$ es conocida, el valor de $R_\text{th}$ puede obtenerse mediante la expresión
+\begin{equation}
+R_{th} = \frac{V_\text{AB}}{I}
+\end{equation}    
+
+Las fuentes de corriente se diseñaron utilizando dos transistores bipolares PNP con resistencia de emisor y provistos de una tensión conocida en la base, tal como se observa en la representación de la FIG. \ref{fig_disenio_definitivo_preliminar}
+\begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=0.5\textwidth]{graficos/Disenio_definitivo_preliminar.pdf}
+	\caption{Implementación de las fuentes de corriente con transistores PNP con resistencia de emisor y tensión conocida en la base.}
+	\label{fig_disenio_definitivo_preliminar}
+\end{figure}
+La corriente a través de cada colector, asumiendo que ambos transistores están en modo activo directo, está dada por la siguiente ecuación, que utiliza la nomenclatura tradicional de circuitos con trasistores:
+\begin{equation}
+I_c = \frac{\beta}{\beta+1} \frac{V_{CC} - V_{BB} - V_{EB}}{R_E} \approx \frac{V_{CC} - V_{BB} - V_{EB}}{R_E} \qquad (\beta \gg 1)
+\label{Ec:I_c}
+\end{equation}
+donde $\beta$ es la ganancia de corriente propia del transistor, que se supone mucho mayor que la unidad, $V_{BB}$ es la tensión conocida en cada una de las bases, $V_{EB} \simeq 0.7\:\text{V}$ es la tensión del diodo emisor-base (por tratarse de un transistor PNP) y $R_E$ es la resistencia de cada emisor. La elección de la corriente de colector, que es, en esencia, la corriente provista por cada una de las fuentes del diseño de la FIG. \ref{fig_principio_funcionamiento}, se basó en dos criterios fundamentales, a saber: ser lo suficientemente grande como para poder medirse con un multímetro comercial y/o producir una tensión apreciable sobre cada una de las resistencias auxiliares $R_\text{aux}$ y, a la vez, ser lo suficientemente pequeña como para no generar autocalentamiento en el termistor y alterar el registro de temperatura. Se decidió usar una corriente de 100 $\mu$A. El valor de $V_{CC}$ se estableció en 5 V, compatible con la tensión de alimentación del kit de desarrollo empleado para la etapa de adquisición de datos, evitando el requerimiento de una alimentación adicional. Las variables restantes para ajustar $I_c$ al valor deseado son la tensión $V_{BB}$ y la resistencia $R_E$. En la rama que contiene al termistor, la tensión entre emisor y colector, $V_{EC}$, resulta ser:
+\begin{equation}
+V_{EC} \simeq V_{CC} - I_c (R_E + R_\text{aux} + R_\text{lead} + R_\text{th}).
+\label{eq:V_EC}
+\end{equation}
+donde se ha omitido la caída en la resistencia del agua de mar, $R_\text{sw}$, por ser órdenes de magnitud menor que las demás resistencias. El valor obtenido de $V_{EC}$, según la Ec. \eqref{eq:V_EC}, no puede ser menor que $V_{EC_\text{sat}}$, el cual es un parámetro propio del transistor. Si así fuera, el transistor dejaría de funcionar en MAD, y la corriente $I_c$ dejaría de estar gobernada por los elementos presentes en la malla de entrada. Es importante destacar que la situación más comprometida para $V_{EC}$ se presenta cuando $R_\text{th}$ es el valor máximo posible, que según lo expuesto en la Tabla \ref{tabla:sondas} se encuentra en torno a los 18 k$\Omega$, y $R_\text{lead}$ es el que corresponde al XBT de la mayor profundidad de operación. Si bien se estima su valor en torno a los 5 k$\Omega$ (\citep{sippican}), se consideró para este diseño un margen de seguridad, contemplando su uso con un XBT tipo T-5, y se asignó un valor para $R_\text{lead}$ de 10 k$\Omega$. Considerando un valor para $R_\text{aux}$ de 1 k$\Omega$, de manera de producir una caída de 100 mV, que se supone suficiente para ser medida con una exactitud razonable por las entradas analógicas del circuito adquisidor, es posible obtener, combinando las Ecs. \eqref{Ec:I_c} y \eqref{eq:V_EC}, estimaciones para $V_{BB}$ y $R_E$ bajo la condición límite $V_{EC} = V_{EC_\text{sat}} \simeq 0.7$ V (el valor 0.7 V es habitual para transistores bipolares de usos generales, aunque puede ser menor). La resolución del sistema de ecuaciones arroja los valores:
+\[
+V_{BB} = 2,9\:\text{V} \qquad R_E = 14\:\text{k}\Omega
+\]
+El valor obtenido para $V_{BB}$ se encuentra en el rango 0 - 3,3 V y, por lo tanto, puede ser generado por las salidas analógicas de la etapa de adquisición de datos. La resistencia $R_E$ se formó conectando en serie una resistencia fija de 10 k$\Omega$ y un preset (resistencia variable) de 5 k$\Omega$. 
+
+El diseño se corrigió ligeramente para obtener un margen de seguridad en la excursión, manteniendo la elección original para $I_c$ en 100 $\mu$A. Se decidió utilizar un valor para $V_{BB}$ de 3,1 V, todavía dentro del rango de operación de las salidas analógicas, y un valor para $R_E$ de 12 k$\Omega$ que también puede ser obtenido con los mismos elementos en serie. De esta forma, al recalcular la tensión $V_{EC}$ para los nuevos valores de diseño, se obtiene $V_{EC} \simeq 0,9\:\text{V}$ y se evita tener problemas de linealidad ante un aumento de alguna de las resistencias de la rama que contiene al termistor, como así también ante un aumento significativo de $R_\text{sw}$.
+
+Para el ajuste de la tensión $V_{BB}$ se contemplaron dos esquemas de funcionamiento. En el esquema a lazo abierto $V_{BB}$ queda determinada por un único divisor resistivo conectado a ambas bases de cada uno de los transistores que actúan como fuentes de corriente, tal como se observa en la FIG. \ref{fig_disenio_definitivo} (las bases de ambos transistores deben conectarse la posición 1 de los selectores recuadrados). Se eligió una combinación de resistencias que, para una alimentación de 5 V, lograran una tensión en el punto medio ceercana al valor de diseño y fueran, por un lado, lo suficientemente grandes como para evitar consumir una corriente innecesariametne grande y, por otro, lo suficientemente bajas como para no ser cargadas por la base de cada transistor cuando el XBT está desconectado (modo \textit{reload}) o fuera del agua (modo \textit{launch}). En estos modos de operación el colector de cada transistor está desconectado (el transistor no está funcionando en MAD), pero la corriente de emisor se convierte en la corriente de base ya que el diodo emisor-base está polarizado en directa. Esto provoca un aumento en la tensión en la base que puede atenuarse si la corriente de base es despreciable frente a la corriente del divisor resistivo. Si inicialmente se supone que la operación del circuito auxiliar con el XBT en modos \textit{reload} o \textit{launch} no modifica la tensión en la base, la corriente de emisor, que coincide con la corriente de base, se mantendrá en 100 $\mu$A, lo que produce, considerando el efecto de ambos transistores, una inyección de corriente en el divisor resistivo de 200 $\mu$A. Se escogieron resistencias de 680 $\Omega$ y 1 k$\Omega$, que consumen, en ausencia de efecto de carga por conexión de las bases de los transistores, una corriente de prácticamente 3 mA. De esta forma, el efecto de carga de la conexión de las bases de los transistores puede suponerse despreciable. La tensión $V_{BB}$, para los valores elegidos, queda establecida en aproximadamente 3 V. El valor exacto de $I_c$ se logra ajustando el preset conectado al emisor. En el modo de funcionamiento a lazo cerrado (bases conectadas a la posición 2 de los selectores) las corrientes $I_c$ de ambas ramas son sensadas por dos pares de entradas analógicas, conectadas en ambos terminales de las resistencias $R_\text{aux}$ que se suponen conocidas y de precisión. Si el sistema adquisidor detecta un corrimiento respecto del valor de diseño previsto para cualquiera de las corrientes actará modificando las tensiones en las bases de cada transistor, conectadas a salidas analógicas. De esta forma se garantiza, en tiempo de ejecución, que las corrientes por ambas ramas sean iguales, lo que permite asegurar que la tensión $V_{AB}$ en la FIG. \ref{fig_principio_funcionamiento} se deba exclusivamente a la caída en $R_\text{th}$. Es importante destacar que para que las salidas analógicas puedan conectarse a las bases de transistores PNP, se debe utilizar resistencias de derivación, conectadas a la base, para evitar corrientes entrantes (ver resistencias $R_\text{d1}$ y $R_\text{d2}$ en la FIG. \ref{fig_disenio_definitivo}).
+\begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=0.6\textwidth]{graficos/Disenio_definitivo_preliminar_2.pdf}
+	\caption{Diseño con dos fuentes de corriente, en el que se incluyen los dos esquemas de funcionamiento: la determinación de $V_{BB}$ mediante un divisor resistivo y a través de salidas analógicas del dispositivo adquisidor.}
+	\label{fig_disenio_definitivo}
+\end{figure}
+
+Como se explicó en el párrafo anterior, tanto en modo \textit{reload} o en modo \textit{launch} las ramas de ambos colectores están abiertas, es decir, sin un camino hacia tierra. Ambos transistores dejan de estar en MAD y la tensión $V_{EC}$ en cada uno de ellos vale cero. Al no haber corriente saliendo por los colectores las caídas de tensión en las resistencias $R_\text{aux}$ es nula, lo que permite detectar que el sistema no está midiendo. En este caso las cuatro entradas analógicas perciben una tensión igual a $V_{CC} - V_{RE}$, que para las condiciones de diseño está entre 3.6 V y 3.8V. Estos valores están por debajo de los límites de máxima tensión admisible para entradas de microcontroladores que trabajan con 3.3 V. Para que el sistema logre diferenciar el modo \textit{launch} del modo \textit{reload}, se decidió que la entrada analógica que sensa el terminal ubicado aguas abajo de la resistencia $R_\text{aux}$, en la rama que no contiene al termistor (indicada como AI4 en la FIG. \ref{fig_disenio_definitivo}), se conecte al nodo C del XBT. De esta forma, sólo existe una conexión eléctrica al terminal inferior de $R_\text{aux}$ cuando el XBT está conectado (modo \textit{launch}). En modo \textit{reload} la entrada AI4 queda desconectada y, en caso de que se la vincule a tierra a través de una resistencia de valor elevado ($R_\text{d3}$ en la FIG. \ref{fig_disenio_definitivo}), registará un estado bajo (en torno a 0 V).
+
+Los nodos de sensado se vincularon a las entradas analógicas a través de amplificadores operacionales en modo seguidor. Se utilizó el integrado LM324, que contiene cuatro \textit{op-amps} que funcionan con alimentación simple (sólo tensión positiva) y admiten tensiones de salida mínimas muy cercanas a 0 V. Para los transistores El circuito esquemático completo, diseñado para integrarse al kit de desarrollo NÚCLEO-STM32F429ZI, se muestra en la FIG. \ref{fig:esquematico_disenio_dos_fuentes}. Este esquemático incluye una circuitería, armada con resistores, que emulan el comportamiento del termistor y permiten simular el funcionamiento del XBT en determinadas condiciones. Esto se logra cortocircuitando los pares de terminales 1-2, 3-4 y 5-6 del conector J3. Los resistores $R_7$ y $R_8$ representan las $R_\text{lead}$ de un XBT arbitrario. Los resistores $R_9$ y $R_{10}$ representan dos posibles valores dentro del rango de funcionamiento del termistor, asociados a dos valores de temperatura. Si se conectan en paralelo, se obtiene un valor adicional. El resistor $R_{11}$ y el preset variable $R_\text{v3}$ se utilizan para estudiar el comportamiento en un rango amplio de variación de la resistencia del termistor. La combinación de ambos resistores proporciona un rango entre 4.7 k$\Omega$ y 14.7 k$\Omega$. El conector J7 permite simular la conexión del XBT simulado al nodo común, emulando su inmersión. 
+
+\begin{landscape}
+\begin{figure}[htpb]
+\centering 
+\vspace{-1cm}
+\includegraphics[height=1.\textheight]{./graficos/circuito_auxiliar_para_xbt.pdf}
+%\includegraphics[width=1\textwidth]{./graficos/Esquematico_puente_recortado.pdf}
+\caption{Circuito esquemático completo del diseño del circuito auxiliar con dos fuentes de corriente.}
+\label{fig:esquematico_disenio_dos_fuentes}
+\end{figure}
+\end{landscape}
+
+Se diseñó y fabricó un circuito impreso de doble capa, siguiendo recomendaciones de diseño generales para circuitos analógicos. En la FIG. \ref{fig:PCB_montado} se observa la placa fabricada, con los componentes montados, integrada en el kit de desarrollo.
+\begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=0.35\textwidth]{graficos/PCB_mounted.pdf}
+	\caption{Circuito impreso fabricado y montado en el kit de desarrollo utilizado como interfaz para el XBT.}
+	\label{fig:PCB_montado}
+\end{figure}
+
+
+\section{ENSAYOS}
+\label{sec:simulación}
+
+\subsection{Simulaciones del circuito de dos fuentes de corriente}
+
+Se realizaron simulaciones del funcionamiento del circuito de dos fuentes de corrientes presentado en la Sección \ref{subsec:2fuentes}. Los análisis llevados a cabo tienen como objetivo verificar el funcionamiento normal del diseño y su robustez frente a modificaciones en algunos de los resistores que forman parte del diseño.
+
+La estimación de la resistencia del termistor, $R_\text{th}$, que se desprende del circuito observado en la FIG. \ref{fig_disenio_definitivo}, se obtiene mediante la expresión:
+\begin{equation}
+\tilde{R}_\text{th} = \frac{V_\text{ai3} - V_\text{ai4}}{V_\text{ai1} - V_\text{ai3}} R_\text{aux}
+\label{ec:Rth_monio}
+\end{equation}
+donde $V_\text{ai3} - V_\text{ai4}$ coincide con la tensión $V_\text{AB}$, que a su vez es la caída en $R_\text{th}$ cuando las corrientes por ambas ramas son iguales y el cociente $(V_\text{ai1} - V_\text{ai3})/R_\text{aux}$ es la estimación de la corriente por la rama que contiene al termistor. La calidad de la estimación de la resistencia del termistor, $\tilde{R}_\text{th}$, depende fundamentalmente de la igualdad de las corrientes por ambas ramas y de que se garantice que ambos transistores están funcionando en MAD. Esto último puede dejar de cumplirse ante un aumento en las resistencias conectadas entre los colectores y el nodo común, con especial énfasis en la rama que contiene el termistor. El valor de la corriente entregada por las fuentes de corriente se eligió para garantizar que, aún teniendo devanados cuya resistencia, $R_\text{lead}$ sea de 10 k$\Omega$, valor mayor que los que se encuentran en los XBT analizados, se evite caer en la región de saturación de los transistores. Esto se evidencia en la FIG. \ref{fig:sweep_Rlead}, que muestra un análisis del punto de operación del sistema, considerando una $R_\text{th}$ variable entre los límites de variación del termistor y un conjunto discreto de valores posibles de $R_\text{lead}$, que se asumen apareadas en todo momento.
+\begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/Variacion_Rlead.pdf}
+	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_\text{lead}$.}
+	\label{fig:sweep_Rlead}
+\end{figure}
+La simulación mostrada se realizó considerando una resistencia equivalente del agua de mar, $R_\text{sw}$ de 1 $\Omega$, valor despreciable con respecto a las resistencias de cada una de las ramas. Como puede observarse, aún para $R_\text{lead} =$ 15 k$\Omega$, el cual resulta casi exagerado, es posible recuperar el valor de $R_\text{th}$ prácticamente en su valor real (en ausencia de otras fuentes de incerteza). El análisis se repitió para $R_\text{lead}$ fija en 10 k$\Omega$ y una variación de $R_\text{sw}$ entre 1 $\Omega$ y 1 k$\Omega$. Este último valor se utilizó como margen de seguridad, ya que se supone mucho mayor que la resistencia efectiva del agua de mar entre el electrodo de contacto del XBT y el casco de la embarcación. Los resultados se muestran en la FIG. \ref{fig:sweep_Rsw}.
+\begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/Variacion_Rsw.pdf}
+	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_\text{sw}$.}
+	\label{fig:sweep_Rsw}
+\end{figure}
+Del mismo modo que para la variación de $R_\text{lead}$, se observa que la estimación de $R_\text{th}$ no se ve afectada para los distintos valores propuestos de $R_\text{sw}$. Se realizaron, adicionalmente, análisis de sensibilidad teniendo en cuenta variaciones del conjunto de resistencias que conforman la malla de entrada de los transistores y que están intrínsecamente relacionadas con la determinación de las corrientes de ambas fuentes. Inicialmente se simuló una variación las resistencia $R_2$ del divisor resistivo que determina la tensión en la bases de los transistores, con un margen de incerteza del 10\% respecto del valor nominal. Se consideró un valor para $R_1$, que permaneció fija, de 748 $\Omega$ (10\% mayor que su valor nominal, de 680 $\Omega$), ya que el efecto combinado de aumento de $R_1$ y la disminución de $R_2$ provoca un aumento de la corriente de las fuentes, lo que reduce el rango de posibles cargas que pueden conectarse en el colector de la rama que contiene al termistor. Los resultados se muestran en la FIG. \ref{fig:sweep_R2}
+\begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/Variacion_R2_con_R1_al_90porciento.pdf}
+	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_2$, considerando un incremento para $R_1$ del 10\% respecto de su valor nominal.}
+	\label{fig:sweep_R2}
+\end{figure}
+Se observa que para prácticamente todas los posibles valores de $R_2$, dentro del margen de incerteza propuesto, es posible recuperar $R_\text{th}$ con exactitud. Queda execptuado el caso de $R_2$ = 900 $\Omega$, donde se empieza a observar un corrimiento en la estimación para los valores mayores de $R_\text{th}$, como consecuencia de que la corriente, en la rama que contiene al termistor, no puede aumentar proporcionalmente a la caída en $R_E$, debido a que el transistor $Q_1$ deja de estar en MAD. Para el caso límite de $R_\text{th}$ = 18 k$\Omega$, la estimación obtenida arroja un valor de 17.65 k$\Omega$, el cual representa un error del 2\%, aproximadamente. Esto deja en evidencia la ventaja de utilizar el esquema de funcionamiento a lazo cerrado.
+
+Uno de los análisis más importantes para estudiar la robustez del prototipo implica la variación de las resistencias de emisor, $R_E$. La variación de una de ellas respecto de la otra (se las denominará, de ahora en adelante, $R_{E1}$ y $R_{E2}$) provoca que las corrientes de ambas fuentes no son iguales, lo que degrada la estimación de $R_\text{th}$. En la FIG. \ref{fig:sweep_RE1} se muestra dicha estimación, en función del valor real de $R_\text{th}$, para varios valores posibles de $R_{E1}$ y considerando un valor de $R_{E2}$ igual al valor nominal de diseño.
+ \begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/Variacion_RE1.pdf}
+	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_E1$, en torno al 10\% de su valor nominal.}
+	\label{fig:sweep_RE1}
+\end{figure}
+Se observa una variabilidad significativa en todo el rango de posibles valores de resistencia del termistor. Como el \textit{mismacth} de corrientes de ambas fuentes genera un corrimiento fijo en la estimación respecto del valor verdadero, su error relativo se incrementa para las resistencias de termistor más bajas (asociadas a temperaturas más altas). Cuando se desea estimar un valor de $R_\text{th}$ del orden de los 3 k$\Omega$ ante un corrimiento del 10\% en el valor nominal de $R_{E1}$, el error relativo asciende al 32\%. Esto deja en evidencia la necesidad de aborar el esquema de funcionamiento a lazo cerrado, o a utilizar resistores de precisión, en vez de series de resistores y presets, para las resistencias de emisor. Un resultado similar se obtiene cuando se analiza el desempeño del circuito ante variaciones de $R_{E2}$, manteniendo $R_{E1}$ fija. Esto se muestra en la FIG.
+ \begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=0.8\textwidth]{graficos/Variacion_RE2.pdf}
+	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_E2$, en torno al 10\% de su valor nominal.}
+	\label{fig:sweep_RE2}
+\end{figure}
+
+\subsection{Ensayos de laboratorio}
+
+Se realizó un conjunto de ensayos sobre la solución circuital que emplea dos fuentes de corriente. Se usó el propio simulador de XBT incorporado en el circuito. Algunos resistores se midieron previamente a ser soldados al circuito impreso con un multímetro GW Instek GDM-396, disponible en el DPA, a efectos de obtener una mejor estimación de su resistencia. Se listan a continuación los valores medidos, y el resto de los resistores utilizados (se asume, en los casos restantes, que es válido el valor nominal). En todos los casos se usaron resistores de metalfilm al 1\%. Sus identificadores se corresponden con el esquemático de la FIG. \ref{fig:esquematico_disenio_dos_fuentes}.
+
+\begin{table}[htpb]
+\centering
+\caption{Resistores utilizados en el prototipo a ensayar.}
+\label{tabla:ensayo}
+\begin{tabular}{c|c|c|c}
+Idetificador & Función & Valor nominal & Valor medido \\ \hline
+$R_1$ & $R_E$ fija lado A & 10 k$\Omega$ & - \\
+$R_2$ & $R_E$ fija lado B & 10 k$\Omega$ & - \\
+$R_\text{V1}$ & $R_E$ variable lado A & preset 5 k$\Omega$ & - \\
+$R_\text{V2}$ & $R_E$ variable lado B & preset 5 k$\Omega$ & - \\
+$R_3$ & $R_1$ del divisor & 560 $\Omega$ & 556 $\Omega$ \\
+$R_3$ & $R_2$ del divisor & 820 $\Omega$ & 817 $\Omega$ \\
+$R_5$ & $R_\text{aux}$ lado A & 1 k$\Omega$ & 992 $\Omega$ \\
+$R_6$ & $R_\text{aux}$ lado B & 1 k$\Omega$ & 992 $\Omega$ \\
+$R_7$ & $R_\text{lead}$ lado A & 5,6 k$\Omega$ & 5,57 k$\Omega$ \\
+$R_8$ & $R_\text{lead}$ lado B & 5,6 k$\Omega$ & 5,57 k$\Omega$ \\
+$R_9$ & $R_\text{th}$ Temp. fija 1 & 15 k$\Omega$ & 14,88 k$\Omega$ \\
+$R_10$ & $R_\text{th}$ Temp. fija 2 & 6,8 k$\Omega$ & 14,88 k$\Omega$ \\
+
+\end{tabular}
+\end{table}
+
+Adicionalmente, se empleó un resistor de 12 M$\Omega$ para el canal que mide el nodo C y dos resistores de valor nominal 10 k$\Omega$ como resistores de derivación.
+
+Se armó un banco experimental formado por una fuente de laboratorio, mediante la que se alimentó el prototipo con 5 V, y un multímetro para medir las tensiones que registrarían las entradas analógicas del circuito digitalizador (no implementado en este ensayo). El banco se muestra en la FIG. \ref{fig:banco_exp}.
+ \begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=0.96\textwidth]{graficos/banco_experimental.jpg}
+	\caption{Banco experimental para ensayar el prototipo de la solución circuital de dos fuentes de corriente.}
+	\label{fig:banco_exp}
+\end{figure}
+
+
+
+\subsection{Análisis de incertezas en la determinación de $R_\text{th}$}
+
+Una de las características fundamentales del registrador SIPPICAN es su baja incerteza, establecida en $\pm 0.2\:^\circ\text{C}$. La obtención de una medición de temperatura a través de la estimación de la resistencia del termistor de un XBT, $R_\text{th}$, con una tolerancia menor o igual que la lograda por el registrador original impone requerimientos de incerteza máxima para su determinación. Observando el comportamiento de la resistencia del termistor en función de la temperatura, expuesto en la FIG. \ref{fig:transferenciaXBT}, es posible establecer una cota máxima para la incerterza relativa en la determinación de $R_\text{th}$, como la menor de las incertezas relativas para todo el rango de funcionamiento. Esta cota se ubica en torno al 0.8 \%. Aplicando teoría de propagación de errores al estimador $\tilde{R}_\text{th}$, descripto a partir de la Ec. \eqref{ec:Rth_monio}, se obtiene:
+\begin{equation}
+\varepsilon_{\tilde{R}_\text{th}} = \varepsilon_{V_\text{AB}} + \varepsilon_{V_\text{ai1,ai3}} + \varepsilon_{R_\text{aux}}
+\end{equation}
+donde cada término representa la incerteza relativa vinculada a cada una de las variables que determinan el valor de $\tilde{R}_\text{th}$. Las incertezas de cada variable deben ser tales que su suma sea menor que 0.8 \%. La incerteza $\varepsilon_{R_\text{aux}}$ puede establecerse en torno al 0.1 \% si se utilizan resistores de precisión. Las tensiones $V_\text{AB}$ y $V_\text{ai1,ai3}$ se obtienen restando tensiones en nodos individuales respecto del nodo común, las cuales se registran a través de las entradas analógicas del circuito digitalizador. Las entradas de un conversor A/D tienen una incerteza absoluta que es característica del microprosador utilizado, y  depende del modo de funcionamiento, el rango de tensiones máximas con el cual digitaliza y de las características del circuito impreso en el que está montado. Para el kit de desarrollo propuesto, que está provisto de conversores A/D de 12 bits, es posible establecer la incerteza absoluta de una medición individual en 4 cuentas (o bits menos significativos, LSBs) \citep{AN4073}, que, para una tensión de alimentación del microprocesador de 3.3 V, se traduce en una dispersión de 3.22 mV. Esto conduce a incertezas absolutas, para mediciones diferenciales, de 6.44 mV.

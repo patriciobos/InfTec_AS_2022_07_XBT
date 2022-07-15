@@ -1,0 +1,127 @@
+	%###########################################################################
+	%
+	%	Hoja de estilo para la Plantilla de informes técnicos
+	%	v 1.0 [Diciembre 2017]
+	%
+	%
+	%###########################################################################
+	
+	
+	%=============================================================================
+	% Comandos matemáticos útiles
+	
+	\newcommand{\vb}[1]{\mathbf{#1}} % Vectores
+	\newcommand{\euler}[1]{\mathrm{e}^{#1}} % e^algo
+	\newcommand{\til}{\scaleobj{0.75}{\sim}}
+	\newcommand{\tu}{\textunderscore }
+	
+	\newcommand{\be}{\begin{equation}}  
+	\newcommand{\ee}{\end{equation}}
+
+	\newcommand{\vp}{\varphi} % Campo 'phi'
+	\newcommand{\dpar}[3][\hspace{-0.05em}]{\frac{\partial^{#1} {#2}}{\partial {#3}^{#1}}}
+	\newcommand{\dparD}[3][\hspace{-0.05em}]{\frac{\partial^2 {#1}}{\partial {#2} \partial{#3}}}
+	\newcommand{\dtot}[3][\hspace{-0.05em}]{\frac{d^{#1} {#2}}{d {#3}^{#1}}}
+	
+	
+	%=============================================================================
+	% Estilo de página
+
+	\fancypagestyle{plain}{%redefining plain pagestyle
+		\fancyhf{} %clear all headers and footers fields
+		\fancyfoot[R]{\thepage} %prints the page number on the right side of the header
+		\renewcommand{\headrulewidth}{0pt}
+		\renewcommand{\footrulewidth}{0pt}
+	}
+	\pagestyle{plain}
+	
+	%=============================================================================
+	% Nueva definicion de secciones:
+	\makeatletter
+	\renewcommand\section{\@startsection{section}{1}{\z@}%
+					{-2.5ex \@plus -1ex \@minus -.2ex}%
+					{2.5ex \@plus.2ex}%
+					{\normalfont\normalsize\bfseries\color{black}}}
+	\renewcommand{\thesection}{\Roman{section}}
+	\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname.\hspace{0.3cm}}
+	\makeatother
+	
+	% Nueva definicion de subsecciones:
+	\makeatletter
+	\renewcommand\subsection{\@startsection{subsection}{1}{\z@}%
+					{-2.5ex \@plus -1ex \@minus -.2ex}%
+					{2.5ex \@plus.2ex}%
+					{\normalfont\normalsize\bfseries\color{black}}}
+	\renewcommand{\thesubsection}{\thesection.{\arabic{subsection}}}
+	\makeatother
+	
+	\makeatletter
+	\renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+					{-3.25ex\@plus -1ex \@minus -.2ex}%
+					{1.5ex \@plus .2ex}%
+					{\normalfont\bfseries\color{black}}}
+	\renewcommand{\thesubsubsection}{\thesubsection.{\alph{subsubsection}}}
+	\makeatother
+	
+	% \def\thesubsubsection{\thesubsection.{\alph{subsubsection}.}}
+	%\def\thesubsection{\thesection{\arabic{subsection}.}}
+	
+	%=============================================================================
+	% Formateo de los caption de figuras y tablas
+	
+	\usepackage[margin=10pt,font=small,labelfont=bf,labelsep=period]{caption}
+	\DeclareCaptionListFormat{formato}{\textcolor{black}{\textbf{{#1 #2}}}}
+	\captionsetup{listformat=formato,labelfont={bf}}
+	
+	\renewcommand{\cftfigpresnum}{\textcolor{black}{FIG. }}
+	\setlength{\cftfignumwidth}{1.5cm}
+	\renewcommand{\cfttabpresnum}{\textcolor{black}{TABLA }}
+	\setlength{\cfttabnumwidth}{2.25cm}  
+
+	%=============================================================================
+	% Formateo de los títulos la tabla de contenidos
+	
+	\renewcommand*{\cftsecpresnum}{\bf\color{black}} 
+	\renewcommand*{\cftsecaftersnum}{\Roman{section}.} % Después de escribir el título de sección pone un 
+	% punto final.
+	\renewcommand*\cftsecfont{\color{black}\bf}
+	\renewcommand*\cftsubsecfont{\color{black}\bf}
+	\renewcommand*{\cftsubsecpresnum}{\bf\color{black}}
+	\renewcommand*\cftsubsubsecfont{\color{black}\bf}
+	\renewcommand*{\cftsubsubsecpresnum}{\bf\color{black}}
+	
+	% Cambio de nombres para elementos 
+	
+	\renewcommand{\spanishfigurename}{{FIG.}}
+	\renewcommand{\spanishtablename}{{TABLA}}
+	\renewcommand{\spanishlistfigurename}{\textcolor{black}{LISTA DE FIGURAS}}
+	\renewcommand{\spanishlisttablename}{\textcolor{black}{LISTA DE TABLAS}}
+	\renewcommand{\spanishrefname}{\textcolor{black}{REFERENCIAS}}
+	\renewcommand{\spanishappendixname}{\textcolor{black}{APÉNDICE}}
+	\renewcommand{\spanishcontentsname}{\textcolor{black}{ÍNDICE}}
+	
+	% Tamaño de reglas y cajas
+	
+	\setlength{\fboxrule}{1pt}%
+	\setlength{\arrayrulewidth}{1pt}
+	
+	% Longitud de indentados
+	
+	\setlength{\parindent}{2em}
+	\setlength{\parskip}{1.25ex}
+	
+	%=============================================================================
+	% Formateo de los títulos para la tabla de contenidos
+	
+	%\renewcommand{\cftsecpresnum}{\thesection}
+	\renewcommand{\cftsecnumwidth}{3em}
+	\setlength{\cftsubsecnumwidth}{3em}
+	
+	% Definición de colores personalizados
+	\definecolor{blue(ryb)}{rgb}{0.01, 0.28, 1.0}
+	\definecolor{coolblack}{rgb}{0.0, 0.18, 0.39}
+	
+	%=============================================================================
+	% Para el apéndice
+	\renewcommand{\appendixtocname}{APÉNDICES}
+	\renewcommand{\appendixpagename}{\Large\bf\textcolor{black}{APÉNDICES}}
