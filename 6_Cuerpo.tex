@@ -102,7 +102,7 @@ Para la medición del valor de resistencia de la sonda XBT, se utiliza un puente 
 
 En el circuito de la figura \ref{fig:puente}, se utiliza un amplificador operacional para mantener la caída de tensión en cero entre los nodos X e Y y de esta manera igualar las caídas de tensión en R2 y R3 y por consiguiente, igualar las corrientes en ambas ramas superiores del puente.  Dado que el amplificador operacional posee alta impedancia de entrada, virtualmente no toma corriente en su entrada y las corrientes en las ramas inferiores resultan iguales a las corrientes en las ramas superiores.  De esta manera, las corrientes en ambas ramas inferiores resultan iguales entre sí.
 
-Cuando el sistema está en modo medición (MEASSURE MODE) y la sonda está descendiendo en el agua, el termistor se encuentra conectado a la rama inferior izquierda del puente a través de la resistencia del bobinado indicada en el circuito esquemático como \textit{LEAD RESISTANCE}.  El otro extremo del termistor se conecta a la masa del barco a través del camino conductor que forma el agua de mar entre el \textit{SEA ELECTRODE} de la sonda y el casco del barco. Las resistencias de los bobinados de ambas ramas se encuentras apareados en un valor aproximado de 5 $k\Omega$.
+Cuando el sistema está en modo medición (MEASSURE MODE) y la sonda está descendiendo en el agua, el termistor se encuentra conectado a la rama inferior izquierda del puente a través de la resistencia del bobinado indicada en el circuito esquemático como \textit{LEAD RESISTANCE}.  El otro extremo del termistor se conecta a la masa del barco a través del camino conductor que forma el agua de mar entre el \textit{SEA ELECTRODE} de la sonda y el casco del barco. Las resistencias de los bobinados de ambas ramas se encuentras apareadas en un valor aproximado de 5 $k\Omega$.
 
 Como puede verse en la figura \ref{fig:puente}, la resistencia total de la rama inferior izquierda excede a la resistencia total de la rama inferior derecha del circuito puente en una cantidad igual a la suma de $R9$, $R10$ y la resistencia del termistor, $R_{th}$.  Dado que las corrientes en ambas ramas son iguales y que las tensiones en los puntos X e Y son iguales, la suma de las caídas de tensión en $R9$, $R10$ y $R_{TH}$ se debe igualar a la tensión de la fuente $E_{ref}$, esto es:
 
@@ -245,13 +245,11 @@ Desde el punto de vista de la sonda, los terminales B y C se encuentran siempre 
 \section{DISEÑO CIRCUITAL}
 \label{sec:diseño}
 
-Se abordaron distintas alternativas para el diseño de la interfaz circuital o etapa de acondicionamiento de las señales de las sonda XBT. Una primera característica a definir fue si se iba a reemplazar el sistema de registro Sippican o no ya que el diseño eléctrico de la interfaz depende fuertemente de esta característica. La lectura del valor de temperatura del XBT depende de que se energice la sonda externamente, debido a las sonda XBT son pasivas. Si se opta por reemplazar al sistema de registro Sippican, la interfaz que se diseñe debe proveer un mecanísmo para excitar al termistor presente en la sonda.  Cabe aclarar que la excitación de la sonda es una función excluyente de uno u otro componente y que no puede ser realizada por ambos en simultáneo.
+Se consideraron distintas alternativas para el diseño de la interfaz circuital o etapa de acondicionamiento de las señales de las sonda XBT. Una primera característica a definir fue si se iba a reemplazar el sistema de registro Sippican o no ya que el diseño eléctrico de la interfaz depende fuertemente de esta característica. La lectura del valor de temperatura del XBT depende de que se energice la sonda externamente, debido a las sonda XBT son pasivas. Si se opta por reemplazar al sistema de registro Sippican, la interfaz que se diseñe debe proveer un mecanísmo para excitar al termistor presente en la sonda.  Cabe aclarar que la excitación de la sonda es una función excluyente de uno u otro componente y que no puede ser realizada por ambos en simultáneo.
 
 La etapa de acondicionamiento o interfaz circuital actúa como enlace entre la sonda XBT y una etapa de digitalización que se implementa con un kit de desarrollo NUCLEO-STM32F429ZI, basado en un microcontrolador Cortex-M4 de STMicroelectronics.  Por este motivo, los niveles de tensión de salida de la interfaz se deben mantener en el rango 0-3,3 V para evitar posibles daños en las entradas de los conversores analógicos digitales del kit.  
 
-%\textcolor{magenta}{COMMENT DE CINQUINI: Para mí tendría que explicarse algo de la parte del digitalizador acá, que es esencialmente común a todos los diseños analógicos, así podemos referirnos a ella (existencia de entradas y/o salidas analógicas, tensiones de alimentación, puertos disponibles, etc) cuando estamos detallando cada solución circuital analógica individual.}
-
-Por un lado, se diseñó un circuito que funciona en conjunto con el registrador Sippican sin afectar su operación.  Esta interfaz permite hacer una lectura de tensión del circuito puente de la FIG. \ref{fig:puente} y utiliza un amplificador diferencial.%operacional en una topología circuital conocida como \textit{scaling-substractor}.  
+Por un lado, se exploraron circuitos que funcionan en conjunto con el registrador Sippican sin afectar su operación.  Estas interfaces deberían permitir hacer lecturas de tensión del circuito puente de la FIG. \ref{fig:puente}, para obtener un valor de tensión proporcional a la caída de tensión sobre el termistor.  Se ensayaron circuitos con amplificadores operaciones, en particular con dos topologías circuitales, una conocida como \textit{scaling-substractor} o escalador-restador y otra como \textit{instrumentation amplifier} o amplificador de instrumentación. 
 
 Por otra parte, se diseñó un circuito en base a dos fuentes de corriente que reemplaza al registrador Sippican. Esta interfaz permite hacer lecturas de tensión y, en forma indirecta, de corriente para poder calcular el valor de resistencia del termistor de la sonda XBT.  Asimismo, como esta interfaz reemplaza el sistema de registro Sippican, se contempla la captura de los distintos modos de funcionamiento  \textit{reload, launch, meassure} para no modificar los procedimiento de operación conocidos por los usuarios opertivos navales, para los que el cambio de un sistema a otro debería ser ``transparente''.
 
@@ -259,6 +257,46 @@ Finalmente, se consideró un diseño disponible en la literatura \citep{STEGEN1975
 
 En las siguientes subsecciones se abordan los detalles de diseño y se realiza una comparativa de los tres enfoques considerados. 
 
+\clearpage
+
+\subsection{Diseños que funcionan en conjunto con el registrador Sippican}
+
+El primer diseño considerado para funcionar en conjunto con el registrador Sippican se basa en la topología \textit{scaling-substractor}.  Este diseño se basa en un amplificador operacional realimentado, funcionando como amplificador diferencial. En la FIG. \ref{fig:opAmp_diferencial} se muestra un esquema de amplificador diferencial que sirve para calcular su transferencia.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.55\textwidth]{graficos/opAmp_diferencial.png}
+\caption{Circuito eléctrico de una amplificador diferencial.}
+\label{fig:opAmp_diferencial}
+\end{figure}
+
+Se puede deducir que la salida $V_{out}$ del circuito en función de las entradas $V_1$ y $V_2$ es:
+
+\begin{equation}
+V_{out} = -V1 \cdot \left(\frac{R_3}{R_1}\right) + V_2 \cdot \left(\frac{R_4}{R_2 + R_4}\right) \cdot \left(\frac{R1 + R_3}{R_1}\right)
+\end{equation}
+
+\noindent cuando se hace $R_1 = R_2$ y $R_3 = R_4$, se puede simplificar la expresión a: %de la salida del amplificador diferencial a la expresión:
+
+\begin{equation}
+V_{out} = \left(\frac{R_3}{R_1}\right) \cdot \left(V_2 - V_1\right)
+\end{equation}
+
+\noindent donde se aprecia la naturaleza de la resta de tensión que realiza el circuito entre sus entradas $V_1$ y $V_2$ y el factor de escala $\left(\frac{R_3}{R_1}\right)$ que dan nombre a esta topología circuital.
+
+Se ensayó un diseño que toma la tensión del terminal B de la sonda directamente de la entrada del registrador Sippican.  Este diseño agrega al amplificador diferencial un segundo amplificador operacional en configuración seguidor por emisor para evitar efectos de carga sobre el puente balanceado Sippican. Asimismo, se agregó un divisor resistivo conectado a la entrada inversora para controlar la tensión que se resta y ajustar el cero de la salida $V_{out}$.  Los valores de $R_1$ y $R_3$ se ajustan para que la salida no sature.
+
+Se eligió un amplificador operacional de tipo \textit{rail to rail} para que la salida pueda variar en todo el rango de tensión de 0 a la tensión de alimentación, elegida en 3,3 V para que sea compatible con los niveles de tensión de las entradas del ADC de la placa NUCLEO-STM32F429ZI.  
+
+En la FIG. \ref{fig:scaling} se muestra el circuito de la interfaz conectado al circuito puente del registrador Sippican en el punto indicado como LAUCHER B.
+
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=\textwidth]{graficos/Circuito_scaling.png}
+\caption{Circuito eléctrico equivalente de una sonda XBT.}
+\label{fig:scaling}
+\end{figure}
 
 
 \subsection{Diseño con dos fuentes de corriente}
