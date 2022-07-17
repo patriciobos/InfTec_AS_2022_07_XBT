@@ -3,33 +3,36 @@
 Un batitermógrafo descartable, XBT por sus siglas en inglés (eXpendable BathyThermograph), es un instrumento utilizado por la Armada Argentina para medir el perfil de temperatura de parte de la columna de agua en navegación sin afectar las condiciones de operación del buque. El sistema que se utiliza actualmente en el Comando de la Flota de Mar (COFM) fue desarrollado en la década de los setentas por la firma Sippican Inc., hoy subsidiaria de Lockheed Martin. El sistema está formado por tres componentes:
 
 \begin{itemize}
-\item una cantidad de sondas batitermográficas descartables para medir temperatura;
-\item un lanzador de casco montado sobre la banda de la unidades de superficie para el despliegue de las sondas; y
-\item un graficador de aguja analógico que imprime los resultados para su registro y visualización en una tira de papel graduado.
+\item sondas batitermográficas descartables para medir temperatura;
+\item un lanzador para el despliegue de las sondas; y
+\item un graficador de aguja analógico que imprime los resultados en una tira de papel graduado.
 \end{itemize}
 
-En la figura \ref{sistemaXBT} se puede observar un diagrama esquemático con las tres unidades que componen el sistema.
+En la figura \ref{sistemaXBT} se puede observar un diagrama esquemático con las tres unidades que componen el sistema, tomada del manual \citep{sippican}.
 
 \begin{figure}[htpb]
 \centering
-\includegraphics[width=.8\textwidth]{graficos/sistemaXBT.png}
+\includegraphics[width=.9\textwidth]{graficos/sistemaXBT.png}
 \caption{Diagrama esquemático con los componentes del sistema XBT}
 \label{sistemaXBT}
 \end{figure}
 
 Los XBTs se utilizan abordo de las unidades de superficie del COFM para determinar el perfil de la temperatura en función de la profundidad y consecuentemente, para poder calcular la profundidad de napa o inicio de la termoclina, la velocidad óptima SONAR y el perfil de velocidad del sonido, c(z), en la columna de agua, el Alcance Predicho SONAR (APS), las Pérdidas por Transmisión acústica (TL), entre otros parámetros de interés acústico.
 
-En particular, la velocidad del sonido se calcula a partir de datos de temperatura y salinidad medidos \textit{in-situ}, o en su defecto, a partir de estimaciones estadísticas existentes en bases de datos. Los perfiles de velocidad de sonido, c(z), constituyen un dato de entrada (\textit{input}) necesario en los sistemas automatizados (software propietario) de predicción de Alcance SONAR, provistos por el Dpto. Propagación Acústica de la DIIV para usuarios de tres Comandos de la ARA, a saber: el Comando de la Flota de Mar, el Comando de Aviación Naval y el Comando de la Fuerza de Submarinos.
+En particular, la velocidad del sonido se calcula a partir de datos de temperatura y salinidad medidos \textit{in-situ}, o en su defecto, a partir de estimaciones estadísticas existentes en bases de datos. Los perfiles de velocidad de sonido, c(z), constituyen un dato de entrada (\textit{input}) necesario en los sistemas automatizados (software propietario) de predicción de Alcance SONAR, provistos por el Dpto. Propagación Acústica de la DIIV para usuarios de tres Comandos de la ARA, a saber: el Comando de la Flota de Mar (COFM), el Comando de Aviación Naval (COAN) y el Comando de la Fuerza de Submarinos (COFS).
 
 La predicción del APS es un tópico de carácter clasificado para todas las Armadas debido a su aplicación directa a la detección acústica en el mar para el ámbito de la guerra antisubmarina. El cálculo del APS para una dada posición geográfica, en cierta fecha, se lleva a cabo sobre la base de varios elementos: 
+
 \begin{enumerate}
-\item el perfil de velocidad de sonido, c(z), el cual a su vez exige el datos medido de temperatura en función de la profundidad, T(z);
-\item información asociada al equipamiento electroacústico del sistema fuente-receptor;
-\item condiciones meteorológicas;
-\item una compleja modelación física, que es responsabilidad de los investigadores del Departamento Propagación Acústica de la DIIV pero que es un componente encapsulado y ``transparente'' para el usuario operativo naval.
+	\item el perfil de velocidad de sonido, c(z), el cual a su vez exige el datos medido de temperatura en función de la profundidad, T(z);
+	\item información asociada al equipamiento electroacústico del sistema fuente-receptor;
+	\item condiciones meteorológicas;
+	\item una compleja modelación física, que es responsabilidad de los investigadores del Departamento Propagación Acústica de la DIIV pero que es un componente encapsulado y ``transparente'' para el usuario operativo naval.
 \end{enumerate}
 
 \section{DESCRIPCIÓN FUNCIONAL DEL REGISTRADOR SIPPICAN MK 2A-1}
+
+La lógica de funcionamiento del sistema de registros batitermográficos se encuentra contenido en la unidad de registro MK 2A-1.  Esta unidad cuenta con una fuente de alimentación valvular, circuitos analógicos para acondicionar la señal proveniente de la sonda XBT y componentes electromecánicos para controlar una pluma o \textit{stylus} y el avance del papel graduado, a fin de imprimir el pefil de temperatura medido. 
 
 El sistema XBT opera en cuatro modos de funcionamiento, RELOAD, CHECK/RUN, LAUNCH y MEASSURE.  Cuando se enciende el registrador se deben esperar 10 minutos para que el registrador entre en régimen.
 
@@ -41,7 +44,7 @@ Cuando la sonda batitermográficas descartable es lanzada y toma contacto con el 
 
 \subsection{Controles e indicadores}
 
-El registrador MK 2A-1 cuenta con dos indicadores lumínicos, RELOAD y LAUNCH y dos llaves, RECYCLE y 94$^{\circ}$ - 30$^{\circ}$, como se puede apreciar en la figura \ref{indicadoresXBT} y a los que se accede al abrir la tapa frontal.
+El registrador MK 2A-1 cuenta con dos indicadores lumínicos, RELOAD y LAUNCH y dos llaves, RECYCLE y 94$^{\circ}$ - 30$^{\circ}$, a los que se accede al abrir la tapa frontal, como se puede apreciar en la figura \ref{indicadoresXBT}.
 
 \begin{figure}[htpb]
 \centering
@@ -215,7 +218,29 @@ p(t) = -0,18416 \cdot t^3 + 18,96982 \cdot t^2  - 812,63985 \cdot t  + 16356,211
 \label{fig:transferenciaXBT}
 \end{figure}
 
-Equivalente eléctrico de la sonda
+El circuito equivalente eléctrico de la sonda XBT que forma parte de la FIG. \ref{fig:esquema-sippican}, se repite separado en la FIG. \ref{fig:equivalenteXBT} para mayor claridad. En esta figura se puede apreciar al termistor o elemento que mide la temperatura modelado como un resistor junto con otros dos resistores, indicados como \textit{LEAD RESISTANCE}, que modelan el efecto resistivo de los hilos conductores que conectan el termistor con la embarcación.  También se pueden ver los cuatro terminales, A, B, C y \textit{SEA ELECTRODE} que constituyen la interfaz de la sonda. 
+
+El termistor se conecta con dos hilos conductores que se encuentran unidos solidarios, recubiertos con una pintura tipo barniz para garantizar la aislación eléctrica y bobinados en dos arrollamientos, uno dentro de la sonda con forma balística que desciende por la columna de agua y otro en el cánister que permanece dentro del lanzador que se mueve solidario a la embarcación.  De esta manera, cada \textit{LEAD RESISTANCE} representa el valor resistivo total de un hilo conductor que se encuentra arrollado mitad en la bobina dentro de cánister y mitad dentro de la bobina dentro de la sonda.  Esto le permite al fabricante de las sondas garantizar que estos valores resistivos estén precisamente apareados, debido a que surgen de conductores con idéntica conductividad, sección y longitud.
+
+Un extremo del termistor se conecta a través de uno de los hilos conductores con el terminal A y a través del otro hilo conductor con los terminales B y C.  Este último extremo también está expuesto al agua de mar en un contacto indicado como \textit{SEA ELECTRODE} que permite cerrar una camino conductor con el casco de la embarcación a través del agua de mar y que se utiliza para detectar el lanzamiento de la sonda y su ingreso al agua.
+
+ 
+%Por otra parte, los terminales B y C se conectan al resistor indicado en la FIG. \ref{fig:equivalenteXBT} también como \textit{LEAD RESISTANCE}, que modela el devanando o arrollamiento de cable en la bobina que se encuentra dentro del cánister.  Este devanado se queda en el lanzador y se desplaza solidario con la embarcación.
+ 
+El fabricante de las sondas garantiza que los valores de resistencia de cada par de \textit{LEAD RESISTANCE} están apareados en un valor cercano a los 5 K$\Omega$ para cada sonda.  Ensayos preliminares sobre sondas tipo \text{T-6} y {T-7} mostraron que los valores de resistencia de las \textit{LEAD RESISTANCE} pueden variar conjuntamente según el tipo de sonda. Esto resulta esperable, debido a que los respectivos devanados tienen distinta cantidad de metros de cable, función de la profundidad máxima alcanzable por cada tipo sonda.  
+
+Desde el punto de vista de la sonda, los terminales B y C se encuentran siempre cortocircuitados.  Esto permite que desde el lanzador se detecte la presencia de una sonda lista para ser lanzada a través de la presencia o no de este cortocircuito
+%
+%La variabilidad de las \textit{LEAD RESISTANCE} hace que sea conveniente medir la temperatura de forma diferencial a fin de descartar las contribuciones de estas resistencias 
+
+
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.3\textwidth]{graficos/equivalenteXBT.pdf}
+\caption{Circuito eléctrico equivalente de una sonda XBT.}
+\label{fig:equivalenteXBT}
+\end{figure}
 
 \section{DISEÑO CIRCUITAL}
 \label{sec:diseño}
