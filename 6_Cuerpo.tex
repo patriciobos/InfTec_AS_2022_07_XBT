@@ -136,6 +136,7 @@ La bornera 1A1A6TB2 se encuentra accesible a través de un panel desmontable sobr
 \end{figure}
 
 \section{SONDA BATITERMOGRÁFICA DESCARTABLE}
+\label{sec:sonda}
 
 Los batitermógrafos descartables, referidos comúnmente como XBTs están compuestos por una sonda con forma balística, un cánister, una bobina de cable dentro del cánister, un pin de lanzamiento y una tapa de cierre protectora para su almacenamiento.  El pin de lanzamiento retiene la sonda dentro del cánister y cuando se saca, la sonda cae al agua por efecto de la gravedad. La sonda contiene un termistor, que es el elemento sensible a la temperatura y que se encuentra conectado a una bobina de cable dentro de la sonda.  El otro extremo del cable está enrollado a una segunda bobina dentro del cánister.  La técnica de doble bobina permite que el cable quede libre en el agua en el punto de entrada y no se vea afectado por el movimiento del barco ni el descenso de la sonda.
 
@@ -273,7 +274,7 @@ El primer diseño considerado para funcionar en conjunto con el registrador Sippi
 Se puede deducir que la salida $V_{out}$ del circuito en función de las entradas $V_1$ y $V_2$ es:
 
 \begin{equation}
-V_{out} = -V1 \cdot \left(\frac{R_3}{R_1}\right) + V_2 \cdot \left(\frac{R_4}{R_2 + R_4}\right) \cdot \left(\frac{R1 + R_3}{R_1}\right)
+V_{out} = -V1 \cdot \left(\frac{R_3}{R_1}\right) + V_2 \cdot \left(\frac{R_4}{R_2 + R_4}\right) \cdot \left(\frac{R_1 + R_3}{R_1}\right)
 \end{equation}
 
 \noindent cuando se hace $R_1 = R_2$ y $R_3 = R_4$, se puede simplificar la expresión a: %de la salida del amplificador diferencial a la expresión:
@@ -282,22 +283,49 @@ V_{out} = -V1 \cdot \left(\frac{R_3}{R_1}\right) + V_2 \cdot \left(\frac{R_4}{R_
 V_{out} = \left(\frac{R_3}{R_1}\right) \cdot \left(V_2 - V_1\right)
 \end{equation}
 
-\noindent donde se aprecia la naturaleza de la resta de tensión que realiza el circuito entre sus entradas $V_1$ y $V_2$ y el factor de escala $\left(\frac{R_3}{R_1}\right)$ que dan nombre a esta topología circuital.
+\noindent donde se aprecian la naturaleza de la resta de tensión que realiza el circuito entre sus entradas $V_1$ y $V_2$ y el factor de escala $\left(\frac{R_3}{R_1}\right)$ que dan nombre a esta topología circuital \citep{rashid1999circuitos}.
 
-Se ensayó un diseño que toma la tensión del terminal B de la sonda directamente de la entrada del registrador Sippican.  Este diseño agrega al amplificador diferencial un segundo amplificador operacional en configuración seguidor por emisor para evitar efectos de carga sobre el puente balanceado Sippican. Asimismo, se agregó un divisor resistivo conectado a la entrada inversora para controlar la tensión que se resta y ajustar el cero de la salida $V_{out}$.  Los valores de $R_1$ y $R_3$ se ajustan para que la salida no sature.
+Se ensayó un diseño que toma la tensión del terminal B de la sonda.  Esto resulta muy conveniente debido a que se puede utilizar directamente la bornera 1A1A6TB2, que se encuentra accesible a través de un panel desmontable sobre el lateral izquierdo del registrador Sippican.
 
-Se eligió un amplificador operacional de tipo \textit{rail to rail} para que la salida pueda variar en todo el rango de tensión de 0 a la tensión de alimentación, elegida en 3,3 V para que sea compatible con los niveles de tensión de las entradas del ADC de la placa NUCLEO-STM32F429ZI.  
+Este diseño agrega al amplificador diferencial un segundo amplificador operacional en configuración seguidor por emisor para evitar efectos de carga sobre el puente balanceado Sippican. Asimismo, se agregó un divisor resistivo conectado a la entrada inversora para controlar la tensión que se resta y ajustar el cero de la salida $V_{out}$.  Los valores de $R_1$ y $R_3$ se ajustan para que la salida no sature.
 
-En la FIG. \ref{fig:scaling} se muestra el circuito de la interfaz conectado al circuito puente del registrador Sippican en el punto indicado como LAUCHER B.
+Se eligió un amplificador operacional de tipo \textit{rail to rail} con el objetivo de que la excursión de la salida pueda variar en todo el rango de tensión desde 0 V hasta la tensión de alimentación, elegida en +3,3 V para que sea compatible con los niveles de tensión de las entradas del ADC de la placa NUCLEO-STM32F429ZI. 
+
+Por otra parte, los amplificadores operacionales utilizan alimentación simple de +3,3 V, en lugar de alimentación doble, con tensión positiva y negativa.  Esto simplifica en gran medida el diseño y reduce el conteo de componente, lo que hace más conveniente el diseño que puede alimentarse incluso de la propia placa NUCLEO-STM32F4ZI.
+
+En la FIG. \ref{fig:scaling} se muestra el circuito puente simplificado del registrador Sippican con circuito interfaz \textit{scaling substractor} conectado en el punto indicado como LAUCHER B.  Se observan dos amplificadores operaciones en configuración seguidor por emisor y amplificador diferencial, respectivamente.  En el circuito se puede apreciar que se utiliza la aproximación polinómica de la transferencia del termistor para realizar un barrido paramétrico en todo el rango de temperatura, desde -2,0 °C a 35,5 °C.
+
 
 
 \begin{figure}[htpb]
 \centering
-\includegraphics[width=\textwidth]{graficos/Circuito_scaling.png}
+\includegraphics[width=.98\textwidth]{graficos/scaling_circuito.png}
 \caption{Circuito eléctrico equivalente de una sonda XBT.}
 \label{fig:scaling}
 \end{figure}
 
+
+En la FIG. \ref{fig:salida_scaling} se muestra la salida de tensión del \textit{scaling substractor}, $V_{out}$ para dos conjuntos alternativos de valores de resistores. Se grafica la salida $V_{out}$  en función de la temperatura para todo el rango de operación de las sondas XBT, desde -2,0 °C a 35,5 °C.  Para esto se utilizó el polinomio interpolador descripto en la sección \ref{sec:sonda} que modela la transferencia del termistor.
+
+Existe una relación de compromiso entre la linealidad de $V_{out}$ y su rango dinámico. Cabe notar, en la FIG. \ref{fig:salida_scaling}, un leve efecto de alinealidad entre -2,0 °C y -1,0 °C para el trazo azul, que puede corregirse reduciendo el rango dinámico de $V_{out}$. Por ejemplo, se puede aumentar el valor de R11 a 8k2 $\Omega$ y aumentar los valores de R4 y R7 a 22 $k\Omega$.  Esto produciría una salida más lineal pero con menor rango dinámico como puede verse en el trazo rojo de la misma figura. 
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.92\textwidth]{graficos/scaling_Vout(t).png}
+\caption{Vout(t) para dos conjuntos alternativos de valores de resistores. En trazo azul, $R_{11}= 6K8\; \Omega \text{ y } R_4=R_7=18 \; K\Omega$. En trazo rojo, $R_{11}\;= 8K2\; \Omega \text{ y } R_4=R_7=22\; K\Omega$.}
+\label{fig:salida_scaling}
+\end{figure}
+
+El diseño del circuito acondicionador \textit{scaling substractor} tiene un problema inherente a la forma en que toma la señal del puente Sippican, directamente del terminal B.  Si bien en principio esta parecía ser una ventaja, por la simplicidad del diseño, se encontró que este circuito es sensible a la variabilidad en el valor de $R_{lead}$ que hay entre los diferentes tipos de sonda por lo que resulta inadecuado para la aplicación. En la FIG. \ref{fig:scaling_vs_Rlead} se muestra la familia de curvas de salida del circuito \textit{scaling substractor}, $V_{out}(t)$, para diferentes valores de $R_{lead}$ entre 4K7 Y 8K2.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.92\textwidth]{graficos/scaling_Vout_vs_Rlead.png}
+\caption{Vout(t) para diferentes valores de $R_{lead}$.}
+\label{fig:scaling_vs_Rlead}
+\end{figure}
+
+\clearpage
 
 \subsection{Diseño con dos fuentes de corriente}
 \label{subsec:2fuentes}
@@ -340,7 +368,7 @@ El valor obtenido para $V_{BB}$ se encuentra en el rango 0 - 3,3 V y, por lo tan
 
 El diseño se corrigió ligeramente para obtener un margen de seguridad en la excursión, manteniendo la elección original para $I_c$ en 100 $\mu$A. Se decidió utilizar un valor para $V_{BB}$ de 3,1 V, todavía dentro del rango de operación de las salidas analógicas, y un valor para $R_E$ de 12 k$\Omega$ que también puede ser obtenido con los mismos elementos en serie. De esta forma, al recalcular la tensión $V_{EC}$ para los nuevos valores de diseño, se obtiene $V_{EC} \simeq 0,9\:\text{V}$ y se evita tener problemas de linealidad ante un aumento de alguna de las resistencias de la rama que contiene al termistor, como así también ante un aumento significativo de $R_\text{sw}$.
 
-Para el ajuste de la tensión $V_{BB}$ se contemplaron dos esquemas de funcionamiento. En el esquema a lazo abierto $V_{BB}$ queda determinada por un único divisor resistivo conectado a ambas bases de cada uno de los transistores que actúan como fuentes de corriente, tal como se observa en la FIG. \ref{fig_disenio_definitivo} (las bases de ambos transistores deben conectarse la posición 1 de los selectores recuadrados). Se eligió una combinación de resistencias que, para una alimentación de 5 V, lograran una tensión en el punto medio ceercana al valor de diseño y fueran, por un lado, lo suficientemente grandes como para evitar consumir una corriente innecesariametne grande y, por otro, lo suficientemente bajas como para no ser cargadas por la base de cada transistor cuando el XBT está desconectado (modo \textit{reload}) o fuera del agua (modo \textit{launch}). En estos modos de operación el colector de cada transistor está desconectado (el transistor no está funcionando en MAD), pero la corriente de emisor se convierte en la corriente de base ya que el diodo emisor-base está polarizado en directa. Esto provoca un aumento en la tensión en la base que puede atenuarse si la corriente de base es despreciable frente a la corriente del divisor resistivo. Si inicialmente se supone que la operación del circuito auxiliar con el XBT en modos \textit{reload} o \textit{launch} no modifica la tensión en la base, la corriente de emisor, que coincide con la corriente de base, se mantendrá en 100 $\mu$A, lo que produce, considerando el efecto de ambos transistores, una inyección de corriente en el divisor resistivo de 200 $\mu$A. Se escogieron resistencias de 680 $\Omega$ y 1 k$\Omega$, que consumen, en ausencia de efecto de carga por conexión de las bases de los transistores, una corriente de prácticamente 3 mA. De esta forma, el efecto de carga de la conexión de las bases de los transistores puede suponerse despreciable. La tensión $V_{BB}$, para los valores elegidos, queda establecida en aproximadamente 3 V. El valor exacto de $I_c$ se logra ajustando el preset conectado al emisor. En el modo de funcionamiento a lazo cerrado (bases conectadas a la posición 2 de los selectores) las corrientes $I_c$ de ambas ramas son sensadas por dos pares de entradas analógicas, conectadas en ambos terminales de las resistencias $R_\text{aux}$ que se suponen conocidas y de precisión. Si el sistema adquisidor detecta un corrimiento respecto del valor de diseño previsto para cualquiera de las corrientes actará modificando las tensiones en las bases de cada transistor, conectadas a salidas analógicas. De esta forma se garantiza, en tiempo de ejecución, que las corrientes por ambas ramas sean iguales, lo que permite asegurar que la tensión $V_{AB}$ en la FIG. \ref{fig_principio_funcionamiento} se deba exclusivamente a la caída en $R_\text{th}$. Es importante destacar que para que las salidas analógicas puedan conectarse a las bases de transistores PNP, se debe utilizar resistencias de derivación, conectadas a la base, para evitar corrientes entrantes (ver resistencias $R_\text{d1}$ y $R_\text{d2}$ en la FIG. \ref{fig_disenio_definitivo}).
+Para el ajuste de la tensión $V_{BB}$ se contemplaron dos esquemas de funcionamiento. En el esquema a lazo abierto $V_{BB}$ queda determinada por un único divisor resistivo conectado a ambas bases de cada uno de los transistores que actúan como fuentes de corriente, tal como se observa en la FIG. \ref{fig_disenio_definitivo} (las bases de ambos transistores deben conectarse la posición 1 de los selectores recuadrados). Se eligió una combinación de resistencias que, para una alimentación de 5 V, lograran una tensión en el punto medio cercana al valor de diseño y fueran, por un lado, lo suficientemente grandes como para evitar consumir una corriente innecesariametne grande y, por otro, lo suficientemente bajas como para no ser cargadas por la base de cada transistor cuando el XBT está desconectado (modo \textit{reload}) o fuera del agua (modo \textit{launch}). En estos modos de operación el colector de cada transistor está desconectado (el transistor no está funcionando en MAD), pero la corriente de emisor se convierte en la corriente de base ya que el diodo emisor-base está polarizado en directa. Esto provoca un aumento en la tensión en la base que puede atenuarse si la corriente de base es despreciable frente a la corriente del divisor resistivo. Si inicialmente se supone que la operación del circuito auxiliar con el XBT en modos \textit{reload} o \textit{launch} no modifica la tensión en la base, la corriente de emisor, que coincide con la corriente de base, se mantendrá en 100 $\mu$A, lo que produce, considerando el efecto de ambos transistores, una inyección de corriente en el divisor resistivo de 200 $\mu$A. Se escogieron resistencias de 680 $\Omega$ y 1 k$\Omega$, que consumen, en ausencia de efecto de carga por conexión de las bases de los transistores, una corriente de prácticamente 3 mA. De esta forma, el efecto de carga de la conexión de las bases de los transistores puede suponerse despreciable. La tensión $V_{BB}$, para los valores elegidos, queda establecida en aproximadamente 3 V. El valor exacto de $I_c$ se logra ajustando el preset conectado al emisor. En el modo de funcionamiento a lazo cerrado (bases conectadas a la posición 2 de los selectores) las corrientes $I_c$ de ambas ramas son sensadas por dos pares de entradas analógicas, conectadas en ambos terminales de las resistencias $R_\text{aux}$ que se suponen conocidas y de precisión. Si el sistema adquisidor detecta un corrimiento respecto del valor de diseño previsto para cualquiera de las corrientes actará modificando las tensiones en las bases de cada transistor, conectadas a salidas analógicas. De esta forma se garantiza, en tiempo de ejecución, que las corrientes por ambas ramas sean iguales, lo que permite asegurar que la tensión $V_{AB}$ en la FIG. \ref{fig_principio_funcionamiento} se deba exclusivamente a la caída en $R_\text{th}$. Es importante destacar que para que las salidas analógicas puedan conectarse a las bases de transistores PNP, se debe utilizar resistencias de derivación, conectadas a la base, para evitar corrientes entrantes (ver resistencias $R_\text{d1}$ y $R_\text{d2}$ en la FIG. \ref{fig_disenio_definitivo}).
 \begin{figure}[!hbt]
 	\centering
 	\includegraphics[width=0.6\textwidth]{graficos/Disenio_definitivo_preliminar_2.pdf}
