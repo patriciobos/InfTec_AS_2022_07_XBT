@@ -262,12 +262,14 @@ En las siguientes subsecciones se abordan los detalles de diseño y se realiza un
 
 \subsection{Diseños que funcionan en conjunto con el registrador Sippican}
 
+\subsubsection{Primer diseño}
+
 El primer diseño considerado para funcionar en conjunto con el registrador Sippican se basa en la topología \textit{scaling-substractor}.  Este diseño se basa en un amplificador operacional realimentado, funcionando como amplificador diferencial. En la FIG. \ref{fig:opAmp_diferencial} se muestra un esquema de amplificador diferencial que sirve para calcular su transferencia.
 
 \begin{figure}[htpb]
 \centering
 \includegraphics[width=.55\textwidth]{graficos/opAmp_diferencial.png}
-\caption{Circuito eléctrico de una amplificador diferencial.}
+\caption{Circuito eléctrico de un amplificador diferencial.}
 \label{fig:opAmp_diferencial}
 \end{figure}
 
@@ -277,10 +279,11 @@ Se puede deducir que la salida $V_{out}$ del circuito en función de las entradas
 V_{out} = -V1 \cdot \left(\frac{R_3}{R_1}\right) + V_2 \cdot \left(\frac{R_4}{R_2 + R_4}\right) \cdot \left(\frac{R_1 + R_3}{R_1}\right)
 \end{equation}
 
-\noindent cuando se hace $R_1 = R_2$ y $R_3 = R_4$, se puede simplificar la expresión a: %de la salida del amplificador diferencial a la expresión:
+\noindent cuando se hace $R_1 = R_2$ y $R_3 = R_4$, se puede simplificar la expresión a: 
 
 \begin{equation}
 V_{out} = \left(\frac{R_3}{R_1}\right) \cdot \left(V_2 - V_1\right)
+\label{ec:opamp}
 \end{equation}
 
 \noindent donde se aprecian la naturaleza de la resta de tensión que realiza el circuito entre sus entradas $V_1$ y $V_2$ y el factor de escala $\left(\frac{R_3}{R_1}\right)$ que dan nombre a esta topología circuital \citep{rashid1999circuitos}.
@@ -293,17 +296,14 @@ Se eligió un amplificador operacional de tipo \textit{rail to rail} con el objet
 
 Por otra parte, los amplificadores operacionales utilizan alimentación simple de +3,3 V, en lugar de alimentación doble, con tensión positiva y negativa.  Esto simplifica en gran medida el diseño y reduce el conteo de componente, lo que hace más conveniente el diseño que puede alimentarse incluso de la propia placa NUCLEO-STM32F4ZI.
 
-En la FIG. \ref{fig:scaling} se muestra el circuito puente simplificado del registrador Sippican con circuito interfaz \textit{scaling substractor} conectado en el punto indicado como LAUCHER B.  Se observan dos amplificadores operaciones en configuración seguidor por emisor y amplificador diferencial, respectivamente.  En el circuito se puede apreciar que se utiliza la aproximación polinómica de la transferencia del termistor para realizar un barrido paramétrico en todo el rango de temperatura, desde -2,0 °C a 35,5 °C.
-
-
+En la FIG. \ref{fig:scaling} se muestra el circuito puente simplificado del registrador Sippican con circuito interfaz \textit{scaling substractor} conectado en el punto indicado como Launcher\_B.  Se observan dos amplificadores operaciones en configuración seguidor por emisor y amplificador diferencial, respectivamente.  En el circuito se puede apreciar que se utiliza la aproximación polinómica de la transferencia del termistor para realizar un barrido paramétrico en todo el rango de temperatura, desde -2,0 °C a 35,5 °C.
 
 \begin{figure}[htpb]
 \centering
 \includegraphics[width=.98\textwidth]{graficos/scaling_circuito.png}
-\caption{Circuito eléctrico equivalente de una sonda XBT.}
+\caption{Circuito eléctrico esquemático de la interfaz \textit{scaling-substractor}.}
 \label{fig:scaling}
 \end{figure}
-
 
 En la FIG. \ref{fig:salida_scaling} se muestra la salida de tensión del \textit{scaling substractor}, $V_{out}$ para dos conjuntos alternativos de valores de resistores. Se grafica la salida $V_{out}$  en función de la temperatura para todo el rango de operación de las sondas XBT, desde -2,0 °C a 35,5 °C.  Para esto se utilizó el polinomio interpolador descripto en la sección \ref{sec:sonda} que modela la transferencia del termistor.
 
@@ -312,17 +312,84 @@ Existe una relación de compromiso entre la linealidad de $V_{out}$ y su rango di
 \begin{figure}[htpb]
 \centering
 \includegraphics[width=.92\textwidth]{graficos/scaling_Vout(t).png}
-\caption{Vout(t) para dos conjuntos alternativos de valores de resistores. En trazo azul, $R_{11}= 6K8\; \Omega \text{ y } R_4=R_7=18 \; K\Omega$. En trazo rojo, $R_{11}\;= 8K2\; \Omega \text{ y } R_4=R_7=22\; K\Omega$.}
+\caption{Vout para dos conjuntos alternativos de valores de resistores. En trazo azul, $R_{11}= 6K8\; \Omega \text{ y } R_4=R_7=18 \; K\Omega$. En trazo rojo, $R_{11}\;= 8K2\; \Omega \text{ y } R_4=R_7=22\; K\Omega$.}
 \label{fig:salida_scaling}
 \end{figure}
 
-El diseño del circuito acondicionador \textit{scaling substractor} tiene un problema inherente a la forma en que toma la señal del puente Sippican, directamente del terminal B.  Si bien en principio esta parecía ser una ventaja, por la simplicidad del diseño, se encontró que este circuito es sensible a la variabilidad en el valor de $R_{lead}$ que hay entre los diferentes tipos de sonda por lo que resulta inadecuado para la aplicación. En la FIG. \ref{fig:scaling_vs_Rlead} se muestra la familia de curvas de salida del circuito \textit{scaling substractor}, $V_{out}(t)$, para diferentes valores de $R_{lead}$ entre 4K7 Y 8K2.
+El diseño del circuito acondicionador \textit{scaling substractor} tiene un problema inherente a la forma en que toma la señal del puente Sippican, en un único punto, directamente del terminal B.  Si bien en principio esta parecía ser una ventaja, por la simplicidad del diseño, se encontró que esta configuración es sensible a la variabilidad en el valor de $R_{lead}$ que hay entre los diferentes tipos de sondas, por lo que resulta inadecuado para la aplicación. En la FIG. \ref{fig:scaling_vs_Rlead} se muestra la familia de curvas de salida del circuito \textit{scaling substractor}, $V_{out}$, para diferentes valores de $R_{lead}$ entre 4K7 y 8K2 $\Omega$.
 
 \begin{figure}[htpb]
 \centering
 \includegraphics[width=.92\textwidth]{graficos/scaling_Vout_vs_Rlead.png}
-\caption{Vout(t) para diferentes valores de $R_{lead}$.}
+\caption{Familia de curvas Vout para diferentes valores de $R_{lead}$.}
 \label{fig:scaling_vs_Rlead}
+\end{figure}
+
+\subsubsection{Segundo diseño}
+
+El segundo diseño considerado para funcionar en conjunto con el registrador Sippican trabaja en modo diferencial, es decir, tomando dos señales del puente Sippican en lugar de solo una. Esta característica lo hace particularmente adecuado para descartar las contribuciones de las $R_{lead}$ y superar las limitaciones del diseño basado en el \textit{scaling-substractor} antes mencionadas.  Asimismo, incorpora un segundo \textit{buffer} de entrada para desacoplar impedancias.
+
+%Este diseño consta de dos \textit{buffers} o seguidores por emisor para desacoplar impedancias y no cargar el circuito puente del registrador Sippican, de donde se toman las señales. 
+
+%El \textit{quid} de la cuestión es identificar de qué dos puntos tomar la 
+
+En la FIG. \ref{fig:opAmp_diferencial_2} se muestra un esquema de la topología utilizada. La salida $V_{out}$ en función de $V_1$ y $V_2$ es la misma que fue presentada en la EC. \ref{ec:opamp}. En este caso, no se utiliza una entrada con tensión fija para $V_1$, como en el primer diseño, sino que esta se conecta directamente a otro punto del puente Sippican.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.45\textwidth]{graficos/opAmp_diferencial_2.png}
+\caption{Circuito eléctrico de un amplificador diferencial con \textit{buffers} de entrada.}
+\label{fig:opAmp_diferencial_2}
+\end{figure}
+
+Para el caso particular de $R_1 = R_2 = R_3 = R_4 = R$, la expresión de $V_{out}$ de la EC.\ref{ec:opamp} se puede simplificar para obtener la expresión del amplificador diferencial con ganancia unitaria:
+
+\begin{equation}
+V_{out} = \left(V_2 - V_1\right)
+\end{equation}
+
+Este diseño toma dos señales del registrador Sippican, Analog\_OUT y Launcher\_A. El acceso a Analog\_OUT no es directo y requiere de una conexión al pin r de la bornera 1A1A6J1 disponible en la parte trasera interna del registrador MK 2A-1, como se muestra en la FIG. \ref{fig:bornera_1A1A6J1}.  
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.6\textwidth]{graficos/bornera_1A1A6J1.png}
+\caption{Ubicación de la bornera 1A1A6J1 para acceso a la señal Analog\_OUT del puente Sippican.}
+\label{fig:bornera_1A1A6J1}
+\end{figure}
+
+Por otra parte, Analog\_OUT se encuentra disponible en la bornera 1A1A6TB2, de fácil acceso a través de un panel desmontable del registrador, como fuera mostrado en la FIG. \ref{fig:panel-lateral}.
+
+Este diseño, si bien es funcional y resuelve la dependencia con $R_{lead}$ que tiene la topología \textit{scaling-substractor}, incorpora la necesidad de utilizar fuente de alimentación doble $\pm 15$V para todos los amplificadores operacionales a fin de lograr la excursión deseada para la señal de salida.  Esta característica agrega complejidad al diseño que ya no podrá alimentarse de la placa NUCLEO-STM32F429ZI sino que requerirá una fuente de alimentación propia e independiente.
+
+En la FIG. \ref{fig:ampliDiferencial} se puede observar el circuito esquemático propuesto junto con el puente Sippican simplificado.  Cabe observar que las entradas del amplificador diferencial se toman de los puntos indicados como Launcher\_A y Analog\_OUT. 
+
+\vspace{10px}
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=1\textwidth]{graficos/disenio2_circuito.png}
+\caption{Circuito eléctrico esquemático de la interfaz con un amplificador diferencial con \textit{buffers} de entrada.}
+\label{fig:ampliDiferencial}
+\end{figure} 
+\vspace{20px}
+
+En el circuito se puede apreciar que se utiliza la misma aproximación polinómica presentada en la sección \ref{sec:sonda} para modelar la transferencia del termistor.  Con esta aproximación se puede analizar el comportamiento del circuito diseñado para cualquier valor de temperatura directamente sin tener que recurrir a una tabla con los pares de valores puntuales que ofrece el fabricante.
+
+La tensión de salida $V_{out}$ crece linealmente con la temperatura en todo el rango desde -2,0 °C a 35,5 °C, como se puede observar en la simulación paramétrica de la FIG.\ref{fig:salida_ampDiff}.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.98\textwidth]{graficos/disenio2_Vout.png}
+\caption{Vout para el segundo diseño basado en un amplificador diferencial con \textit{buffers} de entrada.}
+\label{fig:salida_ampDiff}
+\end{figure}
+
+Por otra parte, se analiza en la FIG.\ref{fig:ampDiff_vs_Rlead}, la dependiencia de $V_{out}$ con $R_{lead}$ para cuatro valores discretos de resistencia: 4k7 $\Omega$, 5K $\Omega$, 6k8 $\Omega$ y 8k2 $\Omega$ variados de a pares, es decir que ambos $R_{lead}$ tienen el mismo valor para cada paso de la simulación. Las cuatro curvas de la familia son coincidentes por lo que se concluye que no hay dependencia.
+
+\begin{figure}[htpb]
+\centering
+\includegraphics[width=.98\textwidth]{graficos/disenio2_Vout_vs_Rlead.png}
+\caption{Familia de curvas Vout para diferentes valores de $R_{lead}$.}
+\label{fig:ampDiff_vs_Rlead}
 \end{figure}
 
 \clearpage
@@ -350,7 +417,7 @@ Las fuentes de corriente se diseñaron utilizando dos transistores bipolares PNP 
 	\caption{Implementación de las fuentes de corriente con transistores PNP con resistencia de emisor y tensión conocida en la base.}
 	\label{fig_disenio_definitivo_preliminar}
 \end{figure}
-La corriente a través de cada colector, asumiendo que ambos transistores están en modo activo directo, está dada por la siguiente ecuación, que utiliza la nomenclatura tradicional de circuitos con trasistores:
+La corriente a través de cada colector, asumiendo que ambos transistores están en modo activo directo, está dada por la siguiente ecuación, que utiliza la nomenclatura tradicional de circuitos con transistores:
 \begin{equation}
 I_c = \frac{\beta}{\beta+1} \frac{V_{CC} - V_{BB} - V_{EB}}{R_E} \approx \frac{V_{CC} - V_{BB} - V_{EB}}{R_E} \qquad (\beta \gg 1)
 \label{Ec:I_c}
