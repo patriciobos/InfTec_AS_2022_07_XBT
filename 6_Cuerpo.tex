@@ -254,9 +254,9 @@ Por un lado, se exploraron circuitos que funcionan en conjunto con el registrado
 
 Por otra parte, se diseñó un circuito en base a dos fuentes de corriente que reemplaza al registrador Sippican. Esta interfaz permite hacer lecturas de tensión y, en forma indirecta, de corriente para poder calcular el valor de resistencia del termistor de la sonda XBT.  Asimismo, como esta interfaz reemplaza el sistema de registro Sippican, se contempla la captura de los distintos modos de funcionamiento  \textit{reload, launch, meassure} para no modificar los procedimiento de operación conocidos por los usuarios operativos navales, para los que el cambio de un sistema a otro debería ser ``transparente''.
 
-Finalmente, se consideró un diseño disponible en la literatura \citep{STEGEN1975447}. Se trata de un circuito puente balanceado que utiliza un transistor de efecto de campo JFET para copiar el valor resistivo del termistor de la sonda.  Esta interfaz reemplaza al registrador Sippican.
+Finalmente, se consideró un diseño disponible en la literatura \citep{STEGEN1975447}. Se trata de un circuito puente balanceado que utiliza un transistor de efecto de campo JFET para ``copiar'' el valor resistivo del termistor de la sonda.  Esta interfaz reemplaza al registrador Sippican.
 
-En las siguientes subsecciones se abordan los detalles de diseño y se realiza una comparativa de los tres enfoques considerados. 
+En las siguientes subsecciones se abordan los detalles de diseño.% y se realiza una comparativa de los tres enfoques considerados. 
 
 \clearpage
 
@@ -493,25 +493,98 @@ El modo simulación se logra cortocircuitando los pares de terminales 1-2, 3-4 y 
 El conector J7 permite simular el lanzamiento de una sonda XBT y su ingreso al agua de mar al cerrar un camino conductor a masa.
 
 \begin{landscape}
-\begin{figure}[htpb]
-\centering 
-\vspace{-1cm}
-\includegraphics[height=1.\textheight]{./graficos/circuito_auxiliar_para_xbt.pdf}
-%\includegraphics[width=1\textwidth]{./graficos/Esquematico_puente_recortado.pdf}
-\caption{Circuito esquemático completo del diseño del circuito auxiliar con dos fuentes de corriente.}
-\label{fig:esquematico_disenio_dos_fuentes}
-\end{figure}
+
+	\begin{figure}[htpb]
+	\centering 
+	\vspace{-1cm}
+	\includegraphics[height=1.\textheight]{./graficos/circuito_auxiliar_para_xbt.pdf}
+	%\includegraphics[width=1\textwidth]{./graficos/Esquematico_puente_recortado.pdf}
+	\caption{Circuito esquemático completo del diseño del circuito auxiliar con dos fuentes de corriente.}
+	\label{fig:esquematico_disenio_dos_fuentes}
+	\end{figure}
+
 \end{landscape}
 
-%Se diseñó y fabricó un circuito impreso de doble capa, siguiendo recomendaciones de diseño generales para circuitos analógicos. En la FIG. \ref{fig:PCB_montado} se observa la placa fabricada, con los componentes montados, integrada en el kit de desarrollo.
-%
-%\begin{figure}[!hbt]
-%	\centering
-%	\includegraphics[width=0.35\textwidth]{graficos/PCB_mounted.pdf}
-%	\caption{Circuito impreso fabricado y montado en el kit de desarrollo utilizado como interfaz para el XBT.}
-%	\label{fig:PCB_montado}
-%\end{figure}
+\subsubsection{Simulaciones del circuito de dos fuentes de corriente}
 
+Se realizaron simulaciones del funcionamiento del circuito de dos fuentes de corriente. Los análisis llevados a cabo tienen como objetivo verificar el funcionamiento normal del diseño y su robustez frente a modificaciones en algunos de los resistores que forman parte del diseño.
+
+La estimación de la resistencia del termistor, $R_\text{th}$, que se desprende del circuito presentado en la FIG. \ref{fig_disenio_definitivo}, se obtiene mediante la expresión:
+
+%\vspace{10px}
+\begin{equation}
+\tilde{R}_\text{th} = \frac{V_\text{ai3} - V_\text{ai4}}{V_\text{ai1} - V_\text{ai3}} R_\text{aux}
+\label{ec:Rth_monio}
+\end{equation}
+%\vspace{10px}
+
+\noindent donde $V_\text{ai3} - V_\text{ai4}$ coincide con la tensión $V_\text{AB}$, que a su vez es la caída en $R_\text{th}$ cuando las corrientes por ambas ramas son iguales y el cociente $(V_\text{ai1} - V_\text{ai3})/R_\text{aux}$ es la estimación de la corriente por la rama que contiene al termistor. 
+
+La calidad de la estimación de la resistencia del termistor, $\tilde{R}_\text{th}$, depende fundamentalmente de la igualdad de las corrientes por ambas ramas y de que se garantice que ambos transistores están funcionando en MAD. Esto último puede dejar de cumplirse ante un aumento en las resistencias conectadas entre los colectores y el nodo común, con especial énfasis en la rama que contiene el termistor. 
+
+El valor de la corriente entregada por las fuentes de corriente se eligió para garantizar que, aún teniendo devanados cuya resistencia, $R_\text{lead}$ sea de 10 k$\Omega$, valor mayor que los que se encuentran en los XBT analizados, se evite caer en la región de saturación de los transistores. Esto se evidencia en la FIG. \ref{fig:sweep_Rlead}, que muestra un análisis del punto de operación del sistema, considerando una $R_\text{th}$ variable entre los límites de variación del termistor y un conjunto discreto de valores posibles de las $R_\text{lead}$, que se asumen apareadas en todo momento.
+
+\vspace{10px}
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=\textwidth]{graficos/Variacion_Rlead.pdf}
+	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_\text{lead}$.}
+	\label{fig:sweep_Rlead}
+\end{figure}
+\vspace{10px}
+
+La simulación mostrada se realizó considerando una resistencia equivalente del agua de mar, $R_\text{sw}$ de 1 $\Omega$, valor despreciable con respecto a las resistencias de cada una de las ramas. Como puede observarse, aún para $R_\text{lead} =$ 15 k$\Omega$, el cual resulta casi exagerado, es posible recuperar el valor de $R_\text{th}$ prácticamente en su valor real (en ausencia de otras fuentes de incerteza). 
+
+El análisis se repitió para $R_\text{lead}$ fija en 10 k$\Omega$ y una variación de $R_\text{sw}$ entre 1 $\Omega$ y 1 k$\Omega$. Este último valor se utilizó como margen de seguridad, ya que se supone mucho mayor que la resistencia efectiva del agua de mar entre el electrodo de contacto del XBT y el casco de la embarcación. Los resultados se muestran en la FIG. \ref{fig:sweep_Rsw}.
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=\textwidth]{graficos/Variacion_Rsw.pdf}
+	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_\text{sw}$.}
+	\label{fig:sweep_Rsw}
+\end{figure}
+
+Del mismo modo que para la variación de $R_\text{lead}$, se observa que la estimación de $R_\text{th}$ no se ve afectada para los distintos valores propuestos de $R_\text{sw}$. 
+
+Se realizaron, adicionalmente, análisis de sensibilidad teniendo en cuenta variaciones del conjunto de resistencias que conforman la malla de entrada de los transistores y que están intrínsecamente relacionadas con la determinación de las corrientes de ambas fuentes. 
+
+Inicialmente se simuló una variación las resistencia $R_2$ del divisor resistivo que determina la tensión en la bases de los transistores, con un margen de incerteza del 10\% respecto del valor nominal. Se consideró un valor para $R_1$, que permaneció fija, de 748 $\Omega$ (10\% mayor que su valor nominal, de 680 $\Omega$), ya que el efecto combinado de aumento de $R_1$ y la disminución de $R_2$ provoca un aumento de la corriente de las fuentes, lo que reduce el rango de posibles cargas que pueden conectarse en el colector de la rama que contiene al termistor. Los resultados se muestran en la FIG. \ref{fig:sweep_R2}
+
+\begin{figure}[!hbt]
+	\centering
+	\includegraphics[width=\textwidth]{graficos/Variacion_R2_con_R1_al_90porciento.pdf}
+	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_2$, considerando un incremento para $R_1$ del 10\% respecto de su valor nominal.}
+	\label{fig:sweep_R2}
+\end{figure}
+
+Se observa que para prácticamente todos los posibles valores de $R_2$, dentro del margen de incerteza propuesto, es posible recuperar $R_\text{th}$ con exactitud. Queda execptuado el caso de $R_2$ = 900 $\Omega$, donde se empieza a observar un corrimiento en la estimación para los valores mayores de $R_\text{th}$, como consecuencia de que la corriente, en la rama que contiene al termistor, no puede aumentar proporcionalmente a la caída en $R_E$, debido a que el transistor $Q_1$ deja de estar en MAD. Para el caso límite de $R_\text{th}$ = 18 k$\Omega$, la estimación obtenida arroja un valor de 17,65 k$\Omega$, el cual representa un error del 2\%, aproximadamente. Esto deja en evidencia la ventaja de utilizar el esquema de funcionamiento a lazo cerrado.
+
+Uno de los análisis más importantes para estudiar la robustez del prototipo implica la variación de las resistencias de emisor, $R_E$. La variación de una de ellas respecto de la otra (se las denominará, de ahora en adelante, $R_{E1}$ y $R_{E2}$) provoca que las corrientes de ambas fuentes no sean iguales, lo que degrada la estimación de $R_\text{th}$. En la FIG. \ref{fig:sweep_RE1} se muestra dicha estimación, en función del valor real de $R_\text{th}$, para varios valores posibles de $R_{E1}$ y considerando un valor de $R_{E2}$ igual al valor nominal de diseño.
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=\textwidth]{graficos/Variacion_RE1.pdf}
+	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_E1$, en torno al 10\% de su valor nominal.}
+	\label{fig:sweep_RE1}
+\end{figure}
+
+Se observa una variabilidad significativa en todo el rango de posibles valores de resistencia del termistor. Como el \textit{mismacth} de corrientes de ambas fuentes genera un corrimiento fijo en la estimación respecto del valor verdadero, su error relativo se incrementa para las resistencias de termistor más bajas (asociadas a temperaturas más altas). 
+
+Cuando se desea estimar un valor de $R_\text{th}$ del orden de los 3 k$\Omega$ ante un corrimiento del 10\% en el valor nominal de $R_{E1}$, el error relativo asciende al 32\%. Esto deja en evidencia la necesidad de abordar el esquema de funcionamiento a lazo cerrado, o a utilizar resistores de precisión, en vez de series de resistores y \textit{presets}, para las resistencias de emisor. Un resultado similar se obtiene cuando se analiza el desempeño del circuito ante variaciones de $R_{E2}$, manteniendo $R_{E1}$ fija. Esto se muestra en la FIG. \ref{fig:sweep_RE2}.
+
+
+ \begin{figure}[htpb]
+	\centering
+	\includegraphics[width=\textwidth]{graficos/Variacion_RE2.pdf}
+	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_E2$, en torno al 10\% de su valor nominal.}
+	\label{fig:sweep_RE2}
+\end{figure}
+
+
+
+
+
+\clearpage
 \subsection{Puente balanceado con JFET}
 
 Se analizó la conveniencia de utilizar una topología circuital descripta en la literatura \citep{STEGEN1975447} que forma parte de un sistema portátil de digitalización y registro XBT, desarrollado en la década del setenta. Si bien ha habido grandes avances tecnológicos, especialmente en el campo de la electrónica desde ese tiempo a la fecha, el principio de funcionamiento sigue siendo válido y aplicable en la actualidad si se reemplazan los componentes originales por componentes modernos, funcionalmente equivalentes.
@@ -532,60 +605,31 @@ Los amplificadores operacionales OA2, OA3 y OA4 funcionan en configuración ampli
 \end{figure}  
 
 
-
+\clearpage
 \section{ENSAYOS}
 \label{sec:simulación}
 
-\subsection{Simulaciones del circuito de dos fuentes de corriente}
+Se fabricó un lote de circuitos impresos de doble capa en material FR4 con el diseño del circuito con dos fuentes de corriente para evaluar su \textit{performance}.  El diseño del PCB y el routeo de componentes se realizó siguiendo recomendaciones generales para circuitos analógicos \citep{khandpur2006printed}. En la FIG. \ref{fig:PCB_montado} se observa un ejemplar de las placas fabricadas, con los componentes montados, integrada en el kit de desarrollo.
 
-Se realizaron simulaciones del funcionamiento del circuito de dos fuentes de corrientes presentado en la Sección \ref{subsec:2fuentes}. Los análisis llevados a cabo tienen como objetivo verificar el funcionamiento normal del diseño y su robustez frente a modificaciones en algunos de los resistores que forman parte del diseño.
+AGREGAR CONSIDERACIONES DE DISEÑO PARA EL PCB:\\
+ * MODO DE CONEXIÓN CON LA NUCLEO A TRAVÉS DE LOS HEADERS\\
+ * MODO DE ALIMENTACIÓN\\
+ * JUMPERS Y SELECTORES\\
+ * ENTRADA DE SEÑALES DE LA SONDA\\
+ 
 
-La estimación de la resistencia del termistor, $R_\text{th}$, que se desprende del circuito observado en la FIG. \ref{fig_disenio_definitivo}, se obtiene mediante la expresión:
-\begin{equation}
-\tilde{R}_\text{th} = \frac{V_\text{ai3} - V_\text{ai4}}{V_\text{ai1} - V_\text{ai3}} R_\text{aux}
-\label{ec:Rth_monio}
-\end{equation}
-donde $V_\text{ai3} - V_\text{ai4}$ coincide con la tensión $V_\text{AB}$, que a su vez es la caída en $R_\text{th}$ cuando las corrientes por ambas ramas son iguales y el cociente $(V_\text{ai1} - V_\text{ai3})/R_\text{aux}$ es la estimación de la corriente por la rama que contiene al termistor. La calidad de la estimación de la resistencia del termistor, $\tilde{R}_\text{th}$, depende fundamentalmente de la igualdad de las corrientes por ambas ramas y de que se garantice que ambos transistores están funcionando en MAD. Esto último puede dejar de cumplirse ante un aumento en las resistencias conectadas entre los colectores y el nodo común, con especial énfasis en la rama que contiene el termistor. El valor de la corriente entregada por las fuentes de corriente se eligió para garantizar que, aún teniendo devanados cuya resistencia, $R_\text{lead}$ sea de 10 k$\Omega$, valor mayor que los que se encuentran en los XBT analizados, se evite caer en la región de saturación de los transistores. Esto se evidencia en la FIG. \ref{fig:sweep_Rlead}, que muestra un análisis del punto de operación del sistema, considerando una $R_\text{th}$ variable entre los límites de variación del termistor y un conjunto discreto de valores posibles de $R_\text{lead}$, que se asumen apareadas en todo momento.
-\begin{figure}[!hbt]
+\begin{figure}[htpb]
 	\centering
-	\includegraphics[width=0.8\textwidth]{graficos/Variacion_Rlead.pdf}
-	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_\text{lead}$.}
-	\label{fig:sweep_Rlead}
-\end{figure}
-La simulación mostrada se realizó considerando una resistencia equivalente del agua de mar, $R_\text{sw}$ de 1 $\Omega$, valor despreciable con respecto a las resistencias de cada una de las ramas. Como puede observarse, aún para $R_\text{lead} =$ 15 k$\Omega$, el cual resulta casi exagerado, es posible recuperar el valor de $R_\text{th}$ prácticamente en su valor real (en ausencia de otras fuentes de incerteza). El análisis se repitió para $R_\text{lead}$ fija en 10 k$\Omega$ y una variación de $R_\text{sw}$ entre 1 $\Omega$ y 1 k$\Omega$. Este último valor se utilizó como margen de seguridad, ya que se supone mucho mayor que la resistencia efectiva del agua de mar entre el electrodo de contacto del XBT y el casco de la embarcación. Los resultados se muestran en la FIG. \ref{fig:sweep_Rsw}.
-\begin{figure}[!hbt]
-	\centering
-	\includegraphics[width=0.8\textwidth]{graficos/Variacion_Rsw.pdf}
-	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_\text{sw}$.}
-	\label{fig:sweep_Rsw}
-\end{figure}
-Del mismo modo que para la variación de $R_\text{lead}$, se observa que la estimación de $R_\text{th}$ no se ve afectada para los distintos valores propuestos de $R_\text{sw}$. Se realizaron, adicionalmente, análisis de sensibilidad teniendo en cuenta variaciones del conjunto de resistencias que conforman la malla de entrada de los transistores y que están intrínsecamente relacionadas con la determinación de las corrientes de ambas fuentes. Inicialmente se simuló una variación las resistencia $R_2$ del divisor resistivo que determina la tensión en la bases de los transistores, con un margen de incerteza del 10\% respecto del valor nominal. Se consideró un valor para $R_1$, que permaneció fija, de 748 $\Omega$ (10\% mayor que su valor nominal, de 680 $\Omega$), ya que el efecto combinado de aumento de $R_1$ y la disminución de $R_2$ provoca un aumento de la corriente de las fuentes, lo que reduce el rango de posibles cargas que pueden conectarse en el colector de la rama que contiene al termistor. Los resultados se muestran en la FIG. \ref{fig:sweep_R2}
-\begin{figure}[!hbt]
-	\centering
-	\includegraphics[width=0.8\textwidth]{graficos/Variacion_R2_con_R1_al_90porciento.pdf}
-	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_2$, considerando un incremento para $R_1$ del 10\% respecto de su valor nominal.}
-	\label{fig:sweep_R2}
-\end{figure}
-Se observa que para prácticamente todas los posibles valores de $R_2$, dentro del margen de incerteza propuesto, es posible recuperar $R_\text{th}$ con exactitud. Queda execptuado el caso de $R_2$ = 900 $\Omega$, donde se empieza a observar un corrimiento en la estimación para los valores mayores de $R_\text{th}$, como consecuencia de que la corriente, en la rama que contiene al termistor, no puede aumentar proporcionalmente a la caída en $R_E$, debido a que el transistor $Q_1$ deja de estar en MAD. Para el caso límite de $R_\text{th}$ = 18 k$\Omega$, la estimación obtenida arroja un valor de 17.65 k$\Omega$, el cual representa un error del 2\%, aproximadamente. Esto deja en evidencia la ventaja de utilizar el esquema de funcionamiento a lazo cerrado.
-
-Uno de los análisis más importantes para estudiar la robustez del prototipo implica la variación de las resistencias de emisor, $R_E$. La variación de una de ellas respecto de la otra (se las denominará, de ahora en adelante, $R_{E1}$ y $R_{E2}$) provoca que las corrientes de ambas fuentes no son iguales, lo que degrada la estimación de $R_\text{th}$. En la FIG. \ref{fig:sweep_RE1} se muestra dicha estimación, en función del valor real de $R_\text{th}$, para varios valores posibles de $R_{E1}$ y considerando un valor de $R_{E2}$ igual al valor nominal de diseño.
- \begin{figure}[!hbt]
-	\centering
-	\includegraphics[width=0.8\textwidth]{graficos/Variacion_RE1.pdf}
-	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_E1$, en torno al 10\% de su valor nominal.}
-	\label{fig:sweep_RE1}
-\end{figure}
-Se observa una variabilidad significativa en todo el rango de posibles valores de resistencia del termistor. Como el \textit{mismacth} de corrientes de ambas fuentes genera un corrimiento fijo en la estimación respecto del valor verdadero, su error relativo se incrementa para las resistencias de termistor más bajas (asociadas a temperaturas más altas). Cuando se desea estimar un valor de $R_\text{th}$ del orden de los 3 k$\Omega$ ante un corrimiento del 10\% en el valor nominal de $R_{E1}$, el error relativo asciende al 32\%. Esto deja en evidencia la necesidad de aborar el esquema de funcionamiento a lazo cerrado, o a utilizar resistores de precisión, en vez de series de resistores y presets, para las resistencias de emisor. Un resultado similar se obtiene cuando se analiza el desempeño del circuito ante variaciones de $R_{E2}$, manteniendo $R_{E1}$ fija. Esto se muestra en la FIG.
- \begin{figure}[!hbt]
-	\centering
-	\includegraphics[width=0.8\textwidth]{graficos/Variacion_RE2.pdf}
-	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_E2$, en torno al 10\% de su valor nominal.}
-	\label{fig:sweep_RE2}
+	\includegraphics[width=0.35\textwidth]{graficos/PCB_mounted.pdf}
+	\caption{Circuito impreso fabricado y montado en el kit de desarrollo utilizado como interfaz para el XBT.}
+	\label{fig:PCB_montado}
 \end{figure}
 
 \subsection{Ensayos de laboratorio}
 
-Se realizó un conjunto de ensayos sobre la solución circuital que emplea dos fuentes de corriente. Se usó el propio simulador de XBT incorporado en el circuito. Algunos resistores se midieron previamente a ser soldados al circuito impreso con un multímetro GW Instek GDM-396, disponible en el DPA, a efectos de obtener una mejor estimación de su resistencia. Se listan a continuación los valores medidos, y el resto de los resistores utilizados (se asume, en los casos restantes, que es válido el valor nominal). En todos los casos se usaron resistores de metalfilm al 1\%. Sus identificadores se corresponden con el esquemático de la FIG. \ref{fig:esquematico_disenio_dos_fuentes}.
+Se realizó un conjunto de ensayos sobre la solución circuital que emplea dos fuentes de corriente. Se usó el propio simulador de XBT incorporado en el circuito. Algunos resistores se midieron previamente a ser soldados al circuito impreso con un multímetro GW Instek GDM-396, disponible en el DPA, a efectos de obtener una mejor estimación de su resistencia. 
+
+Se listan a continuación los valores medidos, y el resto de los resistores utilizados (se asume, en los casos restantes, que es válido el valor nominal). En todos los casos se usaron resistores de metalfilm al 1\%. Sus identificadores se corresponden con el esquemático de la FIG. \ref{fig:esquematico_disenio_dos_fuentes}.
 
 \begin{table}[htpb]
 \centering
@@ -606,28 +650,33 @@ $R_8$ & $R_\text{lead}$ lado B & 5,6 k$\Omega$ & 5,57 k$\Omega$ \\
 $R_9$ & $R_\text{th}$ Temp. fija 1 & 15 k$\Omega$ & 14,88 k$\Omega$ \\
 $R_10$ & $R_\text{th}$ Temp. fija 2 & 6,8 k$\Omega$ & 14,88 k$\Omega$ \\
 
-
 \end{tabular}
 \end{table}
 
 Adicionalmente, se empleó un resistor de 12 M$\Omega$ para el canal que mide el nodo C y dos resistores de valor nominal 10 k$\Omega$ como resistores de derivación.
 
 Se armó un banco experimental formado por una fuente de laboratorio, mediante la que se alimentó el prototipo con 5 V, y un multímetro para medir las tensiones que registrarían las entradas analógicas del circuito digitalizador (no implementado en este ensayo). El banco se muestra en la FIG. \ref{fig:banco_exp}.
- \begin{figure}[!hbt]
+
+ \begin{figure}[htpb]
 	\centering
-	\includegraphics[width=0.96\textwidth]{graficos/banco_experimental.jpg}
+	\includegraphics[width=\textwidth]{graficos/banco_experimental.jpg}
 	\caption{Banco experimental para ensayar el prototipo de la solución circuital de dos fuentes de corriente.}
 	\label{fig:banco_exp}
 \end{figure}
 
 
-
 \subsection{Análisis de incertezas en la determinación de $R_\text{th}$}
 
-Una de las características fundamentales del registrador SIPPICAN es su baja incerteza, establecida en $\pm 0.2\:^\circ\text{C}$. La obtención de una medición de temperatura a través de la estimación de la resistencia del termistor de un XBT, $R_\text{th}$, con una tolerancia menor o igual que la lograda por el registrador original impone requerimientos de incerteza máxima para su determinación. Observando el comportamiento de la resistencia del termistor en función de la temperatura, expuesto en la FIG. \ref{fig:transferenciaXBT}, es posible establecer una cota máxima para la incerterza relativa en la determinación de $R_\text{th}$, como la menor de las incertezas relativas para todo el rango de funcionamiento. Esta cota se ubica en torno al 0.8 \%. Aplicando teoría de propagación de errores al estimador $\tilde{R}_\text{th}$, descripto a partir de la Ec. \eqref{ec:Rth_monio}, se obtiene:
+Una de las características fundamentales del registrador SIPPICAN es su baja incerteza, establecida en $\pm 0.2\:^\circ\text{C}$. La obtención de una medición de temperatura a través de la estimación de la resistencia del termistor de un XBT, $R_\text{th}$, con una tolerancia menor o igual que la lograda por el registrador original impone requerimientos de incerteza máxima para su determinación. 
+
+Observando el comportamiento de la resistencia del termistor en función de la temperatura, expuesto en la FIG. \ref{fig:transferenciaXBT}, es posible establecer una cota máxima para la incerterza relativa en la determinación de $R_\text{th}$, como la menor de las incertezas relativas para todo el rango de funcionamiento. Esta cota se ubica en torno al 0.8 \%. Aplicando teoría de propagación de errores al estimador $\tilde{R}_\text{th}$, descripto a partir de la Ec. \eqref{ec:Rth_monio}, se obtiene:
 
 \begin{equation}
 \varepsilon_{\tilde{R}_\text{th}} = \varepsilon_{V_\text{AB}} + \varepsilon_{V_\text{ai1,ai3}} + \varepsilon_{R_\text{aux}}
 \end{equation}
 
-\noindent donde cada término representa la incerteza relativa vinculada a cada una de las variables que determinan el valor de $\tilde{R}_\text{th}$. Las incertezas de cada variable deben ser tales que su suma sea menor que 0,8 \%. La incerteza $\varepsilon_{R_\text{aux}}$ puede establecerse en torno al 0,1 \% si se utilizan resistores de precisión. Las tensiones $V_\text{AB}$ y $V_\text{ai1,ai3}$ se obtienen restando tensiones en nodos individuales respecto del nodo común, las cuales se registran a través de las entradas analógicas del circuito digitalizador. Las entradas de un conversor A/D tienen una incerteza absoluta que es característica del microprosador utilizado, y  depende del modo de funcionamiento, el rango de tensiones máximas con el cual digitaliza y de las características del circuito impreso en el que está montado. Para el kit de desarrollo propuesto, que está provisto de conversores A/D de 12 bits, es posible establecer la incerteza absoluta de una medición individual en 4 cuentas (o bits menos significativos, LSBs) \citep{AN4073}, que, para una tensión de alimentación del microprocesador de 3,3 V, se traduce en una dispersión de 3,22 mV. Esto conduce a incertezas absolutas, para mediciones diferenciales, de 6,44 mV.
+\noindent donde cada término representa la incerteza relativa vinculada a cada una de las variables que determinan el valor de $\tilde{R}_\text{th}$. Las incertezas de cada variable deben ser tales que su suma sea menor que 0,8 \%. La incerteza $\varepsilon_{R_\text{aux}}$ puede establecerse en torno al 0,1 \% si se utilizan resistores de precisión. Las tensiones $V_\text{AB}$ y $V_\text{ai1,ai3}$ se obtienen restando tensiones en nodos individuales respecto del nodo común, las cuales se registran a través de las entradas analógicas del circuito digitalizador. 
+
+Las entradas de un conversor A/D tienen una incerteza absoluta que es característica del microprocesador utilizado, y  depende del modo de funcionamiento, el rango de tensiones máximas con el cual digitaliza y de las características del circuito impreso en el que está montado. 
+
+Para el kit de desarrollo propuesto, que está provisto de conversores A/D de 12 bits, es posible establecer la incerteza absoluta de una medición individual en 4 cuentas (o bits menos significativos, LSBs) \citep{AN4073}, que, para una tensión de alimentación del microprocesador de 3,3 V, se traduce en una dispersión de 3,22 mV. Esto conduce a incertezas absolutas, para mediciones diferenciales, de 6,44 mV.
