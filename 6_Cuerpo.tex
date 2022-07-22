@@ -326,6 +326,7 @@ El diseño del circuito acondicionador \textit{scaling substractor} tiene un prob
 \end{figure}
 
 \subsubsection{Amplificador diferencial con \textit{buffers} de entrada}
+\label{subsubsec:ampDiferencial}
 
 El segundo diseño considerado para funcionar en conjunto con el registrador Sippican trabaja en modo diferencial, es decir, tomando dos señales del puente Sippican en lugar de solo una. Esta característica lo hace particularmente adecuado para descartar las contribuciones de las $R_{lead}$ y superar las limitaciones del diseño basado en el \textit{scaling-substractor} antes mencionadas.  Asimismo, incorpora un segundo \textit{buffer} de entrada para desacoplar impedancias.
 
@@ -476,8 +477,6 @@ En el modo de funcionamiento a lazo cerrado (bases conectadas a la posición 2 de
 
 Es importante destacar que para que las salidas analógicas puedan conectarse a las bases de transistores PNP, se debe utilizar resistencias de derivación, conectadas a la base, para evitar corrientes entrantes (ver resistencias $R_\text{d1}$ y $R_\text{d2}$ en la FIG. \ref{fig_disenio_definitivo}).
 
-
-
 Como fuera mencionado anteriormente, tanto en modo \textit{reload} o en modo \textit{launch} las ramas de ambos colectores están abiertas, es decir, sin un camino hacia tierra. Ambos transistores dejan de estar en MAD y la tensión $V_{EC}$ en cada uno de ellos vale cero. Al no haber corriente saliendo por los colectores, las caídas de tensión en las resistencias $R_\text{aux}$ son nulas, lo que permite detectar que el sistema no está midiendo. En este caso, las cuatro entradas analógicas perciben una tensión igual a $V_{CC} - V_{RE}$, que para las condiciones de diseño está entre 3,6 V y 3,8 V. Estos valores están dentro de los márgenes de seguridad de máxima tensión admisible para entradas de microcontroladores que trabajan con 3,3 V. 
 
 Para que el sistema logre diferenciar el modo \textit{launch} del modo \textit{reload}, se decidió que la entrada analógica que sensa el terminal ubicado aguas abajo de la resistencia $R_\text{aux}$, en la rama que no contiene al termistor (indicada como AI4 en la FIG. \ref{fig_disenio_definitivo}), se conecte al nodo C del XBT. De esta forma, sólo existe una conexión eléctrica al terminal inferior de $R_\text{aux}$ cuando el XBT está conectado (modo \textit{launch}). 
@@ -524,25 +523,27 @@ La calidad de la estimación de la resistencia del termistor, $\tilde{R}_\text{th
 
 El valor de la corriente entregada por las fuentes de corriente se eligió para garantizar que, aún teniendo devanados cuya resistencia, $R_\text{lead}$ sea de 10 k$\Omega$, valor mayor que los que se encuentran en los XBT analizados, se evite caer en la región de saturación de los transistores. Esto se evidencia en la FIG. \ref{fig:sweep_Rlead}, que muestra un análisis del punto de operación del sistema, considerando una $R_\text{th}$ variable entre los límites de variación del termistor y un conjunto discreto de valores posibles de las $R_\text{lead}$, que se asumen apareadas en todo momento.
 
-\vspace{10px}
+\vspace{30px}
 \begin{figure}[htpb]
 	\centering
 	\includegraphics[width=\textwidth]{graficos/Variacion_Rlead.pdf}
 	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_\text{lead}$.}
 	\label{fig:sweep_Rlead}
 \end{figure}
-\vspace{10px}
+\vspace{30px}
 
 La simulación mostrada se realizó considerando una resistencia equivalente del agua de mar, $R_\text{sw}$ de 1 $\Omega$, valor despreciable con respecto a las resistencias de cada una de las ramas. Como puede observarse, aún para $R_\text{lead} =$ 15 k$\Omega$, el cual resulta casi exagerado, es posible recuperar el valor de $R_\text{th}$ prácticamente en su valor real (en ausencia de otras fuentes de incerteza). 
 
 El análisis se repitió para $R_\text{lead}$ fija en 10 k$\Omega$ y una variación de $R_\text{sw}$ entre 1 $\Omega$ y 1 k$\Omega$. Este último valor se utilizó como margen de seguridad, ya que se supone mucho mayor que la resistencia efectiva del agua de mar entre el electrodo de contacto del XBT y el casco de la embarcación. Los resultados se muestran en la FIG. \ref{fig:sweep_Rsw}.
 
+\vspace{30px}
 \begin{figure}[htpb]
 	\centering
 	\includegraphics[width=\textwidth]{graficos/Variacion_Rsw.pdf}
 	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_\text{sw}$.}
 	\label{fig:sweep_Rsw}
 \end{figure}
+\vspace{30px}
 
 Del mismo modo que para la variación de $R_\text{lead}$, se observa que la estimación de $R_\text{th}$ no se ve afectada para los distintos valores propuestos de $R_\text{sw}$. 
 
@@ -550,12 +551,14 @@ Se realizaron, adicionalmente, análisis de sensibilidad teniendo en cuenta varia
 
 Inicialmente se simuló una variación las resistencia $R_2$ del divisor resistivo que determina la tensión en la bases de los transistores, con un margen de incerteza del 10\% respecto del valor nominal. Se consideró un valor para $R_1$, que permaneció fija, de 748 $\Omega$ (10\% mayor que su valor nominal, de 680 $\Omega$), ya que el efecto combinado de aumento de $R_1$ y la disminución de $R_2$ provoca un aumento de la corriente de las fuentes, lo que reduce el rango de posibles cargas que pueden conectarse en el colector de la rama que contiene al termistor. Los resultados se muestran en la FIG. \ref{fig:sweep_R2}
 
+\vspace{30px}
 \begin{figure}[!hbt]
 	\centering
 	\includegraphics[width=\textwidth]{graficos/Variacion_R2_con_R1_al_90porciento.pdf}
 	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_2$, considerando un incremento para $R_1$ del 10\% respecto de su valor nominal.}
 	\label{fig:sweep_R2}
 \end{figure}
+\vspace{30px}
 
 Se observa que para prácticamente todos los posibles valores de $R_2$, dentro del margen de incerteza propuesto, es posible recuperar $R_\text{th}$ con exactitud. Queda execptuado el caso de $R_2$ = 900 $\Omega$, donde se empieza a observar un corrimiento en la estimación para los valores mayores de $R_\text{th}$, como consecuencia de que la corriente, en la rama que contiene al termistor, no puede aumentar proporcionalmente a la caída en $R_E$, debido a que el transistor $Q_1$ deja de estar en MAD. Para el caso límite de $R_\text{th}$ = 18 k$\Omega$, la estimación obtenida arroja un valor de 17,65 k$\Omega$, el cual representa un error del 2\%, aproximadamente. Esto deja en evidencia la ventaja de utilizar el esquema de funcionamiento a lazo cerrado.
 
@@ -585,28 +588,61 @@ Cuando se desea estimar un valor de $R_\text{th}$ del orden de los 3 k$\Omega$ a
 
 
 \clearpage
-\subsection{Puente balanceado con JFET}
+\subsection{Puente balanceado JFET}
 
 Se analizó la conveniencia de utilizar una topología circuital descripta en la literatura \citep{STEGEN1975447} que forma parte de un sistema portátil de digitalización y registro XBT, desarrollado en la década del setenta. Si bien ha habido grandes avances tecnológicos, especialmente en el campo de la electrónica desde ese tiempo a la fecha, el principio de funcionamiento sigue siendo válido y aplicable en la actualidad si se reemplazan los componentes originales por componentes modernos, funcionalmente equivalentes.
 
 El circuito analizado es un puente auto-balanceado que utiliza un transistor de efecto de campo, JFET, realimentado, para ``copiar'' permanentemente el valor de la resistencia del termistor en la sonda XBT y producir una tensión de salida linealmente proporcional a esta en todo su rango de operación. 
 
-En la FIG. \ref{fig:stegen}, se muestra un circuito esquemático simplificado en el que se puede apreciar el puente auto-balanceado conectado al circuito equivalente eléctrico de la sonda XBT, representado por el resistor del termistor y dos resistores de 5 k$\Omega$ para las resistencias de los devanados que el fabricante garantiza que se encuentran precisamente apareados.  Asimismo, dentro del circuito del puente se pueden distinguir diferentes sub-componentes a saber: una fuente de corriente constante, un amplificador operacional que controla el \textit{gate} del transistor JFET Q1 y un conjunto de amplificadores operacionales para extraer una tensión proporcional al valor de resitencia del termistor sin afectar el balance ni el normal funcionamiento del puente.
-
-Se puede observar en el circuito que se utiliza una fuente de corriente constante con el transistor Q1 polarizado para suministrar $I_S = 250\; \mu A$. Esta corriente se reparte en partes iguales por las dos ramas del puente debido a que la suma de las impedancias de cada rama está precisamente apareada por diseño. Para que esto se cumpla, se deben utilizar resistores de precisión para los resistores de 10 K$\Omega$ en la parte superior del puente, con bajo valor de dispersión respecto a su valor nominal.
-
-El amplificador operacional OA1 sensa la diferencia de potencial entre los puntos indicados como A y B del circuito y fuerza la resistencia del transistor Q2 a igualar la resistencia del termistor y así el puente permanece balanceado.  Debido a que la corriente por Q2 es constante e igual a $0,5 \cdot I_S$, su resistencia se puede obtener midiendo la tensión entre \textit{drain} y \textit{source}, $V_{ds}$. 
-
-Los amplificadores operacionales OA2, OA3 y OA4 funcionan en configuración amplificador diferencial con \textit{buffers} de entrada para no afectar el equilibrio del puente y producen una salida de tensión proporcional a la resistencia del transistor Q2.
-
-Este diseño tiene la ventaja de producir una tensión linealmente proporcional al valor de resistencia del termistor
+En la FIG. \ref{fig:stegen}, se muestra un circuito esquemático simplificado en el que se puede apreciar el puente auto-balanceado conectado al circuito equivalente eléctrico de la sonda XBT, representado por el resistor del termistor y dos resistores para las resistencias de los devanados que el fabricante garantiza que se encuentran precisamente apareados en un valor próximo a 5 k$\Omega$.  
 
 \begin{figure}[htpb]
 	\centering
-	\includegraphics[width=0.7\textwidth]{graficos/self_balancing_bridge.png}
+	\includegraphics[width=0.75\textwidth]{graficos/self_balancing_bridge.png}
 	\caption{Diagrama esquemático del circuito puente auto-balanceado.}
 	\label{fig:stegen}
 \end{figure}  
+
+El circuito del puente esta formado por diferentes sub-bloques, a saber: una fuente de corriente constante , un amplificador operacional que controla el \textit{gate} del transistor JFET Q2 y un conjunto de amplificadores operacionales para extraer una tensión proporcional al valor de resistencia del termistor sin afectar el balance ni el normal funcionamiento del puente.
+
+La fuente de corriente constante se implementa con el transistor Q1, polarizado para suministrar $I_S = 250\; \mu A$. Esta corriente se reparte en partes iguales por las dos ramas del puente debido a que la suma de las impedancias de cada rama está precisamente apareada por diseño. Para que esto se cumpla, los resistores de 10 K$\Omega$ en la parte superior del puente deben ser elementos de precisión, con baja dispersión en su resistencia respecto al valor nominal.
+
+El amplificador operacional OA1 sensa la diferencia de potencial entre los puntos indicados como A y B del circuito y fuerza la resistencia del transistor Q2 a igualar la resistencia del termistor y así el puente permanece balanceado.  Debido a que la corriente por Q2 es constante e igual a $0,5 \cdot I_S$, su resistencia se puede obtener midiendo la tensión entre \textit{drain} y \textit{source}, $V_{DS}$. 
+
+Los amplificadores operacionales OA2, OA3 y OA4 funcionan en configuración amplificador diferencial con \textit{buffers} de entrada  y producen una salida de tensión proporcional a la resistencia del transistor Q2 sinafectar el equilibrio del puente. Esta configuración también se utiliza en el circuito descripto en la sección \ref{subsubsec:ampDiferencial} y se puede ver en la FIG. \ref{fig:opAmp_diferencial_2}.  
+
+La salida del amplificador diferencial con \textit{buffers} de entrada se indica en el circuito como OUTPUT y puede demostrarse que cuando los cuatro resistores en torno a AO4 tienen el mismo valor, es igual a:
+
+\begin{equation}
+OUTPUT = V_D - V_S,
+\end{equation} 
+
+\noindent la diferencia de potencial entre \textit{drain} y \textit{source} del transistor JFET, Q2.
+
+En la FIG. \ref{fig:puenteJFET} se presenta el circuito esquemático completo del puente.  Se puede apreciar que los amplificadores operacionales del puente utilizan alimentación $\pm15 V.$, lo cual le agrega mayor complejidad al diseño que requerirá una fuente de alimentación partida frente a los diseños que utilizan fuente simple con un único valor positivo.
+
+\vspace{2cm}
+NOTAS PARA CONTINUAR:
+
+TBJ 2N3645 Q1
+
+JFET 2N3823 en reemplazo del TIS34
+
+UA741 opAmp cuádruple
+
+Estimación de Rth como Vout/(1/2*Is) = Vout/127,65 uA
+
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.9\textwidth]{graficos/puenteJfet.png}
+	\caption{Circuito esquemático completo del puente auto-balanceado con valores de componentes actuales.}
+	\label{fig:puenteJFET}
+\end{figure}  
+
+%Este diseño tiene la ventaja de producir una tensión linealmente proporcional al valor de resistencia del termistor para todo el rango de temperatura.
+
+
 
 
 \clearpage
