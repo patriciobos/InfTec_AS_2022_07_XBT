@@ -576,7 +576,7 @@ Se observa una variabilidad significativa en todo el rango de posibles valores d
 Cuando se desea estimar un valor de $R_\text{th}$ del orden de los 3 k$\Omega$ ante un corrimiento del 10\% en el valor nominal de $R_{E1}$, el error relativo asciende al 32\%. Esto deja en evidencia la necesidad de abordar el esquema de funcionamiento a lazo cerrado, o a utilizar resistores de precisión, en vez de series de resistores y \textit{presets}, para las resistencias de emisor. Un resultado similar se obtiene cuando se analiza el desempeño del circuito ante variaciones de $R_{E2}$, manteniendo $R_{E1}$ fija. Esto se muestra en la FIG. \ref{fig:sweep_RE2}.
 
 
- \begin{figure}[htpb]
+\begin{figure}[htpb]
 	\centering
 	\includegraphics[width=\textwidth]{graficos/Variacion_RE2.pdf}
 	\caption{Estimación de $R_\text{th}$ para distintos valores de $R_E2$, en torno al 10\% de su valor nominal.}
@@ -609,24 +609,24 @@ La fuente de corriente constante se implementa con el transistor Q1, polarizado 
 
 El amplificador operacional OA1 sensa la diferencia de potencial entre los puntos indicados como A y B del circuito y fuerza la resistencia del transistor Q2 a igualar la resistencia del termistor y así el puente permanece balanceado.  Debido a que la corriente por Q2 es constante e igual a $0,5 \cdot I_S$, su resistencia se puede obtener midiendo la tensión entre \textit{drain} y \textit{source}, $V_{DS}$. 
 
-Los amplificadores operacionales OA2, OA3 y OA4 funcionan en configuración amplificador diferencial con \textit{buffers} de entrada  y producen una salida de tensión proporcional a la resistencia del transistor Q2 sinafectar el equilibrio del puente. Esta configuración también se utiliza en el circuito descripto en la sección \ref{subsubsec:ampDiferencial} y se puede ver en la FIG. \ref{fig:opAmp_diferencial_2}.  
+El amplificador operacional OA4 funciona en configuración amplificador diferencial con los amplificadores operacionales OA2 y OA3 en configuración de \textit{buffers} de entrada y el conjunto produce una salida de tensión proporcional a la resistencia del transistor Q2 sin afectar el equilibrio del puente. Esta configuración también se utiliza en el circuito descripto en la sección \ref{subsubsec:ampDiferencial} y se puede ver en la FIG. \ref{fig:opAmp_diferencial_2}.  
 
-La salida del amplificador diferencial con \textit{buffers} de entrada se indica en el circuito como OUTPUT y puede demostrarse que cuando los cuatro resistores en torno a AO4 tienen el mismo valor, es igual a:
+La salida del circuito se indica como OUTPUT y puede demostrarse que cuando los cuatro resistores en torno a OA4 tienen el mismo valor, es igual a:
 
 \begin{equation}
 OUTPUT = V_D - V_S,
 \end{equation} 
 
-\noindent la diferencia de potencial entre \textit{drain} y \textit{source} del transistor JFET, Q2.
+\noindent la diferencia de potencial entre \textit{drain} y \textit{source} del transistor JFET, Q2, que a su vez es igual a la caída de potencial en el resistor del elemento sensor de la sonda XBT, $V_{THERMISTOR}$.
 
 En la FIG. \ref{fig:puenteJFET} se presenta el circuito esquemático completo del puente.  Se puede apreciar que los amplificadores operacionales del puente utilizan alimentación $\pm15 V.$, lo cual le agrega mayor complejidad al diseño que requerirá una fuente de alimentación partida frente a los diseños que utilizan fuente simple con un único valor positivo.
+
+El transistor Q1 que se utiliza en la fuente de corriente, es un transistor bipolar de juntura tipo PNP de pequeña señal para propósitos generales.  Se utiliza para las simulaciones el modelo original 2N3645 que se puede reemplazar por un componente activo equivalente como el transistor 2N2907A \citep{2N2907A}, entre otros.
 
 \vspace{2cm}
 NOTAS PARA CONTINUAR:
 
-TBJ 2N3645 Q1
-
-JFET 2N3823 en reemplazo del TIS34
+Asimismo, en en circuito JFET 2N3823 en reemplazo del TIS34
 
 UA741 opAmp cuádruple
 
