@@ -617,29 +617,65 @@ La salida del circuito se indica como OUTPUT y puede demostrarse que cuando los 
 OUTPUT = V_D - V_S,
 \end{equation} 
 
-\noindent la diferencia de potencial entre \textit{drain} y \textit{source} del transistor JFET, Q2, que a su vez es igual a la caída de potencial en el resistor del elemento sensor de la sonda XBT, $V_{THERMISTOR}$.
+\noindent la diferencia de potencial entre \textit{drain} y \textit{source} del transistor JFET  Q2, que a su vez es igual a la caída de potencial en el elemento sensor de la sonda XBT, indicado como un resistor con referencia THERMISTOR en la FIG. \ref{fig:stegen}.
 
 En la FIG. \ref{fig:puenteJFET} se presenta el circuito esquemático completo del puente.  Se puede apreciar que los amplificadores operacionales del puente utilizan alimentación $\pm15 V.$, lo cual le agrega mayor complejidad al diseño que requerirá una fuente de alimentación partida frente a los diseños que utilizan fuente simple con un único valor positivo.
 
-El transistor Q1 que se utiliza en la fuente de corriente, es un transistor bipolar de juntura tipo PNP de pequeña señal para propósitos generales.  Se utiliza para las simulaciones el modelo original 2N3645 que se puede reemplazar por un componente activo equivalente como el transistor 2N2907A \citep{2N2907A}, entre otros.
+El transistor Q1 que se utiliza en la fuente de corriente, es un transistor bipolar de juntura tipo PNP de pequeña señal para propósitos generales.  Se utiliza para las simulaciones el modelo del diseño original, 2N3645.  Este modelo se encuentra discontinuado y se puede reemplazar por un componente activo equivalente como el transistor 2N2907A, fabricado por la empresa OnSemi \citep{2N2907A}, u otro transistor PNP de propósitos generales.
 
-\vspace{2cm}
-NOTAS PARA CONTINUAR:
+El transistor Q2 que se utiliza para ``copiar'' la caída te tensión en el termistor es un transistor de efecto de campo JFET de canal inducido tipo N para aplicaciones de pequeña señal.  El modelo incluido en el diseño original TIS34, fabricado por la empresa Texas Instruments, se encuentra discontinuado y puede reemplazarse por un componente activo como el modelo 2N3823 de la empresa Microchip Technology, u otro de características equivalentes.
 
-Asimismo, en en circuito JFET 2N3823 en reemplazo del TIS34
-
-UA741 opAmp cuádruple
-
-Estimación de Rth como Vout/(1/2*Is) = Vout/127,65 uA
-
+Los cuatro amplificadores operacionales que implementan el amplificador diferencial, los dos  \textit{buffers} de entrada y la realimentación para el transistor Q2, son apmlificadores operacionales de propósitos generales.  El diseño original utiliza el modelo UA747 de Texas Instrument que cuenta con dos op-amps en un mismo encapsulado y tiene dos versiones, UA747C y UA747M, con especificaciones para uso civil y militar, respectivamente.  Este modelo sigue activo y disponible en el mercado de semiconductores, por lo que puede utilizarse en nuevos diseños.  Debe evaluarse la conveniencia de utilizar un modelo cuádruple, con cuatro op-amps en un mismo encapsulado para aumentar el grado de integración del circuito.  
 
 \begin{figure}[htpb]
 	\centering
-	\includegraphics[width=0.9\textwidth]{graficos/puenteJfet.png}
+	\includegraphics[width=\textwidth]{graficos/puenteJfet.png}
 	\caption{Circuito esquemático completo del puente auto-balanceado con valores de componentes actuales.}
 	\label{fig:puenteJFET}
 \end{figure}  
 
+\clearpage
+
+La estimación del valor de resistencia del termistor, Rth se calcula como:
+
+\begin{equation}
+R_{th} = \frac{V_{out}}{0,5 \cdot I_s} =  \frac{V_{out}}{127,5 \; \mu A}
+\label{ec:puenteJFET_estimacionRth}
+\end{equation} 
+
+\noindent donde $I_s$ es un parámetro de diseño conocido que depende de las características de Q1 y para el circuito de la FIG. \ref{fig:puenteJFET} se estima igual a 255 $\mu$A.
+
+En la FIG. \ref{fig:puenteJFET_estimacionRth} se grafica un barrido paramétrico para todo el rango de valores de resistencia del termistor de la estimación de $R_{th}$ en función de $V_{out}$ e $I_S$, de acuerdo a la EC. \ref{ec:puenteJFET_estimacionRth}.  Se puede apreciar que la estimación  es cerca a la identidad cuando se conoce el valor de $I_S$ con precisión.
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=.9\textwidth]{graficos/puenteJFET_estimacionRth.png}
+	\caption{Estimación de $R_{th}$ a partir de la salida $V_{out}$ e $I_S$ en el circuito puente JFET.}
+	\label{fig:puenteJFET_estimacionRth}
+\end{figure}  
+
+En la FIG. \ref{fig:puenteJFET_errorRth} se muestra el error relativo en la estimación de $R_{th}$, para todo el rango de valores operativo de las sonda XBT.  El error relativo máximo se da para $R_{th} = 3 k\Omega$ y es igual a 0,267.
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=.9\textwidth]{graficos/puenteJFET_errorRth.png}
+	\caption{Error relativo en la estimación de $R_{th}$ para todo el rango de valores de resistencia del termistor.}
+	\label{fig:puenteJFET_errorRth}
+\end{figure}
+
+%En la Tabla
+%
+%\begin{table}[htpb]
+%\centering
+%\caption{Error relativo en la estimación de $R_{th}$ para el circuito puente balanceado JFET.}
+%\label{tabla:puenteJFET_estimacionRth}
+%\begin{tabular}{c|c|c}
+%R_{th} real & R_{th} estimada & Error relativo \\ \hline
+%3 k$\Omega$  & 3,00801 k$\Omega$ & 0,267 \%\\
+%3 k$\Omega$  & 3,00801 k$\Omega$ & 0,267 \%\\
+%18 k$\Omega$  & 18,04158 k$\Omega$ & 0,079 \%\\
+%\end{tabular}
+%\end{table}
 %Este diseño tiene la ventaja de producir una tensión linealmente proporcional al valor de resistencia del termistor para todo el rango de temperatura.
 
 
