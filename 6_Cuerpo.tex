@@ -146,7 +146,7 @@ En la figura \ref{fig:probe} se puede observar, a la izquierda, una vista de des
 \begin{figure}[htpb]
 \centering
 \includegraphics[width=.6\textwidth]{graficos/ProbeXBT.pdf}
-\caption{\underline{Izquierda:} vista de los componentes de un XBT, figura tomada del manual \citep{sippican}. \underline{Derecha:} foto de un XBT real.}
+\caption{\underline{Izquierda:} esquema de los componentes de un XBT, figura tomada y modificada del manual \citep{sippican}. \underline{Derecha:} foto de un XBT real.}
 \label{fig:probe}
 \end{figure}
 
@@ -177,11 +177,6 @@ T-5			& $H = 6,828\cdot t - 0,00182\cdot t^2$ & 1830	& 290,6 \\
 T-11		& $H = 1,7779\cdot t - 0,000255\cdot t^2$ & 460	& 232,3 \\
 \end{tabular}
 \end{table}
-
-%\vspace{1cm}
-%
-%
-%\vspace{1cm}
 
 La sonda XBT posee un termistor tipo NTC (\textit{Negative Temperature Coefficient}). El valor de resistencia del termistor disminuye a medida que la temperatura asciende y se observa un comportamiento cuasi inversamente proporcional a la suma de $R_{TH}$ y 5607,4 $\Omega$. El fabricante indica la transferencia del termistor presente en las sondas XBT a través de un conjunto de pares temperatura-resistencia que se muestran en la tabla \ref{tabla:transferencia}.
 
@@ -645,7 +640,7 @@ R_{th} = \frac{V_{out}}{0,5 \cdot I_s} =  \frac{V_{out}}{127,5 \; \mu A}
 
 \noindent donde $I_s$ es un parámetro de diseño conocido que depende de las características de Q1 y para el circuito de la FIG. \ref{fig:puenteJFET} se estima igual a 255 $\mu$A.
 
-En la FIG. \ref{fig:puenteJFET_estimacionRth} se grafica un barrido paramétrico para todo el rango de valores de resistencia del termistor de la estimación de $R_{th}$ en función de $V_{out}$ e $I_S$, de acuerdo a la EC. \ref{ec:puenteJFET_estimacionRth}.  Se puede apreciar que la estimación  es cerca a la identidad cuando se conoce el valor de $I_S$ con precisión.
+En la FIG. \ref{fig:puenteJFET_estimacionRth} se grafica un barrido paramétrico para todo el rango de valores de resistencia del termistor de la estimación de $R_{th}$ en función de $V_{out}$ e $I_S$, de acuerdo a la EC. \ref{ec:puenteJFET_estimacionRth}.  Se puede apreciar que la estimación es cercana a la identidad cuando se conoce el valor de $I_S$ con precisión.
 
 \begin{figure}[htpb]
 	\centering
@@ -654,7 +649,7 @@ En la FIG. \ref{fig:puenteJFET_estimacionRth} se grafica un barrido paramétrico 
 	\label{fig:puenteJFET_estimacionRth}
 \end{figure}  
 
-En la FIG. \ref{fig:puenteJFET_errorRth} se muestra el error relativo en la estimación de $R_{th}$, para todo el rango de valores operativo de las sonda XBT.  El error relativo máximo se da para $R_{th} = 3 k\Omega$ y es igual a 0,267.
+En la FIG. \ref{fig:puenteJFET_errorRth} se muestra el error relativo en la estimación de $R_{th}$, para todo el rango de valores operativos de las sonda XBT.  El error relativo máximo se da para $R_{th} = 3\;k\Omega$ y es igual a 0,267.
 
 \begin{figure}[htpb]
 	\centering
