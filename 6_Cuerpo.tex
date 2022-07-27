@@ -415,7 +415,7 @@ R_{th} = \frac{V_\text{AB}}{I}
 
 Las fuentes de corriente se diseñaron utilizando dos transistores bipolares PNP con resistencia de emisor y provistos de una tensión conocida en la base, tal como se observa en la representación de la FIG. \ref{fig_disenio_definitivo_preliminar}.
 
-\begin{figure}[htpb]
+\begin{figure}[htb]
 	\centering
 	\includegraphics[width=0.7\textwidth]{graficos/Disenio_definitivo_preliminar.pdf}
 	\caption{Implementación de las fuentes de corriente con transistores PNP con resistencia de emisor y tensión conocida en la base.}
@@ -455,9 +455,9 @@ El diseño se corrigió ligeramente para obtener un margen de seguridad en la excu
 
 Para el ajuste de la tensión $V_{BB}$ se contemplaron dos esquemas de funcionamiento, a lazo abierto y a lazo cerrado utilizando las salidas analógicas del kit NUCLEO-STM32F429ZI. Estos esquemas son seleccionables a través de una llave selectora doble que conecta las bases de los transistores Q1 y Q2 a un circuito u otro, alternativamente, como se puede observar en la FIG. \ref{fig_disenio_definitivo}.
 
-\begin{figure}[htpb]
+\begin{figure}[htb]
 	\centering
-	\includegraphics[width=.75\textwidth]{graficos/Disenio_definitivo_preliminar_2.pdf}
+	\includegraphics[width=.8\textwidth]{graficos/Disenio_definitivo_preliminar_2.pdf}
 	\caption{Diseño con dos fuentes de corriente, en el que se incluyen los dos esquemas de funcionamiento: la determinación de $V_{BB}$ mediante un divisor resistivo y a través de salidas analógicas del dispositivo adquisidor.}
 	\label{fig_disenio_definitivo}
 \end{figure}
@@ -681,7 +681,7 @@ En la FIG. \ref{fig:puenteJFET_errorRth} se muestra el error relativo en la esti
 \section{ENSAYOS}
 \label{sec:simulación}
 
-Se fabricó un lote de circuitos impresos de doble capa en material FR4 con el diseño del circuito con dos fuentes de corriente para evaluar su \textit{performance}.  El diseño del PCB y el routeo de componentes se realizó siguiendo recomendaciones generales para circuitos analógicos \citep{khandpur2006printed}. En la FIG. \ref{fig:PCB_montado} se observa un ejemplar de las placas fabricadas, con los componentes montados, integrada en el kit de desarrollo.
+Se fabricó un lote de circuitos impresos de doble capa en material FR4 con el diseño del circuito con dos fuentes de corriente para evaluar su desempeño.  El diseño del PCB y el routeo de componentes se realizó siguiendo recomendaciones generales para circuitos analógicos \citep{khandpur2006printed}. En la FIG. \ref{fig:PCB_montado} se observa un ejemplar de las placas fabricadas, con los componentes montados, integrada en el kit de desarrollo.
 
 AGREGAR CONSIDERACIONES DE DISEÑO PARA EL PCB:\\
  * MODO DE CONEXIÓN CON LA NUCLEO A TRAVÉS DE LOS HEADERS\\
