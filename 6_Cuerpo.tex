@@ -480,11 +480,11 @@ En modo \textit{reload} la entrada AI4 queda desconectada y, en caso de que se l
 
 Los nodos de sensado se vincularon a las entradas analógicas a través de amplificadores operacionales en modo seguidor por emisor. Se utilizó el integrado LM324, que contiene cuatro \textit{op-amps} que funcionan con alimentación simple (sólo tensión positiva) y admiten tensiones de salida mínimas muy cercanas a 0 V. Para los transistores se eligió el modelo 2N3906, un transistor bipolar PNP de uso general para aplicaciones de baja potencia.
 
-En la FIG. \ref{fig:esquematico_disenio_dos_fuentes} se muestra el circuito esquemático completo, diseñado para integrarse al kit de desarrollo NUCLEO-STM32F429ZI. Este esquemático incluye una circuitería, armada con resistores, que emulan el comportamiento del termistor y permiten simular el funcionamiento del sistema en ausencia de una sonda XBT real, para en determinadas condiciones. 
+En la FIG. \ref{fig:esquematico_disenio_dos_fuentes} se muestra el circuito esquemático completo, diseñado para integrarse al kit de desarrollo NUCLEO-STM32F429ZI. La comunicación con las entradas y salidas analógicas se logra a través de los conectores J10 y J9. El conector J11 se agregó para dar soporte mecánico al circuito auxiliar y poder facilitar la conexión del circuito impreso. El esquemático incluye una circuitería, armada con resistores, que emulan el comportamiento del termistor y permiten simular el funcionamiento del sistema en ausencia de una sonda XBT real, para en determinadas condiciones. 
 
-El modo simulación se logra cortocircuitando los pares de terminales 1-2, 3-4 y 5-6 del conector J3. Los resistores $R_7$ y $R_8$ representan las $R_\text{lead}$ de un XBT arbitrario. Los resistores $R_9$ y $R_{10}$ representan dos posibles valores dentro del rango de funcionamiento del termistor, asociados a dos valores de temperatura. Si se conectan en paralelo, se obtiene un valor adicional. El resistor $R_{11}$ y el \textit{preset} variable $R_\text{v3}$ se utilizan para estudiar el comportamiento en un rango amplio de variación de la resistencia del termistor. La combinación de ambos resistores proporciona un rango entre 4,7 k$\Omega$ y 14,7 k$\Omega$. 
+El modo simulación se logra cortocircuitando los pares de terminales 1-2, 3-4 y 5-6 del conector J3. Si no están cortocircuitados, el circuito funciona únicamente recibiendo las señales de una sonda real conectada a los terminales del conector J1. Los resistores $R_7$ y $R_8$ representan las $R_\text{lead}$ de un XBT arbitrario. Los resistores $R_9$ y $R_{10}$ representan dos posibles valores dentro del rango de funcionamiento del termistor, asociados a dos valores de temperatura. Si se conectan en paralelo, se obtiene un valor adicional. El resistor $R_{11}$ y el \textit{preset} variable $R_\text{v3}$ se utilizan para estudiar el comportamiento en un rango amplio de variación de la resistencia del termistor. La combinación de ambos resistores proporciona un rango entre 4,7 k$\Omega$ y 14,7 k$\Omega$. 
 
-El conector J7 permite simular el lanzamiento de una sonda XBT y su ingreso al agua de mar al cerrar un camino conductor a masa.
+El conector J7 permite simular el lanzamiento de una sonda XBT y su ingreso al agua de mar al cerrar un camino conductor a masa. Mediante los conectores J2-1, J2-2 y J2-3 se logra gestionar la alimentación eléctrica del circuito auxiliar. El conector J2-1 recibe, en forma permanente, una tensión constante de 5 V proveniente del kit de desarrollo. Esta alimentación se distribuye a todo el circuito auxiliar cortocircuitando los terminales del conector J2-3. Si sus terminales están abiertos, la única forma de alimentar el circuito auxiliar es mediante provisión de energía externa a través del conector J2-2.
 
 \begin{landscape}
 
@@ -500,6 +500,7 @@ El conector J7 permite simular el lanzamiento de una sonda XBT y su ingreso al a
 \end{landscape}
 
 \subsubsection{Simulaciones del circuito de dos fuentes de corriente}
+\label{subsec:simulaciones}
 
 Se realizaron simulaciones del funcionamiento del circuito de dos fuentes de corriente. Los análisis llevados a cabo tienen como objetivo verificar el funcionamiento normal del diseño y su robustez frente a modificaciones en algunos de los resistores que forman parte del diseño.
 
@@ -718,15 +719,40 @@ $R_5$ & $R_\text{aux}$ lado A & 1 k$\Omega$ & 992 $\Omega$ \\
 $R_6$ & $R_\text{aux}$ lado B & 1 k$\Omega$ & 992 $\Omega$ \\
 $R_7$ & $R_\text{lead}$ lado A & 5,6 k$\Omega$ & 5,57 k$\Omega$ \\
 $R_8$ & $R_\text{lead}$ lado B & 5,6 k$\Omega$ & 5,57 k$\Omega$ \\
-$R_9$ & $R_\text{th}$ Temp. fija 1 & 15 k$\Omega$ & 14,88 k$\Omega$ \\
-$R_10$ & $R_\text{th}$ Temp. fija 2 & 6,8 k$\Omega$ & 14,88 k$\Omega$ \\
+$R_9$ & $R_\text{th}$ temp. fija 1 & 15 k$\Omega$ & 14,88 k$\Omega$ \\
+$R_{10}$ & $R_\text{th}$ temp. fija 2 & 6,8 k$\Omega$ & 14,88 k$\Omega$ \\
+$R_{11}$ & $R_\text{th}$ temp. variable & 4,7 k$\Omega$ & 4,64 k$\Omega$ \\
+$R_\text{V3}$ & $R_\text{th}$ temp. variable & preset 10 k$\Omega$ & 9,55 k$\Omega$ (máximo) \\
+\end{tabular}
+\end{table}
+
+Adicionalmente se empleó un resistor de 12 M$\Omega$ para el canal que mide el nodo C y dos resistores de valor nominal 10 k$\Omega$ como resistores de derivación.
+
+Se armó un banco experimental formado por una fuente de laboratorio, mediante la que se alimentó el prototipo con 5 V, y un multímetro para medir las tensiones que registrarían las entradas analógicas del circuito digitalizador (no implementado en este ensayo). El banco se muestra en la FIG. \ref{fig:banco_exp}.
+
+Se comprobó el correcto funcionamiento del circuito al simular el modo \textit{reload}, antes de cortocircuitar los terminales del conector J6 en la FIG. \ref{fig:esquematico_disenio_dos_fuentes}. Se registraron las tensiones en los terminales 1 (AI1), 3 (AI2), 5 (AI3) y 7 (AI4) del conector J10, y se verificó que las tres primeras arrojaban valores en torno a los 3,7 V (estado alto), mientras que la cuarta arrojaba valores aleatorios en torno a los 10 mV (estado bajo). A continuación se cortocircuitaron los terminales del conector J6. Al estar abierto el conector J7, el circuito auxiliar simula el modo \textit{launch}. Se registraron las tensiones en los mismos terminales de J10 y se obtuvieron valores en torno a 3,7 V (estados altos) en todos ellos. Finalmente se cerró el conector J7, preparando al sistema para el modo \textit{measure}. Se cortocircuitaron únicamente los terminales 5-6 de J6, de manera de escoger un valor simulado para $R_\text{th}$ de alrededor de 15 k$\Omega$. Se ajustaron los valores de las corrientes por cada rama midiendo la diferencia de potencial entre AI1 y AI3, por un lado, y AI2 y AI4, por otro, para lo cual se utilizaron los valores medidos con multímetro de ambas $R_\text{aux}$ (ver Tabla \ref{tabla:ensayo}). Una vez ajustadas ambas tensiones en 99,2 mV se procedió a estimar $R_\text{th}$, que era simulada mediante el resistor $R_9$, aplicando la Ec. \eqref{ec:Rth_monio}. Este proceso se repitió para la utilización de $R_{10}$ como simulación del termistor (cortocircuitando únicamente los terminales 3-4 de J6) y la serie variable $R_{11} + R_\text{V3}$. En este último caso se tomaron siete puntos de medición dentro del rango de variación de $R_\text{V3}$. Los valores de la serie se determinaron usando la medición inicial de $R_{11}$ y estimando $R_\text{V3}$ en forma indirecta a través de mediciones con multímetro, en modo óhmetro, sobre los terminales del conector J8. En todos los casos, las mediciones con multímetro se utilizaron como valor más representativo de $R_\text{th}$. Los resultados se muestran en la Tabla \ref{tabla:ensayo_estimaciones}.
+
+\begin{table}[htpb]
+\centering
+\caption{Estimaciones de $R_\text{th}$ simuladas.}
+\label{tabla:ensayo_estimaciones}
+\begin{tabular}{c|c|c|c|c}
+Caso & Resistor(es) usado(s) & $R_\text{th} (\text{k}\Omega)$ (multímetro) & $\tilde{R}_\text{th}$ (Ec. \eqref{ec:Rth_monio}) & Error relativo \\ \hline
+$T$ fija 1 & $R_9$ & 14,88 & 14,89 & 0,07 \% \\
+$T$ fija 2 & $R_{10}$ & 6,73 & 6,7 & 0,45 \% \\
+$T$ variable p1 & $R_{11} + R_\text{V3}$ & 14,19 & 14,2 & 0,07 \% \\
+$T$ variable p2 & $R_{11} + R_\text{V3}$ & 12,7 & 12,69 & 0,08 \% \\
+$T$ variable p3 & $R_{11} + R_\text{V3}$ & 11,19 & 11,16 & 0,09 \% \\
+$T$ variable p4 & $R_{11} + R_\text{V3}$ & 9,48 & 9,41 & 0,74 \% \\
+$T$ variable p5 & $R_{11} + R_\text{V3}$ & 8,09 & 7,99 & 1,24 \% \\
+$T$ variable p6 & $R_{11} + R_\text{V3}$ & 6,29 & 6,18 & 1,75 \% \\
+$T$ variable p7 & $R_{11} + R_\text{V3}$ & 4,64 & 4,58 & 1,29 \% \\
 
 \end{tabular}
 \end{table}
 
-Adicionalmente, se empleó un resistor de 12 M$\Omega$ para el canal que mide el nodo C y dos resistores de valor nominal 10 k$\Omega$ como resistores de derivación.
+Se observa, en todos los casos, que se obtuvieron estimaciones de $R_\text{th}$ con incertezas relativas menores al 2 \%, lo cual está dentro de los parámetros razonables dado que no se utilizaron resistores de precisión. Es de notar el hecho de que las estimaciones mejoran a medida que $R_\text{th}$ es mayor. Esto se corresponde con los resultados de algunas de las simulaciones mostradas en la Sección \ref{subsec:simulaciones}. En ellas se observa que las desviaciones ocurridas cuando hay un desbalance en las corrientes de ambas ramas ocurren en la forma de desplazamientos verticales de la recta que vincula el valor real de $R_\text{th}$ con su estimación. Esto afecta en mayor medida a los valores más bajos. Por otro lado, es importante destacar que las mediciones con errores mayores que el 1 \% pueden haber tenido fuentes adicionales de incerteza, puesto que se ha utilizado, como parte de la simulación de $R_\text{th}$, un preset variable que no es de precisión ni tiene tolerancia por debajo del 1 \%. Cuando se intentó estimar el valor de $R_{10}$, esto es, usando como $R_\text{th}$ sólo un resistor fijo del orden de 6,8 k$\Omega$, se obtuvo un error del 0,45 \%.
 
-Se armó un banco experimental formado por una fuente de laboratorio, mediante la que se alimentó el prototipo con 5 V, y un multímetro para medir las tensiones que registrarían las entradas analógicas del circuito digitalizador (no implementado en este ensayo). El banco se muestra en la FIG. \ref{fig:banco_exp}.
 
  \begin{figure}[htpb]
 	\centering
@@ -750,4 +776,23 @@ Observando el comportamiento de la resistencia del termistor en función de la te
 
 Las entradas de un conversor A/D tienen una incerteza absoluta que es característica del microprocesador utilizado, y  depende del modo de funcionamiento, el rango de tensiones máximas con el cual digitaliza y de las características del circuito impreso en el que está montado. 
 
-Para el kit de desarrollo propuesto, que está provisto de conversores A/D de 12 bits, es posible establecer la incerteza absoluta de una medición individual en 4 cuentas (o bits menos significativos, LSBs) \citep{AN4073}, que, para una tensión de alimentación del microprocesador de 3,3 V, se traduce en una dispersión de 3,22 mV. Esto conduce a incertezas absolutas, para mediciones diferenciales, de 6,44 mV.
+Para el kit de desarrollo propuesto, que está provisto de conversores A/D de 12 bits, es posible establecer la incerteza absoluta de una medición individual en 4 cuentas (o bits menos significativos, LSBs) \citep{AN4073}, que, para una tensión de alimentación del microprocesador de 3,3 V, se traduce en una dispersión de 3,22 mV. Esto conduce a incertezas absolutas, para mediciones diferenciales, de 6,44 mV. 
+Al ser medidas con incerteza absoluta constante, las incertezas relativas de $V_\text{AB}$ y $V_\text{ai1,ai3}$ serán más altas cuanto menores sean los valores representativos de cada una. La tensión $V_\text{ai1,ai3}$ es un indicador indirecto de la corriente entregada por la fuente del lado donde se ubica el termistor. Para una corriente establecida en 100 $\mu$A y un valor de $R_\text{aux}$ de 1 k$\Omega$, $V_\text{ai1,ai3}$ se ubica en torno a 100 mV. La incerteza 
+relativa correspondiente, $\varepsilon_{V_\text{ai1,ai3}}$, es
+\[
+\varepsilon_{V_\text{ai1,ai3}} = \frac{6,44\:\text{mV}}{100\:\text{mV}} 100 = 6,44\%
+\]
+A su vez, la tensión $V_\text{AB}$ tendrá su incerteza relativa máxima cuando el valor representativo a medir sea mínimo, lo que coincide con el mínimo valor posible para $R_\text{th}$, que se ubica en torno a los 3 k$\Omega$. Considerando una corriente de 100 $\mu$A, se obtiene una diferencia de potencial entre A y B de, aproximadamente 300 mV. De esta forma, su incerteza relativa, $\varepsilon_{V_\text{AB}}$, será
+\[
+\varepsilon_{V_\text{AB}} = \frac{6,44\:\text{mV}}{300\:\text{mV}} 100 \simeq 2,15\%
+\]
+Como puede deducirse, ambas incertezas son muy elevadas e incompatibles con el requerimiento de estimar $R_\text{th}$ con un error menor que el 0.8 \%. A pesar de ello, las incertezas absolutas de las mediciones de tensión, introducidas por el circuito digitalizador, son las que corresponden a mediciones individuales. Es posible disminuir la incerteza absoluta en la estimación de una tensión si en vez de una única medición se obtienen varias y se realiza un promedio. Esto es válido sólo si se puede asumir que la magnitud física a medir puede aproximarse como la suma de una variable determinística con comportamiento conocido (constante, linealmente creciente con el tiempo, etc) y una variable descrita por un proceso estocástico estacionario de media nula. De esta forma, al medir N veces se obtiene un ensamble de N realizaciones independientes e idénticamente distribuidas.
+El promedio del ensamble resulta ser un estimador insesgado del promedio de los valores arrojados por la variable determísticas en el intervalo de medición y su desvío estándar es el desvío estándar de la distribución de la componente aleatoria  disminuido en $\sqrt{N}$ \citep{degroot86}. Así, la incerteza absoluta puede decrementarse arbitrariamente a medida que se toman más mediciones y se las promedia. Existen, sin embargo, limitaciones para la cantidad de mediciones a realizar, dadas principalmente por la cantidad de estimaciones de temperatura que se desea obtener por unidad de tiempo, el conocimiento previo sobre la variación temporal de la tensiones a medir y la frecuencia de muestreo del circuito digitalizador. Si se toma como referencia el requerimiento de una estimación de temperatura cada 5 metros y se tiene en cuenta la velocidad de caída de una sonda XBT como las que se describen en la Tabla \ref{tabla:sondas}, por ejemplo los modelos T-4, T-6 o T-7, cuyas caídas son prácticamente a una velocidad constante de 6,5 m/s, se obtiene una resolución temporal de una estimación de temperatura cada, aproxidamente, 770 milisegundos. Se decidió tomar como parámetro de diseño un total de 400 mediciones por cada estimación de temperatura, las cuales pueden ser adquiridas a una tasa de muestreo de 40 kHz en intervalos temporales de 10 milisegundos. Dentro de tales intervalos, se puede suponer que la tensión $V_\text{ai1,ai3}$ se mantiene constante, dado que representa la caída en $R_\text{aux}$, y que la tensión $V_\text{AB}$ varía como una función afín, ya que su evolución temporal depende de la existencia de gradientes térmicos a lo largo de la columna de agua, los cuales suelen ser de variación lenta. De esta forma, es posible obtener incertezas relativas, para la determinación de $R_\text{th}$, de
+\[
+\varepsilon_{\tilde{R}_\text{th}} = \varepsilon_{V_\text{AB}} + \varepsilon_{V_\text{ai1,ai3}} + \varepsilon_{R_\text{aux}} = \frac{6,44\:\text{mV}/\sqrt{400}}{300\:\text{mV}} 100 + \frac{6,44\:\text{mV}/\sqrt{400}}{100\:\text{mV}} 100 + 0.1\%,
+\]
+lo que da un total de
+\[
+\varepsilon_{\tilde{R}_\text{th}} = 0.32 \% + 0.11 \% + 0.1 \% = 0.54 \%,
+\]
+resultado que satisface la condición de estimación de la temperatura con incertezas absolutas menores que $\pm$0,2$^\circ$C para todo el rango de variación del termistor.
