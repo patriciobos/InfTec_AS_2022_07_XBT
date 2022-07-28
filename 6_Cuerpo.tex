@@ -44,7 +44,7 @@ Cuando la sonda batitermográficas descartable es lanzada y toma contacto con el 
 
 \subsection{Controles e indicadores}
 
-El registrador MK 2A-1 cuenta con dos indicadores lumínicos, RELOAD y LAUNCH y dos llaves, RECYCLE y 94$^{\circ}$ - 30$^{\circ}$, a los que se accede al abrir la tapa frontal, como se puede apreciar en la figura \ref{indicadores XBT}.
+El registrador MK 2A-1 cuenta con dos indicadores lumínicos, RELOAD y LAUNCH y dos llaves, RECYCLE y 94$^{\circ}$ - 30$^{\circ}$, a los que se accede al abrir la tapa frontal, como se puede apreciar en la figura \ref{indicadoresXBT}.
 
 \begin{figure}[htpb]
 \centering
@@ -241,9 +241,11 @@ Desde el punto de vista de la sonda, los terminales B y C se encuentran siempre 
 \section{DISEÑO CIRCUITAL}
 \label{sec:diseño}
 
-Se consideraron distintas alternativas para el diseño de la interfaz circuital o etapa de acondicionamiento de las señales de las sonda XBT. Una primera característica a definir fue si se iba a reemplazar el sistema de registro Sippican o no ya que el diseño eléctrico de la interfaz depende fuertemente de esta característica. La lectura del valor de temperatura del XBT depende de que se energice la sonda externamente, debido a las sonda XBT son pasivas. Si se opta por reemplazar al sistema de registro Sippican, la interfaz que se diseñe debe proveer un mecanismo para excitar al termistor presente en la sonda.  Cabe aclarar que la excitación de la sonda es una función excluyente de uno u otro componente y que no puede ser realizada por ambos en simultáneo.
+Se consideraron distintas alternativas para el diseño de la interfaz circuital o etapa de acondicionamiento de las señales de las sonda XBT. 
 
-La etapa de acondicionamiento o interfaz circuital actúa como enlace entre la sonda XBT y una etapa de digitalización que se implementa con un kit de desarrollo NUCLEO-STM32F429ZI, basado en un microcontrolador Cortex-M4 de STMicroelectronics.  Por este motivo, los niveles de tensión de salida de la interfaz se deben mantener en el rango 0-3,3 V para evitar posibles daños en las entradas de los conversores analógicos digitales del kit.  
+Una primera característica a definir fue si se iba a reemplazar el sistema de registro Sippican o no ya que el diseño eléctrico de la interfaz depende fuertemente de esta característica. La lectura del valor de temperatura del XBT depende de que se energice la sonda externamente, debido a las sonda XBT son pasivas. Si se opta por reemplazar al sistema de registro Sippican, la interfaz que se diseñe debe proveer un mecanismo para excitar al termistor presente en la sonda.  Cabe aclarar que la excitación de la sonda es una función excluyente de uno u otro componente y que no puede ser realizada por más de un elemento en simultáneo.
+
+La etapa de acondicionamiento o interfaz circuital actúa como enlace entre la sonda XBT y una etapa de digitalización que se implementa con un kit de desarrollo NUCLEO-STM32F429ZI, basado en un microcontrolador Cortex-M4 de ST Microelectronics.  Por este motivo, los niveles de tensión de salida de la interfaz se deben mantener en el rango 0-3,3 V para evitar posibles daños en las entradas de los conversores analógicos digitales del kit.  
 
 Por un lado, se exploraron circuitos que funcionan en conjunto con el registrador Sippican sin afectar su operación.  Estas interfaces deberían permitir hacer lecturas de tensión del circuito puente de la FIG. \ref{fig:puente}, para obtener un valor de tensión proporcional a la caída de tensión sobre el termistor.  Se ensayaron circuitos con amplificadores operaciones basado en la configuración de amplificador diferencial, en particular con dos topologías circuitales, una conocida como \textit{scaling-substractor} o escalador-restador y otra como amplificador diferencial con \textit{buffers} de entrada. 
 
@@ -251,7 +253,7 @@ Por otra parte, se diseñó un circuito en base a dos fuentes de corriente que ree
 
 Finalmente, se consideró un diseño disponible en la literatura \citep{STEGEN1975447}. Se trata de un circuito puente balanceado que utiliza un transistor de efecto de campo JFET para ``copiar'' el valor resistivo del termistor de la sonda.  Esta interfaz reemplaza al registrador Sippican.
 
-En las siguientes subsecciones se abordan los detalles de diseño.% y se realiza una comparativa de los tres enfoques considerados. 
+En las siguientes subsecciones se abordan los detalles de cada diseño y se analiza su capacidad para generar una señal de tensión analógica proporcional al valor de resistencia del elemento sensor presente en las sondas XBT.
 
 \clearpage
 
@@ -711,7 +713,7 @@ Por otra parte, en la FIG. \ref{fig:PCB_3D}, se muestra un render o vista 3D sup
 
 Se mandó a fabricar un lote de siete PCBs a la empresa Mayer Circuitos Impresos en material FR4 con máscara antisoldante en toda la superficie a excepción de los pads.  En la FIG. \ref{fig:PCB_lote} se observa el lote de placas fabricadas sin los componentes montados.  A dos de estas placas, se les montaron los componentes para la realización de ensayos. Una placa fue enviada a la Base Naval Puerto Belgrano, donde se encuentra parte del equipo de trabajo, mientras que la otra se deja en el DPA.  El objetivo es poder realizar pruebas independientes y contrastar los resultados de los ensayos.
 
-En la FIG. \ref{fig:PCB_montado} se puede apreciar una placa con todos los componentes montados.  Cabe señalar que los dos resistores de derivación para el DAC, de 10 $k\Omega$, incluido en el circuito esquemático no se encuentran debidamente routeados en el PCB y que fueron agregados directamente sobre los pads en el conector J9 y GND.  Esto se debe a que su necesidad fue advertida luego que los PCBs fueran fabricados y se contempla incluirlos en futuras reversiones del PCB, si las hubiera.
+En la FIG. \ref{fig:PCB_montado} se puede apreciar una placa con todos los componentes montados.  Cabe señalar que los dos resistores de derivación para el DAC, de 10 $k\Omega$, incluido en el circuito esquemático no se encuentran debidamente routeados en el PCB y que fueron agregados directamente entre pads del conector J9 y GND.  Esto se debe a que su necesidad fue advertida luego que los PCBs fueran fabricados y se contempla incluirlos en futuras reversiones del PCB, si las hubiera.
 
 \vspace{10px}
 \begin{figure}[htpb]
@@ -888,4 +890,4 @@ Se evaluaron dos diseños circuitales para funcionar en reemplazo del registrados
 
 Se implementaron dos interfaces con el diseño de elaboración propia.  Las pruebas de funcionamiento con este circuito resultaron aceptables aunque se hizo evidente, para este y todos los diseños, la necesidad de utilizar resistores de precisión para garantizar la exactitud y baja dispersión en las mediciones de temperatura.
 
-Como trabajo futuro, se puede avanzar en la implementación de todos los diseños y realizar una comparación de desempeño que permita identificar el más adecuado para esta aplicación.  Asimismo, se debe avanzar en la programación del \textit{firmware} para el microcontrolador y en el diseño de una estrategia de adquisición y digitalización que minimice los errores en toda la cadena de medición.
+Como trabajo futuro, se puede avanzar en la implementación de todos los diseños presentados y realizar una comparación de factibilidad y desempeño que permita identificar el más adecuado para esta aplicación.  Asimismo, se debe avanzar en la programación del \textit{firmware} para el microcontrolador y en el diseño de una estrategia de adquisición y digitalización que minimice los errores en toda la cadena de medición.
