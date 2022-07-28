@@ -32,19 +32,19 @@ La predicción del APS es un tópico de carácter clasificado para todas las Armada
 
 \section{DESCRIPCIÓN FUNCIONAL DEL REGISTRADOR SIPPICAN MK 2A-1}
 
-La lógica de funcionamiento del sistema de registros batitermográficos se encuentra contenido en la unidad de registro MK 2A-1.  Esta unidad cuenta con una fuente de alimentación valvular, circuitos analógicos para acondicionar la señal proveniente de la sonda XBT y componentes electromecánicos para controlar una pluma o \textit{stylus} y el avance del papel graduado, a fin de imprimir el pefil de temperatura medido. 
+La lógica de funcionamiento del sistema de registros batitermográficos se encuentra contenido en la unidad de registro MK 2A-1.  Esta unidad cuenta con una fuente de alimentación valvular, circuitos analógicos para acondicionar la señal proveniente de la sonda XBT y componentes electromecánicos para controlar una pluma o \textit{stylus} y el avance del papel graduado, a fin de imprimir el perfil de temperatura medido. 
 
 El sistema XBT opera en cuatro modos de funcionamiento, RELOAD, CHECK/RUN, LAUNCH y MEASSURE.  Cuando se enciende el registrador se deben esperar 10 minutos para que el registrador entre en régimen.
 
 En el modo RELOAD, el sistema espera que se inserte una (nueva) sonda batitermográficas descartable en el lanzador.
 
-Cuando se cierra la compuerta del lanzador con una sonda batitermográfica dentro, el sistema pasa al modo CHECK/RUN.  En este modo, el registrador funciona durante unos segundos posiciona la pluma del impresor en la temperatura de calibración, 16,6 $^{\circ}$C. Inmediantamente después, el sistema pasa al modo LAUNCH y queda a la espera del lanzamiento de la sonda.
+Cuando se cierra la compuerta del lanzador con una sonda batitermográfica dentro, el sistema pasa al modo CHECK/RUN.  En este modo, el registrador funciona durante unos segundos posiciona la pluma del impresor en la temperatura de calibración, 16,6 $^{\circ}$C. Inmediatamente después, el sistema pasa al modo LAUNCH y queda a la espera del lanzamiento de la sonda.
 
 Cuando la sonda batitermográficas descartable es lanzada y toma contacto con el agua de mar, el sistema pasa al modo MEASSURE, donde se registra la temperatura de la columna de agua durante un tiempo fijo. Pasado ese tiempo, el registrador se detiene y el sistema pasa al modo RELOAD.
 
 \subsection{Controles e indicadores}
 
-El registrador MK 2A-1 cuenta con dos indicadores lumínicos, RELOAD y LAUNCH y dos llaves, RECYCLE y 94$^{\circ}$ - 30$^{\circ}$, a los que se accede al abrir la tapa frontal, como se puede apreciar en la figura \ref{indicadoresXBT}.
+El registrador MK 2A-1 cuenta con dos indicadores lumínicos, RELOAD y LAUNCH y dos llaves, RECYCLE y 94$^{\circ}$ - 30$^{\circ}$, a los que se accede al abrir la tapa frontal, como se puede apreciar en la figura \ref{indicadores XBT}.
 
 \begin{figure}[htpb]
 \centering
@@ -54,7 +54,7 @@ El registrador MK 2A-1 cuenta con dos indicadores lumínicos, RELOAD y LAUNCH y d
 \end{figure}
 
 \begin{itemize}
-\item RELOAD. Es un indicador lumínico de color rojo, ubicado abajo a la derecha y es visible a través del vidro de la puerta del registrador. Se enciende cuando el sistema está preparado para que se inserte una sonda XBT en el lanzador.
+\item RELOAD. Es un indicador lumínico de color rojo, ubicado abajo a la derecha y es visible a través del vidrio de la puerta del registrador. Se enciende cuando el sistema está preparado para que se inserte una sonda XBT en el lanzador.
 \item LAUNCH. Es un indicador lumínico de color verde, ubicado abajo a la izquierda y también es visible a través del vidrio de la puerta del registrador. Se enciende cuando una sonda XBT ha sido insertada en el lanzador y está lista para ser lanzada.
 \item RECYCLE. Es una llave de dos posiciones con resorte ubicada en la parte inferior derecha del panel de pruebas (test panel) y solo es accesible con la puerta del registrador abierta. Se usa en conjunto con la sonda de prueba para verificar la calibración del registrador. Cuando se presiona momentáneamente hacia la derecha y se libera, se simula la carga de una sonda XBT en el lanzador y se cambia al registrador del modo RELOAD al modo CHECK/RUN.
 \item 94$^{\circ}$ - 30$^{\circ}$. Es una llave de tres posiciones con resorte ubicada en el panel de pruebas debajo de la llave RECYCLE. Se usa en conjunto con la sonda de prueba para verificar el funcionamiento del registrador entre el modo LAUNCH y el modo MEASURE, ya que permite simular el lanzamiento de una sonda al agua con temperatura de 30 $^{\circ}$F o 94 $^{\circ}$F, alternativamente.
@@ -62,7 +62,7 @@ El registrador MK 2A-1 cuenta con dos indicadores lumínicos, RELOAD y LAUNCH y d
 
 \subsection{Operación y procedimiento de calibración}
 
-Las sondas batitermográficas tienen un termistor conectado a una bobina de cable. El cable se desenrrolla mientras la sonda cae verticalmente en el agua a una tasa de descenso conocida. Los cambios en la resistencia del termistor debido a cambios en la temperatura del agua se transmiten al registrador a bordo a través del cable de la bobina de la sonda y luego a través del cable que conecta el lanzador con el registrador.
+Las sondas batitermográficas tienen un termistor conectado a una bobina de cable. El cable se desenrolla mientras la sonda cae verticalmente en el agua a una tasa de descenso conocida. Los cambios en la resistencia del termistor debido a cambios en la temperatura del agua se transmiten al registrador a bordo a través del cable de la bobina de la sonda y luego a través del cable que conecta el lanzador con el registrador.
 
 El registrador está diseñado para convertir el tiempo y la resistencia del termistor en profundidad y temperatura, respectivamente. Se traza un perfil continuo de temperatura-profundidad o T(z) mientras la sonda desciende.
 
@@ -162,7 +162,7 @@ Las sondas se clasifican por su máxima profundidad alcanzable y la máxima veloci
 \end{itemize}
 
 %A su vez, las distintas sondas XBT pueden requerir distintos tipo de rollos de papel para el registrador.
-Las sondas T-4, T-6 y T-7 tienen la misma masa, las mismas características hidrodinámicas y la misma ecuación para el cálculo de la profundidad en función del tiempo. Las sondas T-5 y T-11 tienen diferente masa, características hidrodinámicas y ecuación de profundidad en función del tiempo.  En la tabla \ref{tabla:sondas} se reunen las ecuaciones empíricas de profundidad vs. tiempo en unidades métricas estándar junto con las profundidades máximas alcanzables y el tiempo que le insume a la sonda llegar a esa profundidad.
+Las sondas T-4, T-6 y T-7 tienen la misma masa, las mismas características hidrodinámicas y la misma ecuación para el cálculo de la profundidad en función del tiempo. Las sondas T-5 y T-11 tienen diferente masa, características hidrodinámicas y ecuación de profundidad en función del tiempo.  En la tabla \ref{tabla:sondas} se reúnen las ecuaciones empíricas de profundidad vs. tiempo en unidades métricas estándar junto con las profundidades máximas alcanzables y el tiempo que le insume a la sonda llegar a esa profundidad.
 
 \begin{table}[htpb]
 \centering
@@ -241,7 +241,7 @@ Desde el punto de vista de la sonda, los terminales B y C se encuentran siempre 
 \section{DISEÑO CIRCUITAL}
 \label{sec:diseño}
 
-Se consideraron distintas alternativas para el diseño de la interfaz circuital o etapa de acondicionamiento de las señales de las sonda XBT. Una primera característica a definir fue si se iba a reemplazar el sistema de registro Sippican o no ya que el diseño eléctrico de la interfaz depende fuertemente de esta característica. La lectura del valor de temperatura del XBT depende de que se energice la sonda externamente, debido a las sonda XBT son pasivas. Si se opta por reemplazar al sistema de registro Sippican, la interfaz que se diseñe debe proveer un mecanísmo para excitar al termistor presente en la sonda.  Cabe aclarar que la excitación de la sonda es una función excluyente de uno u otro componente y que no puede ser realizada por ambos en simultáneo.
+Se consideraron distintas alternativas para el diseño de la interfaz circuital o etapa de acondicionamiento de las señales de las sonda XBT. Una primera característica a definir fue si se iba a reemplazar el sistema de registro Sippican o no ya que el diseño eléctrico de la interfaz depende fuertemente de esta característica. La lectura del valor de temperatura del XBT depende de que se energice la sonda externamente, debido a las sonda XBT son pasivas. Si se opta por reemplazar al sistema de registro Sippican, la interfaz que se diseñe debe proveer un mecanismo para excitar al termistor presente en la sonda.  Cabe aclarar que la excitación de la sonda es una función excluyente de uno u otro componente y que no puede ser realizada por ambos en simultáneo.
 
 La etapa de acondicionamiento o interfaz circuital actúa como enlace entre la sonda XBT y una etapa de digitalización que se implementa con un kit de desarrollo NUCLEO-STM32F429ZI, basado en un microcontrolador Cortex-M4 de STMicroelectronics.  Por este motivo, los niveles de tensión de salida de la interfaz se deben mantener en el rango 0-3,3 V para evitar posibles daños en las entradas de los conversores analógicos digitales del kit.  
 
@@ -379,7 +379,7 @@ La tensión de salida $V_{out}$ crece linealmente con la temperatura en todo el r
 \label{fig:salida_ampDiff}
 \end{figure}
 
-Por otra parte, se analiza en la FIG.\ref{fig:ampDiff_vs_Rlead}, la dependiencia de $V_{out}$ con $R_{lead}$ para cuatro valores discretos de resistencia: 4k7 $\Omega$, 5K $\Omega$, 6k8 $\Omega$ y 8k2 $\Omega$ variados de a pares, es decir que ambos $R_{lead}$ tienen el mismo valor para cada paso de la simulación. Las cuatro curvas de la familia son coincidentes por lo que se concluye que no hay dependencia.
+Por otra parte, se analiza en la FIG.\ref{fig:ampDiff_vs_Rlead}, la dependencia de $V_{out}$ con $R_{lead}$ para cuatro valores discretos de resistencia: 4k7 $\Omega$, 5K $\Omega$, 6k8 $\Omega$ y 8k2 $\Omega$ variados de a pares, es decir que ambos $R_{lead}$ tienen el mismo valor para cada paso de la simulación. Las cuatro curvas de la familia son coincidentes por lo que se concluye que no hay dependencia.
 
 \begin{figure}[htpb]
 \centering
@@ -476,7 +476,7 @@ Como fuera mencionado anteriormente, tanto en modo \textit{reload} o en modo \te
 
 Para que el sistema logre diferenciar el modo \textit{launch} del modo \textit{reload}, se decidió que la entrada analógica que sensa el terminal ubicado aguas abajo de la resistencia $R_\text{aux}$, en la rama que no contiene al termistor (indicada como AI4 en la FIG. \ref{fig_disenio_definitivo}), se conecte al nodo C del XBT. De esta forma, sólo existe una conexión eléctrica al terminal inferior de $R_\text{aux}$ cuando el XBT está conectado (modo \textit{launch}). 
 
-En modo \textit{reload} la entrada AI4 queda desconectada y, en caso de que se la vincule a tierra a través de una resistencia de valor elevado ($R_\text{d3}$ en la FIG. \ref{fig_disenio_definitivo}), registará un estado bajo (en torno a 0 V).
+En modo \textit{reload} la entrada AI4 queda desconectada y, en caso de que se la vincule a tierra a través de una resistencia de valor elevado ($R_\text{d3}$ en la FIG. \ref{fig_disenio_definitivo}), registrará un estado bajo (en torno a 0 V).
 
 Los nodos de sensado se vincularon a las entradas analógicas a través de amplificadores operacionales en modo seguidor por emisor. Se utilizó el integrado LM324, que contiene cuatro \textit{op-amps} que funcionan con alimentación simple (sólo tensión positiva) y admiten tensiones de salida mínimas muy cercanas a 0 V. Para los transistores se eligió el modelo 2N3906, un transistor bipolar PNP de uso general para aplicaciones de baja potencia.
 
@@ -556,7 +556,7 @@ Inicialmente se simuló una variación las resistencia $R_2$ del divisor resistivo
 \end{figure}
 \vspace{30px}
 
-Se observa que para prácticamente todos los posibles valores de $R_2$, dentro del margen de incerteza propuesto, es posible recuperar $R_\text{th}$ con exactitud. Queda execptuado el caso de $R_2$ = 900 $\Omega$, donde se empieza a observar un corrimiento en la estimación para los valores mayores de $R_\text{th}$, como consecuencia de que la corriente, en la rama que contiene al termistor, no puede aumentar proporcionalmente a la caída en $R_E$, debido a que el transistor $Q_1$ deja de estar en MAD. Para el caso límite de $R_\text{th}$ = 18 k$\Omega$, la estimación obtenida arroja un valor de 17,65 k$\Omega$, el cual representa un error del 2\%, aproximadamente. Esto deja en evidencia la ventaja de utilizar el esquema de funcionamiento a lazo cerrado.
+Se observa que para prácticamente todos los posibles valores de $R_2$, dentro del margen de incerteza propuesto, es posible recuperar $R_\text{th}$ con exactitud. Queda exceptuado el caso de $R_2$ = 900 $\Omega$, donde se empieza a observar un corrimiento en la estimación para los valores mayores de $R_\text{th}$, como consecuencia de que la corriente, en la rama que contiene al termistor, no puede aumentar proporcionalmente a la caída en $R_E$, debido a que el transistor $Q_1$ deja de estar en MAD. Para el caso límite de $R_\text{th}$ = 18 k$\Omega$, la estimación obtenida arroja un valor de 17,65 k$\Omega$, el cual representa un error del 2\%, aproximadamente. Esto deja en evidencia la ventaja de utilizar el esquema de funcionamiento a lazo cerrado.
 
 Uno de los análisis más importantes para estudiar la robustez del prototipo implica la variación de las resistencias de emisor, $R_E$. La variación de una de ellas respecto de la otra (se las denominará, de ahora en adelante, $R_{E1}$ y $R_{E2}$) provoca que las corrientes de ambas fuentes no sean iguales, lo que degrada la estimación de $R_\text{th}$. En la FIG. \ref{fig:sweep_RE1} se muestra dicha estimación, en función del valor real de $R_\text{th}$, para varios valores posibles de $R_{E1}$ y considerando un valor de $R_{E2}$ igual al valor nominal de diseño.
 
@@ -626,7 +626,7 @@ Los cuatro amplificadores operacionales que implementan el amplificador diferenc
 \begin{figure}[htpb]
 	\centering
 	\includegraphics[width=\textwidth]{graficos/puenteJfet.png}
-	\caption{Circuito esquemático completo del puente auto-balanceado con valores de componentes actuales.}
+	\caption{Circuito esquemático completo del puente auto-balanceado con componentes activos.}
 	\label{fig:puenteJFET}
 \end{figure}  
 
@@ -683,7 +683,7 @@ En la FIG. \ref{fig:puenteJFET_errorRth} se muestra el error relativo en la esti
 
 Se diseñó un circuito impreso (PCB) con el software EDA (del inglés \textit{Electronic Design Automation}) Kicad para evaluar el desempeño de la etapa de acondicionamiento de señal con dos fuentes de corriente de la FIG. \ref{fig:esquematico_disenio_dos_fuentes}.  Para el diseño se utilizaron componentes de agujero pasante o PTH (del inglés \textit{Pin Through Hole}) y se realizó el routeo de las pistas en dos capas con vías metalizadas siguiendo recomendaciones generales para circuitos analógicos de baja potencia \citep{khandpur2006printed}.  
 
-En la FIG. \ref{fig:PCB_route} se puede apreciar el diseño del PCB realizado con las dos capas con pistas, superior e inferior unidas con agujeros metalizados en múltiples puntos para reducir la impedancia entre los planos de masa de cada una.  Asimismo, se muestra la capa con la serigrafía que permite indentificar los componentes con sus respectivos \textit{footprints}.
+En la FIG. \ref{fig:PCB_route} se puede apreciar el diseño del PCB realizado con las dos capas con pistas, superior e inferior unidas con agujeros metalizados en múltiples puntos para reducir la impedancia entre los planos de masa de cada una.  Asimismo, se muestra la capa con la serigrafía que permite identificar los componentes con sus respectivos \textit{footprints}.
 
 Por otra parte, en la FIG. \ref{fig:PCB_3D}, se muestra un render o vista 3D superior del diseño que sirve como comprobación final previa a pasar el diseño a fabricación.
 
@@ -709,9 +709,9 @@ Por otra parte, en la FIG. \ref{fig:PCB_3D}, se muestra un render o vista 3D sup
 
 \vspace{10px}
 
-Se mandó a fabricar un lote de siete PCBs a la empresa Mayer Circuitos Impresos en material FR4 con máscara antisoldante en toda la superficie a excepción de los pads.  En la FIG. \ref{fig:PCB_lote} se observa el lote de placas fabricadas sin los componentes montados.  A dos de estas placas, se les montaron los compontes para la realización de ensayos. Una placa fue enviada a la Base Naval Puerto Belgrano mientras que la otra se deja en el DPA para la realización de pruebas y ensayos.
+Se mandó a fabricar un lote de siete PCBs a la empresa Mayer Circuitos Impresos en material FR4 con máscara antisoldante en toda la superficie a excepción de los pads.  En la FIG. \ref{fig:PCB_lote} se observa el lote de placas fabricadas sin los componentes montados.  A dos de estas placas, se les montaron los componentes para la realización de ensayos. Una placa fue enviada a la Base Naval Puerto Belgrano, donde se encuentra parte del equipo de trabajo, mientras que la otra se deja en el DPA.  El objetivo es poder realizar pruebas independientes y contrastar los resultados de los ensayos.
 
-En la FIG. \ref{fig:PCB_montado} se puede apreciar una placa con todos los componentes montados.  Cabe señalar que los dos resistores de derivación para el DAC, de 10 $k\Omega$, incluido en el circuto esquemático no se encuentran debidamente routeados en el PCB y que fueron agregados directamente sobre los pads en el conector J9 y GND.  Esto se debe a que su necesidad fue advertida luego que los PCBs fueran fabricados y se contempla incluirlos en futuras reversiones del PCB, si las hubiera.
+En la FIG. \ref{fig:PCB_montado} se puede apreciar una placa con todos los componentes montados.  Cabe señalar que los dos resistores de derivación para el DAC, de 10 $k\Omega$, incluido en el circuito esquemático no se encuentran debidamente routeados en el PCB y que fueron agregados directamente sobre los pads en el conector J9 y GND.  Esto se debe a que su necesidad fue advertida luego que los PCBs fueran fabricados y se contempla incluirlos en futuras reversiones del PCB, si las hubiera.
 
 \vspace{10px}
 \begin{figure}[htpb]
@@ -761,7 +761,7 @@ Se listan en la Tabla. \ref{tabla:ensayo} los valores medidos, y el resto de los
 \caption{Resistores utilizados en el prototipo a ensayar.}
 \label{tabla:ensayo}
 \begin{tabular}{c|c|c|c}
-Idetificador & Función & Valor nominal & Valor medido \\ \hline
+Identificador & Función & Valor nominal & Valor medido \\ \hline
 $R_1$ & $R_E$ fija lado A & 10 k$\Omega$ & - \\
 $R_2$ & $R_E$ fija lado B & 10 k$\Omega$ & - \\
 $R_\text{V1}$ & $R_E$ variable lado A & preset 5 k$\Omega$ & - \\
@@ -858,11 +858,11 @@ Como puede deducirse, ambas incertezas son muy elevadas e incompatibles con el r
 
 Es posible disminuir la incerteza absoluta en la estimación de una tensión si en vez de una única medición se obtienen varias y se realiza un promedio. Esto es válido sólo si se puede asumir que la magnitud física a medir puede aproximarse como la suma de una variable determinística con comportamiento conocido (constante, linealmente creciente con el tiempo, etc) y una variable descrita por un proceso estocástico estacionario de media nula. De esta forma, al medir N veces se obtiene un ensamble de N realizaciones independientes e idénticamente distribuidas.
 
-El promedio del ensamble resulta ser un estimador insesgado del promedio de los valores arrojados por la variable determísticas en el intervalo de medición y su desvío estándar es el desvío estándar de la distribución de la componente aleatoria  disminuido en $\sqrt{N}$ \citep{degroot86}. Así, la incerteza absoluta puede decrementarse arbitrariamente a medida que se toman más mediciones y se las promedia. 
+El promedio del ensamble resulta ser un estimador insesgado del promedio de los valores arrojados por la variable determinísticas en el intervalo de medición y su desvío estándar es el desvío estándar de la distribución de la componente aleatoria  disminuido en $\sqrt{N}$ \citep{degroot86}. Así, la incerteza absoluta puede decrementarse arbitrariamente a medida que se toman más mediciones y se las promedia. 
 
 Existen, sin embargo, limitaciones para la cantidad de mediciones a realizar, dadas principalmente por la cantidad de estimaciones de temperatura que se desea obtener por unidad de tiempo, el conocimiento previo sobre la variación temporal de la tensiones a medir y la frecuencia de muestreo del circuito digitalizador. 
 
-Si se toma como referencia el requerimiento de una estimación de temperatura cada 5 metros y se tiene en cuenta la velocidad de caída de una sonda XBT como las que se describen en la Tabla \ref{tabla:sondas}, por ejemplo los modelos T-4, T-6 o T-7, cuyas caídas son prácticamente a una velocidad constante de 6,5 m/s, se obtiene una resolución temporal de una estimación de temperatura cada, aproxidamente, 770 milisegundos. 
+Si se toma como referencia el requerimiento de una estimación de temperatura cada 5 metros y se tiene en cuenta la velocidad de caída de una sonda XBT como las que se describen en la Tabla \ref{tabla:sondas}, por ejemplo los modelos T-4, T-6 o T-7, cuyas caídas son prácticamente a una velocidad constante de 6,5 m/s, se obtiene una resolución temporal de una estimación de temperatura cada, aproximadamente, 770 milisegundos. 
 
 Se decidió tomar como parámetro de diseño un total de 400 mediciones por cada estimación de temperatura, las cuales pueden ser adquiridas a una tasa de muestreo de 40 kHz en intervalos temporales de 10 milisegundos. Dentro de tales intervalos, se puede suponer que la tensión $V_\text{ai1,ai3}$ se mantiene constante, dado que representa la caída en $R_\text{aux}$, y que la tensión $V_\text{AB}$ varía como una función afín, ya que su evolución temporal depende de la existencia de gradientes térmicos a lo largo de la columna de agua, los cuales suelen ser de variación lenta. De esta forma, es posible obtener incertezas relativas, para la determinación de $R_\text{th}$, de:
 \[
@@ -877,3 +877,15 @@ Se decidió tomar como parámetro de diseño un total de 400 mediciones por cada es
 \clearpage
 
 \section{CONCLUSIONES}
+
+En el marco del proyecto para modernizar el sistema de adquisición y registro de trazos batitermográficos se completó el diseño e implementación de una etapa de acondicionamiento para señales provenientes de sonda XBT.  Para alcanzar este objetivo, primero se hizo una revisión exhaustiva del sistema Sippican actualmente en uso en los buques del COFM.  La revisión incluyó estudiar los procedimientos de operación, los principio de funcionamiento y la documentación técnica provista por el fabricante.  Asimismo, se examinaron trabajos afines disponibles en la literatura para evaluar la conveniencia de su aplicación a este proyecto.
+
+Se avanzó en el análisis de cuatro diseños circuitales para la interfaz entre las sondas XBT y un microcontrolador, específicamente con su conversor analógico-digital.  Para esta etapa del proyecto se consideró adecuado trabajar con el kit de desarrollo NUCLEO-STM32F429ZI de la empresa ST Microelectronics, debido a su disponibilidad y al \textit{know-how} de los miembros del equipo de trabajo del proyecto.
+
+Se evaluaron dos diseños circuitales para funcionar en simultáneo con el registrados Sippican MK 2A-1, de los cuales uno no resultó viable por encontrarse dependencia en la correcta lectura de la información de temperatura con el tipo de sonda (T-4, T-5, etc).  
+
+Se evaluaron dos diseños circuitales para funcionar en reemplazo del registrados Sippican MK 2A-1.  Un diseño de elaboración propia que contempla dos modos de funcionamiento para la lectura de los datos de las sonda: a lazo abierto o lazo cerrado; y que además tiene la posibilidad de simular la operación del sistema para entrenamiento del personal y/o mantenimiento de los equipos.  Este diseño fue implementado y ensayado.  Por otra parte,  el segundo diseño que reemplaza al registrador Sippican fue tomado de la literatura, y si bien fue publicado hace décadas, su principio de funcionamiento sigue vigente. 
+
+Se implementaron dos interfaces con el diseño de elaboración propia.  Las pruebas de funcionamiento con este circuito resultaron aceptables aunque se hizo evidente, para este y todos los diseños, la necesidad de utilizar resistores de precisión para garantizar la exactitud y baja dispersión en las mediciones de temperatura.
+
+Como trabajo futuro, se puede avanzar en la implementación de todos los diseños y realizar una comparación de desempeño que permita identificar el más adecuado para esta aplicación.  Asimismo, se debe avanzar en la programación del \textit{firmware} para el microcontrolador y en el diseño de una estrategia de adquisición y digitalización que minimice los errores en toda la cadena de medición.
